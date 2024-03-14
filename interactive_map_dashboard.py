@@ -17,12 +17,12 @@ alt.themes.enable("dark")
 
 #######################
 # Load data
-df_reshaped = pd.read_csv('data/WPP2022_POPULATION_5-YEAR_AGE.csv")
+df_reshaped = pd.read_csv('data/WPP2022_POPULATION_5-YEAR_AGE.csv')
 
 #######################
 # Sidebar
 with st.sidebar:
-    st.sidebar.image("data/megaasia_logo.png", use_column_width=True)
+    st.sidebar.image('data/megaasia_logo.png', use_column_width=True)
     st.title('Mega-Asia Dashboard')
     
     year_list = df_reshaped['Year'].unique().tolist()[::-1]
