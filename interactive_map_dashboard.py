@@ -45,6 +45,14 @@ with st.sidebar:
 
 st.header('Asia region classification criteria: '+ str(selected_organization))
 #st.header(str(selected_year)+' '+str(selected_variable)+' '+ 'in Asia')
+def make_discrete_map(input_df, input_id, input_column):
+    choropleth = px.choropleth(input_df, locations=input_id, color=input_column, scope="asia")
+    choropleth.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+    return choropleth
+
+choropleth = make_discrete_map(df_region_criteria, 'ISO3', df_region_criteria[selected_organization])
+st.plotly_chart(choropleth)
+
 st.dataframe(df_region_criteria)
 
 
@@ -97,10 +105,4 @@ st.dataframe(df_region_criteria)
 # choropleth = make_choropleth(df_region_criteria, 'ISO3', df_region_criteria[selected_variable], 'blues')
 # st.plotly_chart(choropleth)
 
-def make_discrete_map(input_df, input_id, input_column):
-    choropleth = px.choropleth(input_df, locations=input_id, color=input_column, scope="asia")
-    choropleth.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
-    return choropleth
 
-choropleth = make_discrete_map(df_region_criteria, 'ISO3', df_region_criteria[selected_organization])
-st.plotly_chart(choropleth)
