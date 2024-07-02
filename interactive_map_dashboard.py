@@ -102,5 +102,5 @@ def make_discrete_map(input_df, input_id, input_column):
     choropleth.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
     return choropleth
 
-choropleth = make_choropleth(df_region_criteria, 'ISO3', df_region_criteria[selected_variable])
+choropleth = make_discrete_map(df_region_criteria, 'ISO3', df_region_criteria[selected_organization])
 st.plotly_chart(choropleth)
