@@ -18,6 +18,7 @@ alt.themes.enable("dark")
 #######################
 # Load data
 df_reshaped = pd.read_csv('data/WPP2022_POPULATION_5-YEAR_AGE.csv')
+df_region_criteria = pd.read_csv('data/Asia_region(240702).csv')
 
 #######################
 # Sidebar
@@ -25,19 +26,20 @@ with st.sidebar:
     st.sidebar.image('data/megaasia_logo.png', use_column_width=True)
     st.title('Mega-Asia Dashboard')
     
-    year_list = df_reshaped['Year'].unique().tolist()[::-1]
-    
-    selected_year = st.selectbox('Select a year', year_list)
-    #df_selected_year = df_reshaped[df_reshaped.Year == selected_year]
-    #df_selected_year_sorted = df_selected_year.sort_values(by="Year", ascending=False)
+    #year_list = df_reshaped['Year'].unique().tolist()[::-1]
+    #selected_year = st.selectbox('Select a year', year_list)
+    # variable_list = ['total population', '0-4 age population', '5-9 age population', '10-14 age population', '15-19 age population', 
+    #                  '20-24 age population', '25-29 age population', '-34 age population', '35-39 age population', '40-44 age population', '45-49 age population', '50-54 age population',
+    #                  '55-59 age population', '60-64 age population', '65-69 age population', '70-74 age population', '75-79 age population', '80-84 age population', '85-89 age population',
+    #                  '90-94 age population', '95-99 age population', '100+ age population']
+    # selected_variable = st.selectbox('Select a variable', variable_list)
+    organization_list = ['UN', 'SNUAC', '외교부', 'World Bank', 'EU']
+    selected_organization = st.selectbox('Select a organization', organization_list)
+    #variable_list = 
+    #df_selected_table = df_region_criteria.loc
 
-    variable_list = ['total population', '0-4 age population', '5-9 age population', '10-14 age population', '15-19 age population', 
-                     '20-24 age population', '25-29 age population', '-34 age population', '35-39 age population', '40-44 age population', '45-49 age population', '50-54 age population',
-                     '55-59 age population', '60-64 age population', '65-69 age population', '70-74 age population', '75-79 age population', '80-84 age population', '85-89 age population',
-                     '90-94 age population', '95-99 age population', '100+ age population']
-    selected_variable = st.selectbox('Select a variable', variable_list)
     
-    df_selected_table = df_reshaped.loc[df_reshaped.Year == selected_year, ['region', 'country', 'ISO3', 'Year', selected_variable]]
+    #df_selected_table = df_reshaped.loc[df_reshaped.Year == selected_year, ['region', 'country', 'ISO3', 'Year', selected_variable]]
     #df_selected_table = df_selected_table.style.hide_index()
 
 st.header(str(selected_year)+' '+str(selected_variable)+' '+ 'in Asia')
