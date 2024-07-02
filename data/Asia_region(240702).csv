@@ -1,47 +1,47 @@
-﻿country,Location code,ISO3,ISO2,UN,SNUAC,외교부,World Bank,EU
-Kazakhstan,398,KAZ,KZ,Central Asia,Central Asia,중앙아시아,Central Asia,Central Asia
-Kyrgyzstan,417,KGZ,KG,Central Asia,Central Asia,중앙아시아,Central Asia,Central Asia
-Tajikistan,762,TJK,TJ,Central Asia,Central Asia,중앙아시아,Central Asia,Central Asia
-Turkmenistan,795,TKM,TM,Central Asia,Central Asia,중앙아시아,Central Asia,Central Asia
-Uzbekistan,860,UZB,UZ,Central Asia,Central Asia,중앙아시아,Central Asia,Central Asia
-China,156,CHN,CN,Eastern Asia,Eastern Asia,동북아시아,East Asia and Pacific,East Asia
-"China, HongKong SAR",344,HKG,HK,Eastern Asia,Eastern Asia,동북아시아,East Asia and Pacific,East Asia
-"China, Macao SAR",446,MAC,MO,Eastern Asia,Eastern Asia,동북아시아,East Asia and Pacific,East Asia
-"China, Taiwan Province of China",158,TWN,TW,Eastern Asia,Eastern Asia,동북아시아,East Asia and Pacific,East Asia
-Dem. People's Republic of Korea,408,PRK,KP,Eastern Asia,Eastern Asia,동북아시아,-,East Asia
-Japan,392,JPN,JP,Eastern Asia,Eastern Asia,동북아시아,East Asia and Pacific,East Asia
-Mongolia,496,MNG,MN,Eastern Asia,Eastern Asia,동북아시아,East Asia and Pacific,Central Asia
-Republic of Korea,410,KOR,KR,Eastern Asia,Eastern Asia,동북아시아,East Asia and Pacific,East Asia
-Afghanistan,4,AFG,AF,Southern Asia,Southern Asia,서남아시아,South Asia,South Asia
-Bangladesh,50,BGD,BD,Southern Asia,Southern Asia,서남아시아,South Asia,South Asia
-Bhutan,64,BTN,BT,Southern Asia,Southern Asia,서남아시아,South Asia,South Asia
-India,356,IND,IN,Southern Asia,Southern Asia,서남아시아,South Asia,South Asia
-Maldives,462,MDV,MV,Southern Asia,Southern Asia,서남아시아,South Asia,South Asia
-Nepal,524,NPL,NP,Southern Asia,Southern Asia,서남아시아,South Asia,South Asia
-Pakistan,586,PAK,PK,Southern Asia,Southern Asia,서남아시아,South Asia,South Asia
-SriLanka,144,LKA,LK,Southern Asia,Southern Asia,서남아시아,South Asia,South Asia
-Brunei Darussalam,96,BRN,BN,South-Eastern Asia,South-Eastern Asia,동남아시아,-,Southeast Asia
-Cambodia,116,KHM,KH,South-Eastern Asia,South-Eastern Asia,동남아시아,East Asia and Pacific,Southeast Asia
-Indonesia,360,IDN,ID,South-Eastern Asia,South-Eastern Asia,동남아시아,East Asia and Pacific,Southeast Asia
-Lao People's Democratic Republic,418,LAO,LA,South-Eastern Asia,South-Eastern Asia,동남아시아,East Asia and Pacific,Southeast Asia
-Malaysia,458,MYS,MY,South-Eastern Asia,South-Eastern Asia,동남아시아,East Asia and Pacific,Southeast Asia
-Myanmar,104,MMR,MM,South-Eastern Asia,South-Eastern Asia,동남아시아,East Asia and Pacific,Southeast Asia
-Philippines,608,PHL,PH,South-Eastern Asia,South-Eastern Asia,동남아시아,East Asia and Pacific,Southeast Asia
-Singapore,702,SGP,SG,South-Eastern Asia,South-Eastern Asia,동남아시아,East Asia and Pacific,Southeast Asia
-Thailand,764,THA,TH,South-Eastern Asia,South-Eastern Asia,동남아시아,East Asia and Pacific,Southeast Asia
-Timor-Leste,626,TLS,TL,South-Eastern Asia,South-Eastern Asia,동남아시아,East Asia and Pacific,Pacific
-VietNam,704,VNM,VN,South-Eastern Asia,South-Eastern Asia,동남아시아,East Asia and Pacific,Southeast Asia
-Bahrain,48,BHR,BH,Western Asia,Western Asia,중동,-,"Gulf countries, Iran, Iraq and Yemen"
-Iraq,368,IRQ,IQ,Western Asia,Western Asia,중동,Middle East and North Africa,"Gulf countries, Iran, Iraq and Yemen"
-Israel,376,ISR,IL,Western Asia,Western Asia,중동,Middle East and North Africa,Southern Partners
-Jordan,400,JOR,JO,Western Asia,Western Asia,중동,Middle East and North Africa,Southern Partners
-Kuwait,414,KWT,KW,Western Asia,Western Asia,중동,-,"Gulf countries, Iran, Iraq and Yemen"
-Lebanon,422,LBN,LB,Western Asia,Western Asia,중동,Middle East and North Africa,Southern Partners
-Oman,512,OMN,OM,Western Asia,Western Asia,중동,Middle East and North Africa,"Gulf countries, Iran, Iraq and Yemen"
-Qatar,634,QAT,QA,Western Asia,Western Asia,중동,-,"Gulf countries, Iran, Iraq and Yemen"
-Saudi Arabia,682,SAU,SA,Western Asia,Western Asia,중동,-,"Gulf countries, Iran, Iraq and Yemen"
-State of Palestine,275,PSE,PS,Western Asia,Western Asia,중동,-,Southern Partners
-Syrian Arab Republic,760,SYR,SY,Western Asia,Western Asia,중동,Middle East and North Africa,Southern Partners
-United Arab Emirates,784,ARE,AE,Western Asia,Western Asia,중동,-,"Gulf countries, Iran, Iraq and Yemen"
-Yemen,887,YEM,YE,Western Asia,Western Asia,중동,Middle East and North Africa,"Gulf countries, Iran, Iraq and Yemen"
-Iran (Islamic Republic of),364,IRN,IR,Southern Asia,Western Asia,중동,Middle East and North Africa,"Gulf countries, Iran, Iraq and Yemen"
+﻿country,Location code,ISO3,ISO2,SNUAC,UN,UN SDGs,World Bank,EU,IMF,IMF Data Mapper,외교부
+Kazakhstan,398,KAZ,KZ,Central Asia,Central Asia,Central and Southern Asia,Europe and Central Asia,Central Asia,Middle East and Central Asia,Central Asia and the Caucasus,중앙아시아
+Kyrgyzstan,417,KGZ,KG,Central Asia,Central Asia,Central and Southern Asia,Europe and Central Asia,Central Asia,Middle East and Central Asia,Central Asia and the Caucasus,중앙아시아
+Tajikistan,762,TJK,TJ,Central Asia,Central Asia,Central and Southern Asia,Europe and Central Asia,Central Asia,Middle East and Central Asia,Central Asia and the Caucasus,중앙아시아
+Turkmenistan,795,TKM,TM,Central Asia,Central Asia,Central and Southern Asia,Europe and Central Asia,Central Asia,Middle East and Central Asia,Central Asia and the Caucasus,중앙아시아
+Uzbekistan,860,UZB,UZ,Central Asia,Central Asia,Central and Southern Asia,Europe and Central Asia,Central Asia,Middle East and Central Asia,Central Asia and the Caucasus,중앙아시아
+China,156,CHN,CN,Eastern Asia,Eastern Asia,Eastern and South-Eastern Asia,East Asia and Pacific,East Asia,Asia and Pacific,East Asia,동북아시아
+"China, HongKong SAR",344,HKG,HK,Eastern Asia,Eastern Asia,Eastern and South-Eastern Asia,East Asia and Pacific,East Asia,Asia and Pacific,East Asia,동북아시아
+"China, Macao SAR",446,MAC,MO,Eastern Asia,Eastern Asia,Eastern and South-Eastern Asia,East Asia and Pacific,East Asia,Asia and Pacific,East Asia,동북아시아
+"China, Taiwan Province of China",158,TWN,TW,Eastern Asia,Eastern Asia,Eastern and South-Eastern Asia,East Asia and Pacific,East Asia,Asia and Pacific,East Asia,동북아시아
+Dem. People's Republic of Korea,408,PRK,KP,Eastern Asia,Eastern Asia,Eastern and South-Eastern Asia,East Asia and Pacific,East Asia,Asia and Pacific,East Asia,동북아시아
+Japan,392,JPN,JP,Eastern Asia,Eastern Asia,Eastern and South-Eastern Asia,East Asia and Pacific,East Asia,Asia and Pacific,East Asia,동북아시아
+Mongolia,496,MNG,MN,Eastern Asia,Eastern Asia,Eastern and South-Eastern Asia,East Asia and Pacific,Central Asia,Asia and Pacific,East Asia,동북아시아
+Republic of Korea,410,KOR,KR,Eastern Asia,Eastern Asia,Eastern and South-Eastern Asia,East Asia and Pacific,East Asia,Asia and Pacific,East Asia,동북아시아
+Afghanistan,4,AFG,AF,Southern Asia,Southern Asia,Central and Southern Asia,South Asia,South Asia,Asia and Pacific,Central Asia and the Caucasus,서남아시아
+Bangladesh,50,BGD,BD,Southern Asia,Southern Asia,Central and Southern Asia,South Asia,South Asia,Asia and Pacific,South Asia,서남아시아
+Bhutan,64,BTN,BT,Southern Asia,Southern Asia,Central and Southern Asia,South Asia,South Asia,Asia and Pacific,South Asia,서남아시아
+India,356,IND,IN,Southern Asia,Southern Asia,Central and Southern Asia,South Asia,South Asia,Asia and Pacific,South Asia,서남아시아
+Maldives,462,MDV,MV,Southern Asia,Southern Asia,Central and Southern Asia,South Asia,South Asia,Asia and Pacific,South Asia,서남아시아
+Nepal,524,NPL,NP,Southern Asia,Southern Asia,Central and Southern Asia,South Asia,South Asia,Asia and Pacific,South Asia,서남아시아
+Pakistan,586,PAK,PK,Southern Asia,Southern Asia,Central and Southern Asia,South Asia,South Asia,Asia and Pacific,South Asia,서남아시아
+SriLanka,144,LKA,LK,Southern Asia,Southern Asia,Central and Southern Asia,South Asia,South Asia,Asia and Pacific,South Asia,서남아시아
+Brunei Darussalam,96,BRN,BN,South-Eastern Asia,South-Eastern Asia,Eastern and South-Eastern Asia,East Asia and Pacific,Southeast Asia,Asia and Pacific,Southeast Asia,동남아시아
+Cambodia,116,KHM,KH,South-Eastern Asia,South-Eastern Asia,Eastern and South-Eastern Asia,East Asia and Pacific,Southeast Asia,Asia and Pacific,Southeast Asia,동남아시아
+Indonesia,360,IDN,ID,South-Eastern Asia,South-Eastern Asia,Eastern and South-Eastern Asia,East Asia and Pacific,Southeast Asia,Asia and Pacific,Southeast Asia,동남아시아
+Lao People's Democratic Republic,418,LAO,LA,South-Eastern Asia,South-Eastern Asia,Eastern and South-Eastern Asia,East Asia and Pacific,Southeast Asia,Asia and Pacific,Southeast Asia,동남아시아
+Malaysia,458,MYS,MY,South-Eastern Asia,South-Eastern Asia,Eastern and South-Eastern Asia,East Asia and Pacific,Southeast Asia,Asia and Pacific,Southeast Asia,동남아시아
+Myanmar,104,MMR,MM,South-Eastern Asia,South-Eastern Asia,Eastern and South-Eastern Asia,East Asia and Pacific,Southeast Asia,Asia and Pacific,Southeast Asia,동남아시아
+Philippines,608,PHL,PH,South-Eastern Asia,South-Eastern Asia,Eastern and South-Eastern Asia,East Asia and Pacific,Southeast Asia,Asia and Pacific,Southeast Asia,동남아시아
+Singapore,702,SGP,SG,South-Eastern Asia,South-Eastern Asia,Eastern and South-Eastern Asia,East Asia and Pacific,Southeast Asia,Asia and Pacific,Southeast Asia,동남아시아
+Thailand,764,THA,TH,South-Eastern Asia,South-Eastern Asia,Eastern and South-Eastern Asia,East Asia and Pacific,Southeast Asia,Asia and Pacific,Southeast Asia,동남아시아
+Timor-Leste,626,TLS,TL,South-Eastern Asia,South-Eastern Asia,Eastern and South-Eastern Asia,East Asia and Pacific,Pacific,Asia and Pacific,Southeast Asia,동남아시아
+VietNam,704,VNM,VN,South-Eastern Asia,South-Eastern Asia,Eastern and South-Eastern Asia,East Asia and Pacific,Southeast Asia,Asia and Pacific,Southeast Asia,동남아시아
+Bahrain,48,BHR,BH,Western Asia,Western Asia,Northern Africa and Western Asia,Middle East and North Africa,"Gulf countries, Iran, Iraq and Yemen",Middle East and Central Asia,Middle East,중동
+Iraq,368,IRQ,IQ,Western Asia,Western Asia,Northern Africa and Western Asia,Middle East and North Africa,"Gulf countries, Iran, Iraq and Yemen",Middle East and Central Asia,Middle East,중동
+Israel,376,ISR,IL,Western Asia,Western Asia,Northern Africa and Western Asia,Middle East and North Africa,Southern Partners,Middle East and Central Asia,Middle East,중동
+Jordan,400,JOR,JO,Western Asia,Western Asia,Northern Africa and Western Asia,Middle East and North Africa,Southern Partners,Middle East and Central Asia,Middle East,중동
+Kuwait,414,KWT,KW,Western Asia,Western Asia,Northern Africa and Western Asia,Middle East and North Africa,"Gulf countries, Iran, Iraq and Yemen",Middle East and Central Asia,Middle East,중동
+Lebanon,422,LBN,LB,Western Asia,Western Asia,Northern Africa and Western Asia,Middle East and North Africa,Southern Partners,Middle East and Central Asia,Middle East,중동
+Oman,512,OMN,OM,Western Asia,Western Asia,Northern Africa and Western Asia,Middle East and North Africa,"Gulf countries, Iran, Iraq and Yemen",Middle East and Central Asia,Middle East,중동
+Qatar,634,QAT,QA,Western Asia,Western Asia,Northern Africa and Western Asia,Middle East and North Africa,"Gulf countries, Iran, Iraq and Yemen",Middle East and Central Asia,Middle East,중동
+Saudi Arabia,682,SAU,SA,Western Asia,Western Asia,Northern Africa and Western Asia,Middle East and North Africa,"Gulf countries, Iran, Iraq and Yemen",Middle East and Central Asia,Middle East,중동
+State of Palestine,275,PSE,PS,Western Asia,Western Asia,Northern Africa and Western Asia,Middle East and North Africa,Southern Partners,Middle East and Central Asia,Middle East,중동
+Syrian Arab Republic,760,SYR,SY,Western Asia,Western Asia,Northern Africa and Western Asia,Middle East and North Africa,Southern Partners,Middle East and Central Asia,Middle East,중동
+United Arab Emirates,784,ARE,AE,Western Asia,Western Asia,Northern Africa and Western Asia,Middle East and North Africa,"Gulf countries, Iran, Iraq and Yemen",Middle East and Central Asia,Middle East,중동
+Yemen,887,YEM,YE,Western Asia,Western Asia,Northern Africa and Western Asia,Middle East and North Africa,"Gulf countries, Iran, Iraq and Yemen",Middle East and Central Asia,Middle East,중동
+Iran (Islamic Republic of),364,IRN,IR,Western Asia,Southern Asia,Central and Southern Asia,Middle East and North Africa,"Gulf countries, Iran, Iraq and Yemen",Middle East and Central Asia,Middle East,중동
