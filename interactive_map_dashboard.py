@@ -78,21 +78,29 @@ st.dataframe(df_region_criteria)
 # choropleth = make_choropleth(df_selected_table_for_map, 'ISO3', 'selected_variable', 'blues')
 # st.plotly_chart(choropleth)
 
-def make_choropleth(input_df, input_id, input_column, input_color_theme):
-    choropleth = px.choropleth(input_df, locations=input_id, color=input_column,
-                               color_continuous_scale=input_color_theme,
-                               range_color=(min(df_selected_table[selected_variable]), max(df_selected_table[selected_variable])),
-                               scope="asia",
-                               labels={'population':'Population'}
-                              )
-    choropleth.update_layout(
-        template='plotly_dark',
-        plot_bgcolor='rgba(0, 0, 0, 0)',
-        paper_bgcolor='rgba(0, 0, 0, 0)',
-        margin=dict(l=0, r=0, t=0, b=0),
-        height=350
-    )
+# def make_choropleth(input_df, input_id, input_column, input_color_theme):
+#     choropleth = px.choropleth(input_df, locations=input_id, color=input_column,
+#                                color_continuous_scale=input_color_theme,
+#                                range_color=(min(df_selected_table[selected_variable]), max(df_selected_table[selected_variable])),
+#                                scope="asia"
+#                                #labels={'population':'Population'}
+#                               )
+#     choropleth.update_layout(
+#         template='plotly_dark',
+#         plot_bgcolor='rgba(0, 0, 0, 0)',
+#         paper_bgcolor='rgba(0, 0, 0, 0)',
+#         margin=dict(l=0, r=0, t=0, b=0),
+#         height=350
+#     )
+#     return choropleth
+
+# choropleth = make_choropleth(df_region_criteria, 'ISO3', df_region_criteria[selected_variable], 'blues')
+# st.plotly_chart(choropleth)
+
+def make_discrete_map(input_df, input_id, input_column):
+    choropleth = px.choropleth(input_df, locations=input_id, color=input_column, scope="asia")
+    choropleth.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
     return choropleth
 
-choropleth = make_choropleth(df_region_criteria, 'ISO3', df_region_criteria[selected_variable], 'blues')
+choropleth = make_choropleth(df_region_criteria, 'ISO3', df_region_criteria[selected_variable])
 st.plotly_chart(choropleth)
