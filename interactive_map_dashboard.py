@@ -53,7 +53,8 @@ def make_discrete_map(input_df, input_id, input_column):
 choropleth = make_discrete_map(df_region_criteria, 'ISO3', df_region_criteria[selected_organization])
 st.plotly_chart(choropleth)
 
-st.dataframe(df_region_criteria)
+st.dataframe(df_region_criteria.loc[:, ~df_region_criteria.columns.isin(['Location code', 'ISO2'])])
+
 
 
 
