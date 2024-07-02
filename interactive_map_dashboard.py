@@ -33,7 +33,7 @@ with st.sidebar:
     #                  '55-59 age population', '60-64 age population', '65-69 age population', '70-74 age population', '75-79 age population', '80-84 age population', '85-89 age population',
     #                  '90-94 age population', '95-99 age population', '100+ age population']
     # selected_variable = st.selectbox('Select a variable', variable_list)
-    organization_list = ['UN', 'SNUAC', '외교부', 'World Bank', 'EU']
+    organization_list = ['SNUAC', 'UN', 'UN SDGs', 'World Bank', 'EU', 'IMF', 'IMF Data Mapper', '외교부']
     selected_organization = st.selectbox('Select a organization', organization_list)
     #variable_list = 
     #df_selected_table = df_region_criteria.loc[:,['country','ISO3',selected_organization]]
