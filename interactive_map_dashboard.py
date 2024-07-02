@@ -36,15 +36,16 @@ with st.sidebar:
     organization_list = ['UN', 'SNUAC', '외교부', 'World Bank', 'EU']
     selected_organization = st.selectbox('Select a organization', organization_list)
     #variable_list = 
-    df_selected_table = df_region_criteria.loc[:,['country','ISO3',selected_organization]]
+    #df_selected_table = df_region_criteria.loc[:,['country','ISO3',selected_organization]]
+    
 
     
     #df_selected_table = df_reshaped.loc[df_reshaped.Year == selected_year, ['region', 'country', 'ISO3', 'Year', selected_variable]]
     #df_selected_table = df_selected_table.style.hide_index()
 
-st.header(str(selected_organization)+' '+ 'in Asia')
+st.header('Asia region classification criteria: '+ str(selected_organization))
 #st.header(str(selected_year)+' '+str(selected_variable)+' '+ 'in Asia')
-st.dataframe(df_selected_table)
+st.dataframe(df_region_criteria)
 
 
 
@@ -93,5 +94,5 @@ def make_choropleth(input_df, input_id, input_column, input_color_theme):
     )
     return choropleth
 
-choropleth = make_choropleth(df_selected_table, 'ISO3', df_selected_table[selected_variable], 'blues')
+choropleth = make_choropleth(df_region_criteria, 'ISO3', df_region_criteria[selected_variable], 'blues')
 st.plotly_chart(choropleth)
