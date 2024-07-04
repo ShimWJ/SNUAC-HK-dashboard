@@ -87,7 +87,7 @@ def make_choropleth(input_df, input_id, input_column, input_color_theme):
     )
     return choropleth
 
-choropleth = make_choropleth(df_region_criteria, 'ISO3', df_region_criteria[selected_variable], 'blues')
+choropleth = make_choropleth(df_selected_table, 'ISO3', df_selected_table[selected_variable], 'blues')
 st.plotly_chart(choropleth)
 
 
