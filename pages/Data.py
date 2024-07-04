@@ -49,7 +49,6 @@ st.header(str(selected_year)+' '+str(selected_variable)+' '+ 'in Asia')
 #######################
 # Plots
 
-Choropleth map
 df_selected_table_for_map = df_selected_table
 df_selected_table_for_map.rename(columns = {str(selected_variable):'selected_variable'}, inplace=True)
 
