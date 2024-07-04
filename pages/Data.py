@@ -35,7 +35,7 @@ with st.sidebar:
     selected_variable = st.selectbox('Select a variable', variable_list)
         
     df_selected_table = df_reshaped.loc[df_reshaped.Year == selected_year, ['region', 'country', 'ISO3', 'Year', selected_variable]]
-    df_selected_table = df_selected_table.style.hide_index()
+    #df_selected_table = df_selected_table.style.hide_index()
 
 
 st.header(str(selected_year)+' '+str(selected_variable)+' '+ 'in Asia')
