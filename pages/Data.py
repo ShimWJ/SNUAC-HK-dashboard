@@ -37,7 +37,7 @@ with st.sidebar:
     
     #df_selected_table = df_selected_table.style.hide_index()
 
-
+#이것도 바뀌는지?
 year_list = df_reshaped['Year'].unique().tolist()[::-1]
 selected_year = st.select_slider('Select a year', year_list)
 st.header(str(selected_year)+' '+str(selected_variable)+' '+ 'in Asia')
