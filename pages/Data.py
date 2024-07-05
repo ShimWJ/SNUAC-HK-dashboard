@@ -13,7 +13,7 @@ st.set_page_config(
     layout="wide",
     initial_sidebar_state="expanded")
 
-alt.themes.enable("dark")
+#alt.themes.enable("dark")
 
 #######################
 # Load data
@@ -42,6 +42,26 @@ year_list = df_reshaped['Year'].unique().tolist()[::-1]
 selected_year = st.select_slider('Select a year', year_list)
 st.header(str(selected_year)+' '+str(selected_variable)+' '+ 'in Asia')
 df_selected_table = df_reshaped.loc[df_reshaped.Year == selected_year, ['region', 'country', 'ISO3', 'Year', selected_variable]]
+
+def make_choropleth(input_df, input_id, input_column, input_color_theme):
+    choropleth = px.choropleth(input_df, locations=input_id, color=input_column,
+                               color_continuous_scale=input_color_theme,
+                               range_color=(min(df_selected_table[selected_variable]), max(df_selected_table[selected_variable])),
+                               scope="asia"
+                               #labels={'population':'Population'}
+                              )
+    choropleth.update_layout(
+        template='plotly_dark',
+        plot_bgcolor='rgba(0, 0, 0, 0)',
+        paper_bgcolor='rgba(0, 0, 0, 0)',
+        margin=dict(l=0, r=0, t=0, b=0),
+        height=350
+    )
+    return choropleth
+
+choropleth = make_choropleth(df_selected_table, 'ISO3', df_selected_table[selected_variable], 'blues')
+st.plotly_chart(choropleth)
+
 
 
 st.dataframe(df_selected_table)
@@ -77,24 +97,7 @@ st.dataframe(df_selected_table)
 # choropleth = make_choropleth(df_selected_table_for_map, 'ISO3', 'selected_variable', 'blues')
 # st.plotly_chart(choropleth)
 
-def make_choropleth(input_df, input_id, input_column, input_color_theme):
-    choropleth = px.choropleth(input_df, locations=input_id, color=input_column,
-                               color_continuous_scale=input_color_theme,
-                               range_color=(min(df_selected_table[selected_variable]), max(df_selected_table[selected_variable])),
-                               scope="asia"
-                               #labels={'population':'Population'}
-                              )
-    choropleth.update_layout(
-        template='plotly_dark',
-        plot_bgcolor='rgba(0, 0, 0, 0)',
-        paper_bgcolor='rgba(0, 0, 0, 0)',
-        margin=dict(l=0, r=0, t=0, b=0),
-        height=350
-    )
-    return choropleth
 
-choropleth = make_choropleth(df_selected_table, 'ISO3', df_selected_table[selected_variable], 'blues')
-st.plotly_chart(choropleth)
 
 
 
