@@ -23,22 +23,27 @@ df_reshaped = pd.read_csv('data/WPP2022_POPULATION_5-YEAR_AGE.csv')
 #######################
 # Sidebar
 with st.sidebar:
-    st.sidebar.image('data/megaasia_logo.png', use_column_width=True)
-    st.title('Mega-Asia Dashboard')
+    #st.sidebar.image('data/megaasia_logo.png', use_column_width=True)
+    #st.title('Mega-Asia Dashboard')
     
-    year_list = df_reshaped['Year'].unique().tolist()[::-1]
-    selected_year = st.selectbox('Select a year', year_list)
+    #year_list = df_reshaped['Year'].unique().tolist()[::-1]
+    #selected_year = st.selectbox('Select a year', year_list)
     variable_list = ['total population', '0-4 age population', '5-9 age population', '10-14 age population', '15-19 age population', 
                      '20-24 age population', '25-29 age population', '-34 age population', '35-39 age population', '40-44 age population', '45-49 age population', '50-54 age population',
                      '55-59 age population', '60-64 age population', '65-69 age population', '70-74 age population', '75-79 age population', '80-84 age population', '85-89 age population',
                      '90-94 age population', '95-99 age population', '100+ age population']
     selected_variable = st.selectbox('Select a variable', variable_list)
         
-    df_selected_table = df_reshaped.loc[df_reshaped.Year == selected_year, ['region', 'country', 'ISO3', 'Year', selected_variable]]
+    
     #df_selected_table = df_selected_table.style.hide_index()
 
 
+year_list = df_reshaped['Year'].unique().tolist()[::-1]
+selected_year = st.select_slider('Select a year', year_list)
 st.header(str(selected_year)+' '+str(selected_variable)+' '+ 'in Asia')
+df_selected_table = df_reshaped.loc[df_reshaped.Year == selected_year, ['region', 'country', 'ISO3', 'Year', selected_variable]]
+
+
 st.dataframe(df_selected_table)
 
 
