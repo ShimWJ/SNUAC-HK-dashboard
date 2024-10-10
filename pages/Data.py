@@ -1,3 +1,4 @@
+#잘 실행되는 aric 자료만 얹은 코드 
 ######################
 # import libraries
 import streamlit as st
@@ -17,7 +18,8 @@ st.set_page_config(
 
 #######################
 # Load data
-df_reshaped = pd.read_csv('data/WPP2022_POPULATION_5-YEAR_AGE.csv')
+#df_reshaped = pd.read_csv(r"C:\Users\HK\Desktop\GitHub\SNUAC-HK-dashboard\data\MegaAsia_national_Dataset(1008).csv")
+df_reshaped = pd.read_csv('data/MegaAsia_national_Dataset(1008).csv')
 #df_region_criteria = pd.read_csv('data/Asia_region(240702).csv')
 
 #######################
@@ -28,10 +30,17 @@ with st.sidebar:
     
     #year_list = df_reshaped['Year'].unique().tolist()[::-1]
     #selected_year = st.selectbox('Select a year', year_list)
-    variable_list = ['total population', '0-4 age population', '5-9 age population', '10-14 age population', '15-19 age population', 
-                     '20-24 age population', '25-29 age population', '-34 age population', '35-39 age population', '40-44 age population', '45-49 age population', '50-54 age population',
-                     '55-59 age population', '60-64 age population', '65-69 age population', '70-74 age population', '75-79 age population', '80-84 age population', '85-89 age population',
-                     '90-94 age population', '95-99 age population', '100+ age population']
+    variable_list = ['Total Population, as of 1 July (thousands)', 'Male Population, as of 1 July (thousands)', 'Female Population, as of 1 July (thousands)', 
+'Population Density, as of 1 July (persons per square km)', 'Population Sex Ratio, as of 1 July (males per 100 females)', 
+'Institutionalized Democracy', 'Institutionalized Autocracy', 'Combined Polity Score	electoral democracy index', 'liberal democracy index', 
+'participatory democracy index', 'deliberative democracy index', 'egalitarian democracy index', 'Corruption Perception Index Score', 
+'EFW Overall Score', 'EFW 1. Size of Government', 'EFW 2. Legal System and Property Rights', 'EFW 3. Sound Money', 'EFW 4. Freedom to Trade Internationally', 'EFW 5. Regulation', 
+'WJP Overall Score: Rule of Law Index', 'WJP1. Constraints on Government Powers', 
+'WJP2. Absence of Corruption', 'WJP3. Open Government', 'WJP4. Fundamental Rights', 'WJP5. Order and Security', 'WJP6. Regulatory Enforcement', 
+'WJP7. Civil Justice', 'WJP8. Criminal Justice', 'HDI', 'WGI PCA Score', 'WGI1_Accountability', 'WGI2_PoliticalStability', 'WGI3_GovtEffectiveness', 
+'WGI4_Regulatory	', 'WGI5_RuleOfLaw', 'WGI6_ControlCorruption', 'Freedom House Index', 'Freedom Status', 'GDP per Capita, PPP(Constant 2011)', 
+'E-Government Development Index', 'E-Participation Index', 'Public employment (total public sector)'
+]
     selected_variable = st.selectbox('Select a variable', variable_list)
         
     
