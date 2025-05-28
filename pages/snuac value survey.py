@@ -1,13 +1,8 @@
-# pages/01_Q1_Q4_시각화.py
+# pages/01_Q1_Q4_시각화_interactive.py
 
 import streamlit as st
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-
-# 한글 폰트 자동 적용 (Streamlit은 웹에서 자동 처리됨)
-plt.rcParams['font.family'] = 'Malgun Gothic'
-plt.rcParams['axes.unicode_minus'] = False
+import plotly.express as px
 
 # 국가 코드 매핑
 nation_map = {
@@ -22,7 +17,7 @@ q1_labels = [
     "이웃 관계", "거주 지역", "여가시간(양)", "여가시간(질)", "건강 상태"
 ]
 
-# 제목
+st.set_page_config(page_title="Q1 & Q4 시각화", layout="wide")
 st.title("📊 Q1 히트맵 & Q4 박스플롯 시각화")
 
 # 데이터 불러오기
@@ -39,12 +34,15 @@ q1_avg = q1_data.groupby('국가명').mean(numeric_only=True).filter(like='Q1_')
 q1_avg.columns = q1_labels
 q1_avg = q1_avg.loc[nation_map.values()]
 
-fig1, ax1 = plt.subplots(figsize=(14, 8))
-sns.heatmap(q1_avg, annot=True, fmt=".2f", cmap="YlOrRd", linewidths=0.5,
-            cbar_kws={'label': '만족도 평균 (1~7점)'}, ax=ax1)
-ax1.set_xlabel("삶의 영역")
-ax1.set_ylabel("국가")
-st.pyplot(fig1)
+fig1 = px.imshow(
+    q1_avg,
+    text_auto=True,
+    aspect="auto",
+    color_continuous_scale="YlOrRd",
+    labels=dict(color="만족도 평균 (1~7점)"),
+)
+fig1.update_layout(title="Q1. 국가별 삶의 영역 만족도 평균 (히트맵)", xaxis_title="삶의 영역", yaxis_title="국가")
+st.plotly_chart(fig1, use_container_width=True)
 
 # Q4 박스플롯
 st.subheader("Q4. 국가별 일상생활의 자유 인식 분포 (박스플롯)")
@@ -52,10 +50,8 @@ st.subheader("Q4. 국가별 일상생활의 자유 인식 분포 (박스플롯)"
 q4_data = q4_df.copy()
 q4_data['국가명'] = q4_data['국가'].map(nation_map)
 
-fig2, ax2 = plt.subplots(figsize=(14, 8))
-sns.boxplot(data=q4_data, x='국가명', y='Q4', palette='pastel', ax=ax2)
-ax2.set_xlabel("국가")
-ax2.set_ylabel("자유 인식 수준 (1: 전혀 느끼지 않음 ~ 7: 항상 느낀다)")
-ax2.set_title("Q4. 국가별 일상생활의 자유 인식 분포 (Boxplot)")
-ax2.tick_params(axis='x', rotation=45)
-st.pyplot(fig2)
+fig2 = px.box(q4_data, x="국가명", y="Q4", points="all",
+              labels={"Q4": "자유 인식 수준 (1~7)", "국가명": "국가"},
+              title="Q4. 국가별 자유 인식 분포 (박스플롯)")
+
+st.plotly_chart(fig2, use_container_width=True)
