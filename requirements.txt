@@ -1,3 +1,6 @@
 streamlit >= 1.9.2
 altair
+pandas
 plotly
+openpyxl
+seaborn
