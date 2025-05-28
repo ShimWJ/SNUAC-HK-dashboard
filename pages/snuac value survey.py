@@ -1,5 +1,3 @@
-# pages/snuac value survey.py
-
 import streamlit as st
 import pandas as pd
 import plotly.express as px
@@ -7,8 +5,8 @@ import plotly.express as px
 # 페이지 설정
 st.set_page_config(page_title="SNUAC Value Survey", layout="wide")
 
-# 사이드바: 문항 선택
-question_list = [f"Q{i}" for i in range(1, 36)]
+# 사이드바 드롭박스 설정
+question_list = ["조사 개요"] + [f"Q{i}" for i in range(1, 36)]
 selected_q = st.sidebar.selectbox("문항을 선택하세요", question_list, index=0)
 
 # 국가 코드 매핑
@@ -28,8 +26,12 @@ q1_labels = [
 q1_df = pd.read_excel('data/Q1_gpt.xlsx')
 q4_df = pd.read_excel('data/Q4_gpt.xlsx')
 
-# 첫 화면: 소개
-if selected_q == "Q1":
+# 화면 구성
+if selected_q == "조사 개요":
+    st.title("📝 대도시 가치조사 개요")
+    st.write("대도시 가치조사 개요(추가 예정)")
+
+elif selected_q == "Q1":
     st.title("📊 Q1 삶의 만족도 히트맵")
     q1_data = q1_df[q1_df.filter(like='Q1_').ne(99).all(axis=1)].copy()
     q1_data['국가명'] = q1_data['국가'].map(nation_map)
@@ -39,7 +41,7 @@ if selected_q == "Q1":
 
     fig = px.imshow(
         q1_avg,
-        text_auto=True,
+        text_auto='.2f',
         aspect="auto",
         color_continuous_scale="YlOrRd",
         labels=dict(color="만족도 평균 (1~7점)"),
@@ -60,15 +62,14 @@ elif selected_q == "Q4":
     q4_data = q4_df.copy()
     q4_data['국가명'] = q4_data['국가'].map(nation_map)
 
-    fig = px.box(q4_data, x="국가명", y="Q4", points="all",
+    fig = px.box(q4_data, x="국가명", y="Q4", points="outliers",
+                 color="국가명",
                  labels={"Q4": "자유 인식 수준 (1~7)", "국가명": "국가"},
                  title="Q4. 국가별 자유 인식 분포 (박스플롯)")
+
+    fig.update_layout(showlegend=False)
 
     col1, col2 = st.columns([2, 1])
     col1.plotly_chart(fig, use_container_width=True)
     col2.markdown("### 설명")
     col2.markdown("DESCRIPTION")
-
-else:
-    st.title("📝 대도시 가치조사 개요")
-    st.write("대도시 가치조사 개요(추가 예정)")
