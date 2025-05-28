@@ -1,8 +1,15 @@
-# pages/01_Q1_Q4_시각화_interactive.py
+# pages/snuac value survey.py
 
 import streamlit as st
 import pandas as pd
 import plotly.express as px
+
+# 페이지 설정
+st.set_page_config(page_title="SNUAC Value Survey", layout="wide")
+
+# 사이드바: 문항 선택
+question_list = [f"Q{i}" for i in range(1, 36)]
+selected_q = st.sidebar.selectbox("문항을 선택하세요", question_list, index=0)
 
 # 국가 코드 매핑
 nation_map = {
@@ -17,41 +24,51 @@ q1_labels = [
     "이웃 관계", "거주 지역", "여가시간(양)", "여가시간(질)", "건강 상태"
 ]
 
-st.set_page_config(page_title="Q1 & Q4 시각화", layout="wide")
-st.title("📊 Q1 히트맵 & Q4 박스플롯 시각화")
-
-# 데이터 불러오기
+# 데이터 로드
 q1_df = pd.read_excel('data/Q1_gpt.xlsx')
 q4_df = pd.read_excel('data/Q4_gpt.xlsx')
 
-# Q1 히트맵
-st.subheader("Q1. 국가별 삶의 영역 만족도 평균 (히트맵)")
+# 첫 화면: 소개
+if selected_q == "Q1":
+    st.title("📊 Q1 삶의 만족도 히트맵")
+    q1_data = q1_df[q1_df.filter(like='Q1_').ne(99).all(axis=1)].copy()
+    q1_data['국가명'] = q1_data['국가'].map(nation_map)
+    q1_avg = q1_data.groupby('국가명').mean(numeric_only=True).filter(like='Q1_')
+    q1_avg.columns = q1_labels
+    q1_avg = q1_avg.loc[nation_map.values()]
 
-q1_data = q1_df.copy()
-q1_data = q1_data[q1_data.filter(like='Q1_').ne(99).all(axis=1)]
-q1_data['국가명'] = q1_data['국가'].map(nation_map)
-q1_avg = q1_data.groupby('국가명').mean(numeric_only=True).filter(like='Q1_')
-q1_avg.columns = q1_labels
-q1_avg = q1_avg.loc[nation_map.values()]
+    fig = px.imshow(
+        q1_avg,
+        text_auto=True,
+        aspect="auto",
+        color_continuous_scale="YlOrRd",
+        labels=dict(color="만족도 평균 (1~7점)"),
+    )
+    fig.update_layout(
+        title="Q1. 국가별 삶의 영역 만족도 평균 (히트맵)",
+        xaxis_title="삶의 영역",
+        yaxis_title="국가"
+    )
 
-fig1 = px.imshow(
-    q1_avg,
-    text_auto=True,
-    aspect="auto",
-    color_continuous_scale="YlOrRd",
-    labels=dict(color="만족도 평균 (1~7점)"),
-)
-fig1.update_layout(title="Q1. 국가별 삶의 영역 만족도 평균 (히트맵)", xaxis_title="삶의 영역", yaxis_title="국가")
-st.plotly_chart(fig1, use_container_width=True)
+    col1, col2 = st.columns([2, 1])
+    col1.plotly_chart(fig, use_container_width=True)
+    col2.markdown("### 설명")
+    col2.markdown("DESCRIPTION")
 
-# Q4 박스플롯
-st.subheader("Q4. 국가별 일상생활의 자유 인식 분포 (박스플롯)")
+elif selected_q == "Q4":
+    st.title("📊 Q4 자유 인식 수준 박스플롯")
+    q4_data = q4_df.copy()
+    q4_data['국가명'] = q4_data['국가'].map(nation_map)
 
-q4_data = q4_df.copy()
-q4_data['국가명'] = q4_data['국가'].map(nation_map)
+    fig = px.box(q4_data, x="국가명", y="Q4", points="all",
+                 labels={"Q4": "자유 인식 수준 (1~7)", "국가명": "국가"},
+                 title="Q4. 국가별 자유 인식 분포 (박스플롯)")
 
-fig2 = px.box(q4_data, x="국가명", y="Q4", points="all",
-              labels={"Q4": "자유 인식 수준 (1~7)", "국가명": "국가"},
-              title="Q4. 국가별 자유 인식 분포 (박스플롯)")
+    col1, col2 = st.columns([2, 1])
+    col1.plotly_chart(fig, use_container_width=True)
+    col2.markdown("### 설명")
+    col2.markdown("DESCRIPTION")
 
-st.plotly_chart(fig2, use_container_width=True)
+else:
+    st.title("📝 대도시 가치조사 개요")
+    st.write("대도시 가치조사 개요(추가 예정)")
