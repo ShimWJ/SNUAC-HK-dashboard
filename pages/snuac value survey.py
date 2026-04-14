@@ -1,3 +1,4 @@
+import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -12,24 +13,23 @@ st.set_page_config(page_title="SNUAC Value Survey", layout="wide")
 
 @st.cache_resource
 def setup_fonts():
-    # 스트림릿 클라우드(리눅스) 환경에서 나눔 폰트 설정
-    if platform.system() == 'Linux':
-        # 서버에 설치된 나눔고딕 경로를 명시적으로 찾거나 캐시 업데이트
-        os.system('apt-get install -y fonts-nanum') # 보조용
-        font_path = '/usr/share/fonts/truetype/nanum/NanumGothic.ttf'
-        if os.path.exists(font_path):
-            font_prop = fm.FontProperties(fname=font_path)
-            plt.rc('font', family=font_prop.get_name())
-        else:
-            plt.rc('font', family='NanumGothic')
-    elif platform.system() == 'Windows':
-        plt.rc('font', family='Malgun Gothic')
-    elif platform.system() == 'Darwin': # Mac
-        plt.rc('font', family='AppleGothic')
-    plt.rcParams['axes.unicode_minus'] = False
+    # 스트림릿 클라우드(리눅스) 환경에서 나눔 폰트 설정
+    if platform.system() == 'Linux':
+        # 주의: apt-get install은 서버 설정(packages.txt)에서 처리해야 하며, 코드에서는 경로만 지정합니다.
+        font_path = '/usr/share/fonts/truetype/nanum/NanumGothic.ttf'
+        if os.path.exists(font_path):
+            font_prop = fm.FontProperties(fname=font_path)
+            plt.rc('font', family=font_prop.get_name())
+            plt.rcParams['font.family'] = font_prop.get_name()
+        else:
+            plt.rc('font', family='NanumGothic')
+    elif platform.system() == 'Windows':
+        plt.rc('font', family='Malgun Gothic')
+    elif platform.system() == 'Darwin': # Mac
+        plt.rc('font', family='AppleGothic')
+    plt.rcParams['axes.unicode_minus'] = False
 
 setup_fonts()
-
 
 # 2. 데이터 로드 함수
 @st.cache_data
