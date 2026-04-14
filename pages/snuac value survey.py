@@ -5,6 +5,7 @@ import seaborn as sns
 import platform
 from adjustText import adjust_text
 import numpy as np
+import os
 
 # 1. 페이지 설정 및 한글 폰트
 st.set_page_config(page_title="SNUAC Value Survey", layout="wide")
@@ -22,9 +23,24 @@ setup_fonts()
 # 2. 데이터 로드
 @st.cache_data
 def load_data():
-    # 모든 데이터는 survey.csv에서 가져옴
-    df = pd.read_csv('data/survey.xlsx')
-    return df
+    # 현재 파일(snuac value survey.py)의 위치를 기준으로 경로 설정
+    # 파일이 pages/ 안에 있으므로, 한 단계 위로 올라가서 data/ 폴더를 찾음
+    base_path = os.path.dirname(os.path.abspath(__file__))
+    
+    # 1. 만약 파일이 pages 폴더 안에 있다면 (현재 위치)
+    file_path = os.path.join(base_path, "..", "data", "survey.xlsx")
+    
+    # 2. 만약 그냥 루트에서 실행 중이라면
+    if not os.path.exists(file_path):
+        file_path = os.path.join("data", "survey.xlsx")
+
+    try:
+        df = pd.read_csv(file_path)
+        return df
+    except Exception as e:
+        st.error(f"데이터 로드 실패: {file_path}") # 어떤 경로를 찾으려 했는지 출력
+        st.write(e)
+        return None
 
 df = load_data()
 
