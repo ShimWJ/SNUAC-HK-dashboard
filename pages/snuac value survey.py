@@ -8,25 +8,53 @@ import numpy as np
 from adjustText import adjust_text
 import matplotlib.font_manager as fm
 
-# 1. 페이지 설정 및 한글 폰트 최적화
+# 1. 페이지 설정
 st.set_page_config(page_title="SNUAC Value Survey", layout="wide")
 
+# [핵심] 한글 폰트 강제 주입 함수
 @st.cache_resource
 def setup_fonts():
-    # 스트림릿 클라우드(리눅스) 환경에서 나눔 폰트 설정
-    if platform.system() == 'Linux':
-        # 주의: apt-get install은 서버 설정(packages.txt)에서 처리해야 하며, 코드에서는 경로만 지정합니다.
-        font_path = '/usr/share/fonts/truetype/nanum/NanumGothic.ttf'
-        if os.path.exists(font_path):
-            font_prop = fm.FontProperties(fname=font_path)
-            plt.rc('font', family=font_prop.get_name())
-            plt.rcParams['font.family'] = font_prop.get_name()
-        else:
-            plt.rc('font', family='NanumGothic')
-    elif platform.system() == 'Windows':
+    # 1. 기본 폰트 설정 (Windows/Mac)
+    if platform.system() == 'Windows':
         plt.rc('font', family='Malgun Gothic')
-    elif platform.system() == 'Darwin': # Mac
+    elif platform.system() == 'Darwin':
         plt.rc('font', family='AppleGothic')
+    
+    # 2. 리눅스(스트림릿 클라우드) 환경 - 폰트 강제 로드
+    elif platform.system() == 'Linux':
+        # 나눔고딕이 설치되는 전형적인 경로들
+        font_paths = [
+            '/usr/share/fonts/truetype/nanum/NanumGothic.ttf',
+            '/usr/share/fonts/nanum/NanumGothic.ttf',
+            '/usr/local/share/fonts/NanumGothic.ttf'
+        ]
+        
+        found = False
+        for path in font_paths:
+            if os.path.exists(path):
+                # Matplotlib에 폰트 파일 직접 등록
+                fm.fontManager.addfont(path)
+                font_prop = fm.FontProperties(fname=path)
+                plt.rc('font', family=font_prop.get_name())
+                plt.rcParams['font.family'] = font_prop.get_name()
+                found = True
+                break
+        
+        if not found:
+            # 폰트 파일을 못 찾았을 경우, 시스템 전체에서 .ttf 검색 (최후의 수단)
+            st.warning("시스템에서 나눔 폰트 파일을 찾는 중입니다. 잠시만 기다려주세요...")
+            for root, dirs, files in os.walk('/usr/share/fonts'):
+                for file in files:
+                    if "NanumGothic" in file and file.endswith(".ttf"):
+                        target_path = os.path.join(root, file)
+                        fm.fontManager.addfont(target_path)
+                        font_prop = fm.FontProperties(fname=target_path)
+                        plt.rc('font', family=font_prop.get_name())
+                        found = True
+                        break
+                if found: break
+
+    # 마이너스 기호 깨짐 방지
     plt.rcParams['axes.unicode_minus'] = False
 
 setup_fonts()
@@ -70,18 +98,11 @@ df_raw = load_data()
 if df_raw is not None:
     if 'SQ1' in df_raw.columns:
         df_raw['국가명'] = df_raw['SQ1'].map(code_to_country)
-    else:
-        st.error("'SQ1' 컬럼을 찾을 수 없습니다.")
 
-# 3. 사이드바 메뉴 설정
+# 사이드바 메뉴
 menu_list = [
-    "조사 개요",
-    "CH1: 개인과 사회의 가치와 웰빙",
-    "CH2: 결혼, 자녀 그리고 가족",
-    "CH3: 사회적 신뢰와 갈등 인식",
-    "CH4: 능력주의와 분배",
-    "CH5: 평균과 보통에 대한 인식",
-    "CH6: 사회문제와 해결노력"
+    "조사 개요", "CH1: 개인과 사회의 가치와 웰빙", "CH2: 결혼, 자녀 그리고 가족",
+    "CH3: 사회적 신뢰와 갈등 인식", "CH4: 능력주의와 분배", "CH5: 평균과 보통에 대한 인식", "CH6: 사회문제와 해결노력"
 ]
 selected_menu = st.sidebar.selectbox("카테고리를 선택하세요", menu_list)
 
