@@ -16,7 +16,6 @@ st.set_page_config(page_title="SNUAC Value Survey", layout="wide")
 rc('font', family='Malgun Gothic')  # Windows 기본 한글 폰트
 plt.rcParams['axes.unicode_minus'] = False  # 마이너스 기호 깨짐 방지
 
-setup_fonts()
 
 # 2. 데이터 로드 함수
 @st.cache_data
