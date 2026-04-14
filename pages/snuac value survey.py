@@ -241,6 +241,7 @@ if df_raw is not None:
                 
                 fig, ax = plt.subplots(figsize=(10, 6))
                 sns.heatmap(q1_avg, annot=True, fmt=".2f", cmap="YlOrRd", ax=ax)
+                plt.xticks(rotation=45)
                 st.pyplot(fig)
             with col2:
                 st.markdown("### 문항 설명")
@@ -265,7 +266,7 @@ if df_raw is not None:
                         t1 = ax.text(i, mean_val, f'{mean_val:.1f}', color='red', ha='center', va='bottom')
                         texts.append(t1)
                 adjust_text(texts)
-                plt.xticks(rotation=45)
+                plt.xticks(rotation=25)
                 st.pyplot(fig)
             with col2:
                 st.markdown("### 문항 설명")
@@ -279,7 +280,7 @@ if df_raw is not None:
                 q3_df = df_raw.copy()
                 fig, ax = plt.subplots(figsize=(12, 6))
                 sns.violinplot(x="국가명", y="Q3", data=q3_df, order=country_order, scale="width", inner=None, cut=0, palette=color_palette, bw=0.35, ax=ax)
-                plt.xticks(rotation=45)
+                plt.xticks(rotation=25)
                 st.pyplot(fig)
             with col2:
                 st.markdown("### 문항 설명")
@@ -314,7 +315,7 @@ if df_raw is not None:
                         texts.extend([t_mean, t_med])
                 
                 adjust_text(texts, arrowprops=dict(arrowstyle='-', color='gray', lw=0.5))
-                plt.xticks(rotation=45)
+                plt.xticks(rotation=25)
                 plt.ylabel("자유 인식 수준 (1~7점)")
                 st.pyplot(fig)
             with col2:
@@ -341,7 +342,7 @@ if df_raw is not None:
         
         for idx, q_num in enumerate(["Q6", "Q7"]):
             with tabs[idx+5]:
-                st.subheader(f"{q_num} 분석 결과")
+                st.subheader(f"{q_num} 사회적 가치")
                 col1, col2 = st.columns([3, 1])
                 with col1:
                     rank_cols = [f'{q_num}', f'{q_num}_m2', f'{q_num}_m3']
