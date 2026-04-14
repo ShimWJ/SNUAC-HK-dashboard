@@ -3,9 +3,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import platform
-from adjustText import adjust_text
-import numpy as np
 import os
+import numpy as np
+from adjustText import adjust_text
 
 # 1. 페이지 설정 및 한글 폰트
 st.set_page_config(page_title="SNUAC Value Survey", layout="wide")
@@ -20,29 +20,24 @@ def setup_fonts():
 
 setup_fonts()
 
-# 2. 데이터 로드
+# 2. 데이터 로드 및 전처리
 @st.cache_data
 def load_data():
     base_path = os.path.dirname(os.path.abspath(__file__))
-    
-    # 확장자가 xlsx인 것을 확인
     file_path = os.path.join(base_path, "..", "data", "survey.xlsx")
-    
     if not os.path.exists(file_path):
         file_path = os.path.join("data", "survey.xlsx")
 
     try:
-        # 이 부분을 수정해야 합니다! csv -> excel
-        df = pd.read_excel(file_path) 
+        df = pd.read_excel(file_path)
+        df.columns = [str(col).strip() for col in df.columns] # 컬럼명 공백 제거
         return df
     except Exception as e:
         st.error(f"데이터 로드 실패: {file_path}")
-        st.write(e)
+        st.write(f"에러 메시지: {e}")
         return None
 
-df = load_data()
-
-# 3. 공통 매핑 및 설정
+# 매핑 정보
 code_to_country = {
     1: "대한민국(서울)", 2: "일본(도쿄)", 3: "중국(베이징)", 4: "대만(타이베이)",
     5: "베트남(하노이)", 6: "말레이시아(쿠알라룸푸르)", 7: "싱가포르", 8: "인도네시아(자카르타)",
@@ -59,6 +54,15 @@ color_palette = {
     "미국(뉴욕)": "#dccee1", "영국(런던)": "#f3d7b1", "프랑스(파리)": "#f9f9d2"
 }
 
+df_raw = load_data()
+
+# 데이터 전처리 (SQ1 -> 국가명 매핑)
+if df_raw is not None:
+    if 'SQ1' in df_raw.columns:
+        df_raw['국가명'] = df_raw['SQ1'].map(code_to_country)
+    else:
+        st.error("엑셀 파일에 'SQ1' 컬럼이 없습니다. 컬럼명을 확인해주세요.")
+        st.write("현재 파일 컬럼명:", list(df_raw.columns))
 # 4. 사이드바 메뉴
 menu_list = [
     "조사 개요",
