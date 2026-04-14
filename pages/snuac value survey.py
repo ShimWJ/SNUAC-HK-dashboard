@@ -23,7 +23,7 @@ setup_fonts()
 @st.cache_data
 def load_data():
     # 모든 데이터는 survey.csv에서 가져옴
-    df = pd.read_csv('data/survey.csv')
+    df = pd.read_csv('data/survey.xlsx')
     return df
 
 df = load_data()
