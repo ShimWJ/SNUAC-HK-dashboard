@@ -65,6 +65,7 @@ color_palette = {
 }
 
 df_raw = load_data()
+df = df_raw
 
 # 국가명 매핑 처리
 if df_raw is not None:
