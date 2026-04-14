@@ -13,10 +13,16 @@ st.set_page_config(page_title="SNUAC Value Survey", layout="wide")
 
 @st.cache_resource
 def setup_fonts():
-    # 스트림릿 클라우드(리눅스) 환경 대응
+    # 스트림릿 클라우드(리눅스) 환경에서 나눔 폰트 설정
     if platform.system() == 'Linux':
-        # 리눅스 환경에서 나눔 폰트 설치 시도 (사용자가 packages.txt에 fonts-nanum 추가 권장)
-        plt.rc('font', family='NanumGothic')
+        # 서버에 설치된 나눔고딕 경로를 명시적으로 찾거나 캐시 업데이트
+        os.system('apt-get install -y fonts-nanum') # 보조용
+        font_path = '/usr/share/fonts/truetype/nanum/NanumGothic.ttf'
+        if os.path.exists(font_path):
+            font_prop = fm.FontProperties(fname=font_path)
+            plt.rc('font', family=font_prop.get_name())
+        else:
+            plt.rc('font', family='NanumGothic')
     elif platform.system() == 'Windows':
         plt.rc('font', family='Malgun Gothic')
     elif platform.system() == 'Darwin': # Mac
@@ -253,7 +259,7 @@ if df_raw is not None:
                 st.pyplot(fig)
             with col2: st.markdown(descriptions["Q5"])
 
-        # --- Q6, Q7 탭 (가중치 합산 방식으로 에러 해결) ---
+        # --- Q6, Q7 탭 (가중치 합산 방식 고도화) ---
         value_labels = {1:"개인의 자유", 2:"평등", 3:"가족", 4:"신앙", 5:"자연 보호", 6:"민주주의", 7:"자유시장경제", 8:"개인의 행복", 9:"약자 보호", 10:"법치/질서", 11:"역사/전통", 12:"공정함"}
         
         for idx, q_num in enumerate(["Q6", "Q7"]):
@@ -261,20 +267,29 @@ if df_raw is not None:
                 st.subheader(f"{q_num} 분석 결과")
                 col1, col2 = st.columns([3, 1])
                 with col1:
+                    # 사용자님의 실제 컬럼명 반영: Q6, Q6_m2, Q6_m3
                     rank_cols = [f'{q_num}', f'{q_num}_m2', f'{q_num}_m3']
                     weights = [3, 2, 1]
-                    scores = pd.DataFrame(0, index=country_order, columns=value_labels.values())
+                    
+                    # 결과를 담을 빈 데이터프레임 (국가 x 가치항목)
+                    scores = pd.DataFrame(0.0, index=country_order, columns=value_labels.values())
                     
                     for i, col in enumerate(rank_cols):
                         if col in df_raw.columns:
-                            # 국가별 비율 계산 후 가중치 곱하기
-                            counts = df_raw.groupby("국가명")[col].value_counts(normalize=True).unstack().fillna(0)
+                            # 국가별 응답 비율 계산
+                            # normalize=True를 통해 비율을 구하고 가중치를 곱함
+                            temp_counts = df_raw.groupby("국가명")[col].value_counts(normalize=True).unstack().fillna(0)
+                            
                             for code, label in value_labels.items():
-                                if code in counts.columns:
-                                    scores.loc[counts.index, label] += counts[code] * weights[i]
+                                if code in temp_counts.columns:
+                                    # 각 국가별로 해당 라벨의 점수 누적
+                                    for country in temp_counts.index:
+                                        if country in scores.index:
+                                            scores.loc[country, label] += temp_counts.loc[country, code] * weights[i]
                     
                     fig, ax = plt.subplots(figsize=(12, 7))
-                    sns.heatmap(scores.reindex(country_order), annot=True, fmt=".2f", cmap="YlGnBu" if q_num=="Q6" else "YlOrRd", ax=ax)
+                    sns.heatmap(scores.reindex(country_order), annot=True, fmt=".2f", 
+                                cmap="YlGnBu" if q_num=="Q6" else "YlOrRd", ax=ax)
                     st.pyplot(fig)
                 with col2: st.markdown(descriptions[q_num])
 
