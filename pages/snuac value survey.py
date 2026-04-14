@@ -84,7 +84,7 @@ selected_menu = st.sidebar.selectbox("카테고리를 선택하세요", menu_lis
 descriptions = {
     "Q1": """
 ### 💡 문항 개요
-**Q1. 현재 삶의 각 영역에 대해 얼마나 만족하십니까?** 15개 도시 주민의 삶의 만족도를 10개 항목별로 비교한 히트맵입니다. (1~7점 척도)
+15개 도시 주민의 삶의 만족도를 10개 항목별로 비교한 히트맵입니다. (1~7점 척도)
 
 ### 📌 주요 분석
 * **전반적 수준**: **베이징, 뉴델리, 자카르타**는 대부분의 항목에서 5점대 중후반으로 높은 만족도를 보인 반면, **서울과 도쿄**는 4점대 초중반으로 상대적으로 낮습니다.
@@ -100,7 +100,7 @@ descriptions = {
 
     "Q2": """
 ### 💡 문항 개요
-**Q2. 귀하는 어제 어느 정도 행복하셨습니까?** 어제 체감한 행복 수준(1~7점)의 분포를 보여주는 바이올린 플롯입니다.
+어제 체감한 행복 수준(1~7점)의 분포를 보여주는 바이올린 플롯입니다.
 
 ### 📌 데이터 해석
 * **전반적 경향**: 다수 도시의 중앙값이 **5.0**에 위치하여 전반적으로 '행복했다'는 응답이 우세합니다.
@@ -115,7 +115,7 @@ descriptions = {
 
     "Q3": """
 ### 💡 문항 개요
-**Q3. 귀하는 어제 어느 정도 우울하셨습니까?** 어제 체감한 우울 수준(1~7점) 분포입니다. 점수가 높을수록 우울감이 큼을 의미합니다.
+어제 체감한 우울 수준(1~7점) 분포입니다. 점수가 높을수록 우울감이 큼을 의미합니다.
 
 ### 📌 데이터 해석
 * **전반적 경향**: 대부분 도시의 중앙값이 **3.0**에 위치해 '낮음~보통' 수준의 우울감이 주류를 이룹니다.
@@ -130,7 +130,7 @@ descriptions = {
 
     "Q4": """
 ### 💡 문항 개요
-**Q4. 일상생활에서 자유로운 선택이 가능하다고 느끼십니까?** 자기결정감과 자율성 인식 수준(1~7점)을 비교한 차트입니다.
+자기결정감과 자율성 인식 수준(1~7점)을 비교한 차트입니다.
 
 ### 📌 데이터 해석
 * **자율성 인식**: 남·남동아시아(자카르타, 뉴델리)와 베트남은 중앙값 **6.0**으로 매우 높은 자율성을 체감합니다.
@@ -145,7 +145,7 @@ descriptions = {
 
     "Q5": """
 ### 💡 문항 개요
-**Q5. 귀하의 삶을 의미 있게 하는 항목들의 중요도는?** 12개 가치 요인에 대한 중요도 평균을 나타낸 히트맵입니다.
+12개 가치 요인에 대한 중요도 평균을 나타낸 히트맵입니다.
 
 ### 📌 주요 분석
 * **공통 핵심**: 모든 도시에서 **'가족'**과 **'건강'**이 압도적 1위로, 삶의 의미를 지탱하는 핵심축입니다.
@@ -160,7 +160,7 @@ descriptions = {
 
     "Q6": """
 ### 💡 문항 개요
-**Q6. 우리 사회가 추구해야 할 가장 중요한 가치는?** 사회가 나아가야 할 방향에 대한 우선순위(1, 2, 3순위 가중합) 결과입니다.
+사회가 나아가야 할 방향에 대한 우선순위(1, 2, 3순위 가중합) 결과입니다.
 
 ### 📌 주요 분석
 * **보편적 가치**: **'가족'**은 거의 모든 도시에서 1순위이며, **개인의 자유, 평등, 자연 보호**가 그 뒤를 잇습니다.
@@ -175,7 +175,7 @@ descriptions = {
 
     "Q7": """
 ### 💡 문항 개요
-**Q7. 사람들이 일반적으로 중요하게 여기는 가치는 무엇입니까?** 사회 구성원들이 실제로 체감하고 선호한다고 믿는 가치의 우선순위입니다.
+사회 구성원들이 실제로 체감하고 선호한다고 믿는 가치의 우선순위입니다.
 
 ### 📌 데이터 해석
 * **인식의 일치**: Q6(당위)과 유사하게 **가족, 자유, 평등**이 주요 축입니다.
@@ -203,7 +203,7 @@ if df_raw is not None:
 
         # --- Q1 탭 ---
         with tabs[0]:
-            st.subheader("Q1. 삶의 영역별 만족도")
+            st.subheader("Q1. 다음에 대해 귀하는 현재 얼마나 만족한다고 느끼십니까?")
             col1, col2 = st.columns([3, 1])
             with col1:
                 q1_labels = ["전반적 삶", "경제 상황", "가족 생활", "일/직업", "친구/동료",
@@ -222,7 +222,7 @@ if df_raw is not None:
 
         # --- Q2 탭 ---
         with tabs[1]:
-            st.subheader("Q2. 어제 어느 정도 행복했나요")
+            st.subheader("Q2. 귀하는 어제 어느 정도 행복하셨습니까?")
             col1, col2 = st.columns([3, 1])
             with col1:
                 q2_data = df_raw[df_raw["Q2"].le(7)].copy()
@@ -248,7 +248,7 @@ if df_raw is not None:
 
         # --- Q3 탭 ---
         with tabs[2]:
-            st.subheader("Q3. 어제 어느 정도 우울했나요")
+            st.subheader("Q3. 귀하는 어제 어느 정도 우울하셨습니까?")
             col1, col2 = st.columns([3, 1])
             with col1:
                 q3_data = df_raw[df_raw["Q3"].le(7)].copy()
@@ -272,7 +272,7 @@ if df_raw is not None:
 
         # --- Q4 탭 (추가됨) ---
         with tabs[3]:
-            st.subheader("Q4. 일상생활에서의 자유 인식 수준")
+            st.subheader("Q4. 귀하는 일상생활에서 어느 정도 자유로운 선택이 가능하다고 느끼십니까?")
             col1, col2 = st.columns([3, 1])
             with col1:
                 q4_data = df_raw[df_raw["Q4"].le(7)].copy()
@@ -303,7 +303,7 @@ if df_raw is not None:
 
         # --- Q5 탭 ---
         with tabs[4]:
-            st.subheader("Q5. 삶의 의미에 대한 항목별 중요도")
+            st.subheader("Q5. 아래의 항목들이 귀하의 삶을 의미 있게 해주는데 얼마나 중요하다고 생각하십니까?")
             col1, col2 = st.columns([3, 1])
             with col1:
                 q5_labels = {"Q5_1_1":"가족", "Q5_1_2":"일/직업", "Q5_1_3":"물질적 풍요", "Q5_1_4":"가까운 관계", 
@@ -322,31 +322,47 @@ if df_raw is not None:
             with col2:
                 st.markdown(descriptions["Q5"])
 
-        # --- Q6, Q7 탭 ---
-        labels = {1:"개인의 자유", 2:"평등", 3:"가족", 4:"신에 대한 믿음", 5:"자연과 생명 보호", 
-                  6:"민주주의", 7:"자유시장경제", 8:"개인의 행복", 9:"사회적 약자 보호", 
-                  10:"법치와 질서", 11:"역사와 전통", 12:"공정함"}
-        
-        for idx, q_num in enumerate(["Q6", "Q7"]):
-            with tabs[idx+5]:
-                st.subheader(f"{q_num} 분석 결과")
-                col1, col2 = st.columns([3, 1])
-                with col1:
-                    rank_cols = [f'{q_num}_1순위', f'{q_num}_2순위', f'{q_num}_3순위']
-                    weights = [3, 2, 1]
-                    scores = pd.DataFrame(0, index=country_order, columns=labels.values())
-                    
-                    for i, col in enumerate(rank_cols):
-                        counts = df_raw.groupby("국가명")[col].value_counts(normalize=True).unstack().fillna(0)
-                        for code, label in labels.items():
-                            if code in counts.columns:
-                                scores.loc[counts.index, label] += counts[code] * weights[i]
-                    
-                    fig, ax = plt.subplots(figsize=(12, 7))
-                    cmap = "YlGnBu" if q_num == "Q6" else "YlOrRd"
-                    sns.heatmap(scores.reindex(country_order), annot=True, fmt=".2f", cmap=cmap, ax=ax)
-                    plt.xticks(rotation=45)
-                    st.pyplot(fig)
-                with col2:
-                    st.markdown(descriptions[q_num])
+        # --- Q6 탭 ---
+        with tabs[5]:
+            st.subheader("Q6. 다음 중 우리 사회가 추구해야 할 가장 중요한 가치는 무엇입니까? 중요한 순서대로 3가지를 골라주십시오.")
+            col1, col2 = st.columns([3, 1])
+            with col1:
+                q6_labels = {1:"개인의 자유", 2:"평등", 3:"가족", 4:"신에 대한 믿음", 5:"자연과 생명 보호", 
+                             6:"민주주의", 7:"자유시장경제", 8:"개인의 행복", 9:"사회적 약자 보호", 
+                             10:"법치와 질서", 11:"역사와 전통", 12:"공정함"}
+                q6_cols = list(q6_labels.keys())
+                q6_data = df_raw.copy()
+                q6_data[q6_cols] = q6_data[q6_cols].replace(99, np.nan)
+                heat_df = q6_data.groupby("국가명")[q6_cols].mean().reindex(country_order)
+                heat_df.rename(columns=q6_labels, inplace=True)
+                
+                fig, ax = plt.subplots(figsize=(12, 7))
+                sns.heatmap(heat_df, annot=True, fmt=".2f", cmap="Reds", ax=ax)
+                plt.xticks(rotation=45)
+                st.pyplot(fig)
+            with col2:
+                st.markdown(descriptions["Q6"])
+
+      # --- Q7 탭 ---
+        with tabs[6]:
+            st.subheader("Q7. 귀하께서 생각하시기에 우리나라 사람들이 일반적으로 가장 중요하게 여기는 사회적 가치는 무엇이라고 생각하십니까? 중요한 순서대로 3가지를 골라주십시오.")
+            col1, col2 = st.columns([3, 1])
+            with col1:
+                q7_labels = {1:"개인의 자유", 2:"평등", 3:"가족", 4:"신에 대한 믿음", 5:"자연과 생명 보호", 
+                             6:"민주주의", 7:"자유시장경제", 8:"개인의 행복", 9:"사회적 약자 보호", 
+                             10:"법치와 질서", 11:"역사와 전통", 12:"공정함"}
+                q7_cols = list(q7_labels.keys())
+                q7_data = df_raw.copy()
+                q7_data[q7_cols] = q7_data[q7_cols].replace(99, np.nan)
+                heat_df = q7_data.groupby("국가명")[q7_cols].mean().reindex(country_order)
+                heat_df.rename(columns=q6_labels, inplace=True)
+                
+                fig, ax = plt.subplots(figsize=(12, 7))
+                sns.heatmap(heat_df, annot=True, fmt=".2f", cmap="Reds", ax=ax)
+                plt.xticks(rotation=45)
+                st.pyplot(fig)
+            with col2:
+                st.markdown(descriptions["Q7"])
+
+      
 
