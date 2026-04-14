@@ -201,40 +201,67 @@ if df_raw is not None:
         tabs = st.tabs(["Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7"])
 
         # Q1 ~ Q5는 평균값 히트맵 혹은 바이올린 플롯 방식
-        with tabs[0]:
-            st.subheader("Q1. 삶의 영역별 만족도")
-            col1, col2 = st.columns([3, 1])
-            with col1:
-                q1_cols = [f'Q1_{i}' for i in range(1, 11)]
-                q1_data = df_raw[df_raw[q1_cols].le(7).all(axis=1)].copy()
-                q1_avg = q1_data.groupby('국가명')[q1_cols].mean().reindex(country_order)
-                q1_avg.columns = ["전반적 삶", "경제 상황", "가족 생활", "일/직업", "친구/동료", "이웃 관계", "거주 지역", "여가(양)", "여가(질)", "건강"]
-                fig, ax = plt.subplots(figsize=(10, 8))
-                sns.heatmap(q1_avg, annot=True, fmt=".2f", cmap="YlOrRd", ax=ax)
-                st.pyplot(fig)
-            with col2: st.markdown(descriptions["Q1"])
+        # --- Q1 탭 ---
+    with tabs[0]:
+        st.subheader("Q1. 삶의 영역별 만족도")
+        col1, col2 = st.columns([3, 1])
+        with col1:
+            q1_labels = ["전반적 삶", "경제 상황", "가족 생활", "일/직업", "친구/동료",
+                         "이웃 관계", "거주 지역", "여가시간(양)", "여가시간(질)", "건강 상태"]
+            q1_cols = [f'Q1_{i}' for i in range(1, 11)]
+            q1_data = df.copy()
+            q1_data['국가명'] = q1_data['국가'].map(code_to_country)
+            q1_avg = q1_data.groupby('국가명')[q1_cols].mean().reindex(country_order)
+            q1_avg.columns = q1_labels
+            
+            fig, ax = plt.subplots(figsize=(10, 6))
+            sns.heatmap(q1_avg, annot=True, fmt=".2f", cmap="YlOrRd", ax=ax)
+            st.pyplot(fig)
+        with col2:
+            st.markdown("### 문항 설명")
+            st.write(descriptions["Q1"])
 
-        with tabs[1]:
-            st.subheader("Q2. 어제 얼마나 행복했나요")
-            col1, col2 = st.columns([3, 1])
-            with col1:
-                q2_data = df_raw[df_raw["Q2"].le(7)].copy()
-                fig, ax = plt.subplots(figsize=(12, 6))
-                sns.violinplot(x="국가명", y="Q2", data=q2_data, order=country_order, palette=color_palette, bw=0.35, ax=ax)
-                # 평균/중앙값 마커 로직... (생략 가능하나 유지됨)
-                st.pyplot(fig)
-            with col2: st.markdown(descriptions["Q2"])
+    # --- Q2 탭 ---
+    with tabs[1]:
+        st.subheader("Q2. 어제 얼마나 행복했나요")
+        col1, col2 = st.columns([3, 1])
+        with col1:
+            q2_df = df.copy()
+            q2_df["국가명"] = q2_df["국가"].map(code_to_country)
+            fig, ax = plt.subplots(figsize=(12, 6))
+            sns.violinplot(x="국가명", y="Q2", data=q2_df, scale="width", inner=None, cut=0, palette=color_palette, bw=0.35, ax=ax)
+            
+            texts = []
+            for i, country in enumerate(country_order):
+                c_data = q2_df[q2_df["국가명"] == country]
+                if not c_data.empty:
+                    mean_val, median_val = c_data["Q2"].mean(), c_data["Q2"].median()
+                    ax.plot(i, mean_val, "^", color="red", markersize=8)
+                    ax.plot(i, median_val, "o", color="black", markersize=6)
+                    t1 = ax.text(i, mean_val, f'{mean_val:.1f}', color='red')
+                    texts.append(t1)
+            adjust_text(texts)
+            plt.xticks(rotation=45)
+            st.pyplot(fig)
+        with col2:
+            st.markdown("### 문항 설명")
+            st.write(descriptions["Q2"])
 
-        with tabs[2]:
-            st.subheader("Q3. 어제 얼마나 우울했나요")
-            col1, col2 = st.columns([3, 1])
-            with col1:
-                q3_data = df_raw[df_raw["Q3"].le(7)].copy()
-                fig, ax = plt.subplots(figsize=(12, 6))
-                sns.violinplot(x="국가명", y="Q3", data=q3_data, order=country_order, palette=color_palette, bw=0.35, ax=ax)
-                st.pyplot(fig)
-            with col2: st.markdown(descriptions["Q3"])
-
+    # --- Q3 탭 ---
+    with tabs[2]:
+        st.subheader("Q3. 어제 얼마나 우울했나요")
+        col1, col2 = st.columns([3, 1])
+        with col1:
+            q3_df = df.copy()
+            q3_df["국가명"] = q3_df["국가"].map(code_to_country)
+            fig, ax = plt.subplots(figsize=(12, 6))
+            sns.violinplot(x="국가명", y="Q3", data=q3_df, scale="width", inner=None, cut=0, palette=color_palette, bw=0.35, ax=ax)
+            # (Q2와 동일한 마커 로직 적용 가능)
+            plt.xticks(rotation=45)
+            st.pyplot(fig)
+        with col2:
+            st.markdown("### 문항 설명")
+            st.write(descriptions["Q3"])
         with tabs[3]:
             st.subheader("Q4. 일상생활에서의 자유 인식")
             col1, col2 = st.columns([3, 1])
@@ -244,7 +271,41 @@ if df_raw is not None:
                 sns.violinplot(x="국가명", y="Q4", data=q4_data, order=country_order, palette=color_palette, bw=0.35, ax=ax)
                 st.pyplot(fig)
             with col2: st.markdown(descriptions["Q4"])
-
+                
+    # --- Q4 탭 (요청하신 바이올린 플롯 반영) ---
+        with tabs[3]:
+            st.subheader("Q4. 일상생활에서의 자유 인식 수준")
+            col1, col2 = st.columns([3, 1])
+            with col1:
+                fig, ax = plt.subplots(figsize=(12, 6))
+                sns.violinplot(x="국가명", y="Q4", data=df, order=country_order,
+                               scale="width", inner=None, cut=0, palette=color_palette, bw=0.35, ax=ax)
+                
+                texts = []
+                for i, country in enumerate(country_order):
+                    c_data = df[df["국가명"] == country]
+                    if not c_data.empty:
+                        mean_val = c_data["Q4"].mean()
+                        median_val = c_data["Q4"].median()
+                        ax.plot(i, mean_val, marker="^", color="red", markersize=8, zorder=10)
+                        ax.plot(i, median_val, marker="o", color="black", markersize=6, zorder=10)
+                        
+                        # 라벨 위치 동적 조정
+                        if mean_val >= median_val:
+                            t_mean = ax.text(i, mean_val + 0.1, f'{mean_val:.1f}', color='red', ha='center', va='bottom', fontsize=9)
+                            t_med = ax.text(i, median_val - 0.1, f'{median_val:.1f}', color='black', ha='center', va='top', fontsize=9)
+                        else:
+                            t_mean = ax.text(i, mean_val - 0.1, f'{mean_val:.1f}', color='red', ha='center', va='top', fontsize=9)
+                            t_med = ax.text(i, median_val + 0.1, f'{median_val:.1f}', color='black', ha='center', va='bottom', fontsize=9)
+                        texts.extend([t_mean, t_med])
+                
+                adjust_text(texts, arrowprops=dict(arrowstyle='-', color='gray', lw=0.5))
+                plt.xticks(rotation=45)
+                plt.ylabel("자유 인식 수준 (1~7점)")
+                st.pyplot(fig)
+            with col2:
+                st.markdown(descriptions["Q4"])
+        
         with tabs[4]:
             st.subheader("Q5. 삶의 의미 항목별 중요도")
             col1, col2 = st.columns([3, 1])
