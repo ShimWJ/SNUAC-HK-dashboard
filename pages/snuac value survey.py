@@ -261,7 +261,7 @@ if df_raw is not None:
                 st.subheader(f"{q_num} 분석 결과")
                 col1, col2 = st.columns([3, 1])
                 with col1:
-                    rank_cols = [f'{q_num}_1순위', f'{q_num}_2순위', f'{q_num}_3순위']
+                    rank_cols = [f'{q_num}', f'{q_num}_m2', f'{q_num}_m3']
                     weights = [3, 2, 1]
                     scores = pd.DataFrame(0, index=country_order, columns=value_labels.values())
                     
