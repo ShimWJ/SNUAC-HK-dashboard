@@ -23,22 +23,20 @@ setup_fonts()
 # 2. 데이터 로드
 @st.cache_data
 def load_data():
-    # 현재 파일(snuac value survey.py)의 위치를 기준으로 경로 설정
-    # 파일이 pages/ 안에 있으므로, 한 단계 위로 올라가서 data/ 폴더를 찾음
     base_path = os.path.dirname(os.path.abspath(__file__))
     
-    # 1. 만약 파일이 pages 폴더 안에 있다면 (현재 위치)
+    # 확장자가 xlsx인 것을 확인
     file_path = os.path.join(base_path, "..", "data", "survey.xlsx")
     
-    # 2. 만약 그냥 루트에서 실행 중이라면
     if not os.path.exists(file_path):
         file_path = os.path.join("data", "survey.xlsx")
 
     try:
-        df = pd.read_csv(file_path)
+        # 이 부분을 수정해야 합니다! csv -> excel
+        df = pd.read_excel(file_path) 
         return df
     except Exception as e:
-        st.error(f"데이터 로드 실패: {file_path}") # 어떤 경로를 찾으려 했는지 출력
+        st.error(f"데이터 로드 실패: {file_path}")
         st.write(e)
         return None
 
