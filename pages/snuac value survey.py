@@ -1,4 +1,3 @@
-import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
@@ -7,15 +6,30 @@ import os
 import numpy as np
 from adjustText import adjust_text
 import matplotlib.font_manager as fm
-from matplotlib import rc
 
-# 1. 페이지 설정 및 한글 폰트 최적화
+# 1. 페이지 설정 및 한글 폰트 최적화 (가장 확실한 방식)
 st.set_page_config(page_title="SNUAC Value Survey", layout="wide")
 
-# 한글 폰트 설정
-rc('font', family='Malgun Gothic')  # Windows 기본 한글 폰트
-plt.rcParams['axes.unicode_minus'] = False  # 마이너스 기호 깨짐 방지
+@st.cache_resource
+def setup_fonts():
+    # 폰트 경로 설정 (Linux/Streamlit Cloud 전용)
+    if platform.system() == 'Linux':
+        font_path = '/usr/share/fonts/truetype/nanum/NanumGothic.ttf'
+        if os.path.exists(font_path):
+            # 폰트 매니저에 폰트 추가 및 캐시 업데이트
+            fm.fontManager.addfont(font_path)
+            prop = fm.FontProperties(fname=font_path)
+            plt.rc('font', family=prop.get_name())
+            plt.rcParams['font.family'] = prop.get_name()
+    elif platform.system() == 'Windows':
+        plt.rc('font', family='Malgun Gothic')
+    elif platform.system() == 'Darwin': # Mac
+        plt.rc('font', family='AppleGothic')
+    
+    # 마이너스 기호 깨짐 방지
+    plt.rcParams['axes.unicode_minus'] = False
 
+setup_fonts()
 
 # 2. 데이터 로드 함수
 @st.cache_data
