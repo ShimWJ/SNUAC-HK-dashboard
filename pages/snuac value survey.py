@@ -7,27 +7,14 @@ import os
 import numpy as np
 from adjustText import adjust_text
 import matplotlib.font_manager as fm
+from matplotlib import rc
 
 # 1. 페이지 설정 및 한글 폰트 최적화
 st.set_page_config(page_title="SNUAC Value Survey", layout="wide")
 
-@st.cache_resource
-def setup_fonts():
-    # 스트림릿 클라우드(리눅스) 환경에서 나눔 폰트 설정
-    if platform.system() == 'Linux':
-        # 주의: apt-get install은 서버 설정(packages.txt)에서 처리해야 하며, 코드에서는 경로만 지정합니다.
-        font_path = '/usr/share/fonts/truetype/nanum/NanumGothic.ttf'
-        if os.path.exists(font_path):
-            font_prop = fm.FontProperties(fname=font_path)
-            plt.rc('font', family=font_prop.get_name())
-            plt.rcParams['font.family'] = font_prop.get_name()
-        else:
-            plt.rc('font', family='NanumGothic')
-    elif platform.system() == 'Windows':
-        plt.rc('font', family='Malgun Gothic')
-    elif platform.system() == 'Darwin': # Mac
-        plt.rc('font', family='AppleGothic')
-    plt.rcParams['axes.unicode_minus'] = False
+# 한글 폰트 설정
+rc('font', family='Malgun Gothic')  # Windows 기본 한글 폰트
+plt.rcParams['axes.unicode_minus'] = False  # 마이너스 기호 깨짐 방지
 
 setup_fonts()
 
