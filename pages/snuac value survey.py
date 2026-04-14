@@ -7,29 +7,29 @@ import numpy as np
 from adjustText import adjust_text
 import matplotlib.font_manager as fm
 
-# 1. 페이지 설정 및 한글 폰트 최적화 (가장 확실한 방식)
+# 1. 페이지 설정 및 한글 폰트 최적화
 st.set_page_config(page_title="SNUAC Value Survey", layout="wide")
 
 @st.cache_resource
 def setup_fonts():
-    # 폰트 경로 설정 (Linux/Streamlit Cloud 전용)
-    if platform.system() == 'Linux':
-        font_path = '/usr/share/fonts/truetype/nanum/NanumGothic.ttf'
-        if os.path.exists(font_path):
-            # 폰트 매니저에 폰트 추가 및 캐시 업데이트
-            fm.fontManager.addfont(font_path)
-            prop = fm.FontProperties(fname=font_path)
-            plt.rc('font', family=prop.get_name())
-            plt.rcParams['font.family'] = prop.get_name()
-    elif platform.system() == 'Windows':
-        plt.rc('font', family='Malgun Gothic')
-    elif platform.system() == 'Darwin': # Mac
-        plt.rc('font', family='AppleGothic')
-    
-    # 마이너스 기호 깨짐 방지
-    plt.rcParams['axes.unicode_minus'] = False
+    # 스트림릿 클라우드(리눅스) 환경에서 나눔 폰트 설정
+    if platform.system() == 'Linux':
+        # 서버에 설치된 나눔고딕 경로를 명시적으로 찾거나 캐시 업데이트
+        os.system('apt-get install -y fonts-nanum') # 보조용
+        font_path = '/usr/share/fonts/truetype/nanum/NanumGothic.ttf'
+        if os.path.exists(font_path):
+            font_prop = fm.FontProperties(fname=font_path)
+            plt.rc('font', family=font_prop.get_name())
+        else:
+            plt.rc('font', family='NanumGothic')
+    elif platform.system() == 'Windows':
+        plt.rc('font', family='Malgun Gothic')
+    elif platform.system() == 'Darwin': # Mac
+        plt.rc('font', family='AppleGothic')
+    plt.rcParams['axes.unicode_minus'] = False
 
 setup_fonts()
+
 
 # 2. 데이터 로드 함수
 @st.cache_data
