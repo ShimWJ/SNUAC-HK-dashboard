@@ -963,3 +963,81 @@ if df_raw is not None:
                 draw_likert_ch6(df_raw, q34_vars, q34_labels, "q34")
             with col2:
                 st.write(descriptions_ch6["Q34"])
+
+    elif selected_menu == "조사 개요":
+        # 상단 타이틀 및 인트로
+        st.title("🌏 아시아 대도시 가치조사 개요")
+        st.subheader("Asia Metropolis Value Survey")
+        
+        st.markdown("""
+        **아시아 대도시 가치조사**는 아시아연구소와 한국리서치가 아시아 12개 대도시와 서구 3개 대도시 시민들의 
+        가치관과 삶의 조건을 다층적으로 조망하기 위해 실시한 대규모 국제 비교 조사입니다.
+        """)
+        st.divider()
+
+        # 주요 조사 설계 (4개 컬럼으로 핵심 정보 시각화)
+        col1, col2, col3, col4 = st.columns(4)
+        with col1:
+            st.info("📊 **조사 대상**")
+            st.markdown("15개 대도시 시민<br>만 18세 ~ 59세 남녀", unsafe_allow_html=True)
+        with col2:
+            st.info("👥 **표본 크기**")
+            st.markdown("총 **10,500명**<br>(도시별 700명 할당)", unsafe_allow_html=True)
+        with col3:
+            st.info("📅 **조사 기간**")
+            st.markdown("2022.11.04 ~ 11.14<br>(11일간)", unsafe_allow_html=True)
+        with col4:
+            st.info("🎯 **신뢰 수준**")
+            st.markdown("95% 신뢰수준<br>오차범위 ±3.7%p", unsafe_allow_html=True)
+
+        st.write("") # 간격 조절
+
+        # 상세 조사 설계 및 대상 도시
+        c1, c2 = st.columns([1, 1])
+        with c1:
+            st.markdown("### 📋 조사 설계")
+            st.markdown("""
+            - **조사 방법:** 전문 패널을 활용한 온라인 웹조사 (Web Survey)
+            - **표집 방법:** 성별, 연령대별 인구구성비에 따른 할당표집 (Quota Sampling)
+            - **표집 틀:** - 서울: 한국리서치 온라인 패널
+                - 그 외 14개국: 톨루나(Toluna) 글로벌 패널
+            """)
+        
+        with c2:
+            st.markdown("### 🏙️ 대상 도시 (15개)")
+            st.markdown("""
+            - **동아시아:** 서울(한국), 도쿄(일본), 베이징(중국), 타이베이(대만)
+            - **동남아시아:** 하노이(베트남), 쿠알라룸푸르(말레이시아), 싱가포르, 자카르타(인도네시아)
+            - **남아시아/중동:** 뉴델리(인도), 리야드(사우디), 예루살렘(이스라엘), 앙카라(튀르키예)
+            - **서구권:** 뉴욕(미국), 런던(영국), 파리(프랑스)
+            """)
+
+        st.divider()
+
+        # 챕터 구성 안내
+        st.markdown("### 📚 조사 결과 구성 (총 6개 장)")
+        
+        ch_col1, ch_col2 = st.columns(2)
+        with ch_col1:
+            st.markdown("""
+            **1장. 가치와 웰빙** - 개인과 사회가 중시하는 가치 및 행복의 기준 비교
+            
+            **2장. 결혼, 자녀 그리고 가족** - 가족 규범의 변화와 결혼·자녀에 대한 태도 분석
+            
+            **3장. 사회적 신뢰와 갈등 인식** - 대인/사회적 신뢰 구조 및 집단 간 갈등 체감도 비교
+            """)
+        with ch_col2:
+            st.markdown("""
+            **4장. 능력주의와 분배** - 성공 요인에 대한 인식 및 재분배 정책 선호 분석
+            
+            **5장. 평균과 보통에 대한 인식** - 사회적 '평균'의 기준과 주관적 계층 인식 검토
+            
+            **6장. 사회문제와 해결 노력** - 주요 사회문제 인식 및 해결을 위한 시민 참여 양상
+            """)
+
+        st.write("")
+        st.write("")
+
+        # 하단 링크 섹션
+        st.success("📝 **조사 결과의 상세한 내용은 아래의 PDF 총서에서 확인하실 수 있습니다.**")
+        st.link_button("📕 아시아 대도시 가치조사 PDF 보기", "http://snuac-hk.snu.ac.kr/?p=5420")
