@@ -446,7 +446,7 @@ if df_raw is not None:
                         sel_q = c2.selectbox("갈등 항목 선택", list(q18_labels.keys()), format_func=lambda x: q18_labels[x])
                         
                         val = df_raw[df_raw['국가명'] == sel_nation][sel_q].mean()
-                        overall_avg = df_raw[sel_q].mean()
+                        overall_avg_q18 = df_raw[sel_q].mean()
                         
                         fig = go.Figure(go.Indicator(
                             mode = "gauge+number", value = val,
@@ -458,7 +458,7 @@ if df_raw is not None:
                                     {'range': [1, 3], 'color': "#229954"},
                                     {'range': [3, 5], 'color': "#f7dc6f"},
                                     {'range': [5, 7], 'color': "#d73027"}],
-                                'threshold': {'line': {'color': "cyan", 'width': 4}, 'thickness': 0.75, 'value': overall_avg}
+                                'threshold': {'line': {'color': "cyan", 'width': 4}, 'thickness': 0.75, 'value': overall_avg_q18}
                             }
                         ))
                         fig.update_layout(height=400, margin=dict(b=0)) # 하단 여백 조정
@@ -469,6 +469,7 @@ if df_raw is not None:
                                 파란 선: 15개 도시 전체 평균 ({overall_avg_q18:.2f})
                             </p>
                             """, unsafe_allow_html=True)
+                                             
                     else:
                         # Stacked Bar (R 로직 이식)
                         sel_q = st.selectbox("분석 항목 (Q18)", list(q18_labels.keys()), format_func=lambda x: q18_labels[x], key="q18_bar")
