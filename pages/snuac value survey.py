@@ -461,8 +461,14 @@ if df_raw is not None:
                                 'threshold': {'line': {'color': "cyan", 'width': 4}, 'thickness': 0.75, 'value': overall_avg}
                             }
                         ))
-                        st.plotly_chart(fig, use_container_width=True)
-                        st.caption(f"파란 선: 15개 도시 전체 평균 ({overall_avg:.2f})")
+                        fig.update_layout(height=400, margin=dict(b=0)) # 하단 여백 조정
+                        st.plotly_chart(fig, use_container_width=True
+                        # --- 중앙 정렬된 캡션 ---
+                        st.markdown(f"""
+                            <p style='text-align: center; color: #808495; font-size: 0.85rem;'>
+                                파란 선: 15개 도시 전체 평균 ({overall_avg_q19:.2f})
+                            </p>
+                            """, unsafe_allow_html=True)
                     else:
                         # Stacked Bar (R 로직 이식)
                         sel_q = st.selectbox("분석 항목 (Q18)", list(q18_labels.keys()), format_func=lambda x: q18_labels[x], key="q18_bar")
