@@ -462,11 +462,11 @@ if df_raw is not None:
                             }
                         ))
                         fig.update_layout(height=400, margin=dict(b=0)) # 하단 여백 조정
-                        st.plotly_chart(fig, use_container_width=True
+                        st.plotly_chart(fig, use_container_width=True)
                         # --- 중앙 정렬된 캡션 ---
                         st.markdown(f"""
                             <p style='text-align: center; color: #808495; font-size: 0.85rem;'>
-                                파란 선: 15개 도시 전체 평균 ({overall_avg_q19:.2f})
+                                파란 선: 15개 도시 전체 평균 ({overall_avg_q18:.2f})
                             </p>
                             """, unsafe_allow_html=True)
                     else:
