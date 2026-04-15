@@ -314,7 +314,6 @@ if df_raw is not None:
         tabs = st.tabs(["Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7"])
 
         # --- Q1 탭 (Plotly 히트맵) ---
-        # --- Q1 탭 (Plotly 히트맵 - 99 제외 처리 반영) ---
         with tabs[0]:
             st.subheader("Q1. 다음에 대해 귀하는 현재 얼마나 만족한다고 느끼십니까?")
             col1, col2 = st.columns([3, 1])
@@ -360,7 +359,7 @@ if df_raw is not None:
                     xaxis_title="만족도 항목", 
                     yaxis_title=None,
                     xaxis={'side': 'bottom'}, # X축 라벨 위치
-                    height=600
+                    height=700  # ✅ 700으로 변경
                 )
                 
                 st.plotly_chart(fig, use_container_width=True)
@@ -408,7 +407,7 @@ if df_raw is not None:
                         xaxis_title="평균 점수 (1~7점)",
                         yaxis_title=None,
                         xaxis=dict(range=[1, 7]), # 척도 범위 고정
-                        height=600,
+                        height=700,  # ✅ 700으로 변경
                         margin=dict(l=150),       # 도시명이 길 경우를 대비한 왼쪽 여백
                         coloraxis_showscale=False  # 색상 바 숨기기 (깔끔하게)
                     )
@@ -429,6 +428,7 @@ if df_raw is not None:
                 q5_avg = df_raw.groupby("국가명")[q5_cols].mean().reindex(country_order).rename(columns=q5_labels)
                 
                 fig = px.imshow(q5_avg, text_auto='.2f', color_continuous_scale='Reds', aspect="auto")
+                fig.update_layout(height=700)  # ✅ 700으로 변경
                 st.plotly_chart(fig, use_container_width=True)
             with col2: st.markdown(descriptions["Q5"])
 
@@ -453,6 +453,7 @@ if df_raw is not None:
                     
                     fig = px.imshow(scores.reindex(country_order), text_auto='.2f', 
                                     color_continuous_scale="YlGnBu" if q_num=="Q6" else "YlOrRd", aspect="auto")
+                    fig.update_layout(height=700)  # ✅ 700으로 변경
                     st.plotly_chart(fig, use_container_width=True)
                 with col2: st.markdown(descriptions[q_num])
                     
@@ -484,7 +485,7 @@ if df_raw is not None:
                     ))
                 
                 fig8.update_layout(xaxis_title="평균 응답값 (1~7점)", yaxis_autorange="reversed", 
-                                   hovermode="y unified", height=600, template="plotly_white")
+                                   hovermode="y unified", height=700, template="plotly_white")  # ✅ 700으로 변경
                 st.plotly_chart(fig8, use_container_width=True)
             with col2:
                 st.markdown("### 문항 설명")
@@ -519,7 +520,7 @@ if df_raw is not None:
                              color_discrete_map={"반대": "#d73027", "보통": "#ccd1d1", "동의": "#2e86c1"},
                              orientation='h', text_auto='.1f')
             
-            fig.update_layout(xaxis_title="비율 (%)", yaxis_title=None, barmode='stack', height=600, template="plotly_white")
+            fig.update_layout(xaxis_title="비율 (%)", yaxis_title=None, barmode='stack', height=700, template="plotly_white")  # ✅ 700으로 변경
             st.plotly_chart(fig, use_container_width=True)
 
         # --- Q9: 자녀에 대한 태도 ---
@@ -528,7 +529,7 @@ if df_raw is not None:
             col1, col2 = st.columns([3, 1])
             with col1:
                 q9_vars = ["Q9_1", "Q9_2", "Q9_3", "Q9_4", "Q9_5"]
-                q9_labels = {"Q9_1": "아이들이 자라는 것을 보는 것은 인생의 가장 큰 기쁨이다", "Q9_2": "자녀를 가지면 부모의 자유가 지나치게 제약된다", "Q9_3": "자녀는 부모에게 경제적 부담이 된다", "Q9_4": "자녀가 있으면 부모 중 누군가는 직업이나 경력의 기회가 제한된다", "Q9_5": "성인이 된 자녀는 부모의 노후에 중요한 보탬이 된다"}
+                q9_labels = {"Q9_1": "아이들이 자라는 것을 보는 것은 인생의 가장 큰 기쁨이다", "Q9_2": "자녀를 가지면 부모의 자유가 지나치게 제약된다", "Q9_3": "자녀는 부모에게 경제적 부담이 된다", "Q9_4": "자녀가 있으면 부모 중 누군가는 직업이나 경력의 기회가 제한된다", "Q9_5": "성인이 된 자녀는 부모의 노후에 중요한 보탐이 된다"}
                 draw_likert_plotly(df_raw, q9_vars, q9_labels, "Q9")
             with col2:
                 st.markdown("### 문항 설명")
@@ -580,7 +581,7 @@ if df_raw is not None:
                 fig12 = px.scatter(q12_summary, x="선택비율", y="자질", color="국가명",
                                    category_orders={"국가명": country_order, "자질": list(q12_labels_map.values())[::-1]},
                                    labels={"선택비율": "선택 비율 (0~1)"},
-                                   height=700)
+                                   height=700)  # ✅ 700으로 변경
                 
                 fig12.update_traces(marker=dict(size=12, line=dict(width=1, color='Black')))
                 fig12.update_layout(xaxis_tickformat='.1%', template="plotly_white", hovermode="closest")
@@ -647,6 +648,7 @@ if df_raw is not None:
                         fig = px.bar(res_pct, y="문항", x=["동의(신뢰)", "보통", "반대(불신)"],
                                      color_discrete_map={"동의(신뢰)": "#2e86c1", "보통": "#ccd1d1", "반대(불신)": "#d73027"},
                                      orientation='h', text_auto='.1f')
+                    fig.update_layout(height=700)  # ✅ 700으로 변경
                     st.plotly_chart(fig, use_container_width=True)
                 with col2:
                     st.markdown("### 문항 설명")
@@ -685,7 +687,7 @@ if df_raw is not None:
                                 'threshold': {'line': {'color': "cyan", 'width': 4}, 'thickness': 0.75, 'value': overall_avg_q18}
                             }
                         ))
-                        fig.update_layout(height=400, margin=dict(t=50, b=0, l=25, r=25))
+                        fig.update_layout(height=700, margin=dict(t=50, b=0, l=25, r=25))  # ✅ 700으로 변경
                         st.plotly_chart(fig, use_container_width=True)
                         # --- 중앙 정렬된 캡션 ---
                         st.markdown(f"""
@@ -705,6 +707,7 @@ if df_raw is not None:
                         fig = px.bar(res_pct, y="국가명", x=["심각하다", "보통", "심각하지 않다"],
                                      color_discrete_map={"심각하다": "#2e86c1", "보통": "#bdbdbd", "심각하지 않다": "#d73027"},
                                      orientation='h', text_auto='.1f')
+                        fig.update_layout(height=700)  # ✅ 700으로 변경
                         st.plotly_chart(fig, use_container_width=True)
                 with col2:
                     st.write(descriptions["Q18"])
@@ -754,7 +757,7 @@ if df_raw is not None:
                             }
                         ))
                         # Q18과 동일하게 height와 margin 설정을 맞춥니다.
-                        fig.update_layout(height=400, margin=dict(t=50, b=0, l=25, r=25))
+                        fig.update_layout(height=700, margin=dict(t=50, b=0, l=25, r=25))  # ✅ 700으로 변경
                         st.plotly_chart(fig, use_container_width=True)
                         # --- 중앙 정렬된 캡션 ---
                         st.markdown(f"""
@@ -771,6 +774,7 @@ if df_raw is not None:
                         fig = px.bar(res_pct, y="국가명", x=["B불공정", "보통", "A불공정"],
                                      color_discrete_map={"B불공정": "#2e86c1", "보통": "#bdbdbd", "A불공정": "#d73027"},
                                      orientation='h', text_auto='.1f')
+                        fig.update_layout(height=700)  # ✅ 700으로 변경
                         st.plotly_chart(fig, use_container_width=True)
                 with col2:
                     st.markdown(descriptions["Q19"])
@@ -797,7 +801,7 @@ if df_raw is not None:
                                    title="가장 소속감을 느끼는 집단 (%)",
                                    color_discrete_sequence=["#4C72B0", "#55A868", "#C44E52", "#8172B3", "#CCB974", "#64B5CD"],
                                    text_auto='.0f')
-                    fig35.update_layout(xaxis_title=None, yaxis_title="비율 (%)", barmode='stack')
+                    fig35.update_layout(xaxis_title=None, yaxis_title="비율 (%)", barmode='stack', height=700)  # ✅ 700으로 변경
                     st.plotly_chart(fig35, use_container_width=True)
                 with col2:
                     st.write(descriptions["Q35"])
@@ -843,6 +847,7 @@ if df_raw is not None:
                     fig = px.bar(res_pct, y="문항", x=["동의", "보통", "반대"],
                                  color_discrete_map={"동의": "#2e86c1", "보통": "#ccd1d1", "반대": "#d73027"},
                                  orientation='h', text_auto='.1f')
+                fig.update_layout(height=700)  # ✅ 700으로 변경
                 st.plotly_chart(fig, use_container_width=True)
             with col2:
                 st.markdown(descriptions["Q20"])
@@ -883,6 +888,7 @@ if df_raw is not None:
                     res_pct['쟁점'] = res_pct['variable'].map(q21_labels)
                     fig = px.bar(res_pct, y="쟁점", x=["A", "비슷함", "B"],
                                  color_discrete_map=color_map_q21, orientation='h', text_auto='.1f')
+                fig.update_layout(height=700)  # ✅ 700으로 변경
                 st.plotly_chart(fig, use_container_width=True)
             with col2:
                 st.markdown(descriptions["Q21"])
@@ -922,14 +928,13 @@ if df_raw is not None:
                 fig23 = px.scatter(q23_melted, x="평균값", y="항목", color="국가명",
                                    category_orders={"국가명": country_order, "항목": q23_items[::-1]},
                                    labels={"평균값": "평균 응답값 (1=매우 반대, 7=매우 동의)"},
-                                   height=800)
+                                   height=700)  # ✅ 700으로 변경
                 
                 fig23.update_traces(marker=dict(size=12, line=dict(width=1, color='Black')))
                 fig23.update_layout(template="plotly_white", hovermode="closest")
                 fig23.update_yaxes(gridcolor='LightGray')
                 
                 st.plotly_chart(fig23, use_container_width=True)
-                #st.caption("※ 각 점에 마우스를 올리면 국가별 상세 수치를 확인할 수 있습니다.")
                 st.markdown(f"""
                             <p style='text-align: center; color: #808495; font-size: 0.85rem;'>
                                 ※ 각 점에 마우스를 올리면 국가별 상세 수치를 확인할 수 있습니다.)
@@ -995,7 +1000,7 @@ if df_raw is not None:
                     title=f"<b>{title_text}</b>",
                     xaxis=dict(title=label_text, range=[0, 10], tickmode='linear', tick0=0, dtick=1),
                     yaxis=dict(title=None),
-                    height=700,
+                    height=700,  # ✅ 700으로 변경
                     margin=dict(l=150),
                     barmode='overlay',
                     legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
@@ -1052,7 +1057,7 @@ if df_raw is not None:
                 res_pct = (res.div(res.sum(axis=1), axis=0) * 100).reset_index()
                 res_pct['문항'] = res_pct['variable'].map(labels_dict)
                 fig = px.bar(res_pct, y="문항", x=["심각", "보통", "미미"], color_discrete_map=color_map, orientation='h', text_auto='.1f')
-            fig.update_layout(xaxis_title="비율 (%)", yaxis_title=None, barmode='stack', height=500, template="plotly_white")
+            fig.update_layout(xaxis_title="비율 (%)", yaxis_title=None, barmode='stack', height=700, template="plotly_white")  # ✅ 700으로 변경
             st.plotly_chart(fig, use_container_width=True)
 
         # --- Q30: 사회문제 인식 (기존 방식 유지) ---
@@ -1071,7 +1076,7 @@ if df_raw is not None:
 
         # --- Q31: 정부의 역할 평가 (바로 차트 표시) ---
         with tabs_ch6[1]:
-            st.subheader("Q31. '정부가 각종 사회문제를 효과적으로 해결하고 있다’는 진술에 얼마나 동의하십니까?")
+            st.subheader("Q31. '정부가 각종 사회문제를 효과적으로 해결하고 있다'는 진술에 얼마나 동의하십니까?")
             col1, col2 = st.columns([3, 1])
             with col1:
                 # 데이터 가공
@@ -1082,7 +1087,7 @@ if df_raw is not None:
                 
                 fig31 = px.bar(res_pct, y="국가명", x=["동의", "보통", "반대"], 
                                color_discrete_map=color_map, orientation='h', text_auto='.1f')
-                fig31.update_layout(xaxis_title="비율 (%)", yaxis_title=None, barmode='stack', height=600, template="plotly_white")
+                fig31.update_layout(xaxis_title="비율 (%)", yaxis_title=None, barmode='stack', height=700, template="plotly_white")  # ✅ 700으로 변경
                 st.plotly_chart(fig31, use_container_width=True)
             with col2: st.markdown(descriptions["Q31"])
 
@@ -1098,7 +1103,7 @@ if df_raw is not None:
 
         # --- Q33: 시민의 역할 평가 (바로 차트 표시) ---
         with tabs_ch6[3]:
-            st.subheader("Q33. '국민 개개인이 각종 사회문제를 해결하기 위해 적극적으로 노력하고 있다’는 진술에 얼마나 동의하십니까?")
+            st.subheader("Q33. '국민 개개인이 각종 사회문제를 해결하기 위해 적극적으로 노력하고 있다'는 진술에 얼마나 동의하십니까?")
             col1, col2 = st.columns([3, 1])
             with col1:
                 # 데이터 가공
@@ -1109,7 +1114,7 @@ if df_raw is not None:
                 
                 fig33 = px.bar(res_pct, y="국가명", x=["동의", "보통", "반대"], 
                                color_discrete_map=color_map, orientation='h', text_auto='.1f')
-                fig33.update_layout(xaxis_title="비율 (%)", yaxis_title=None, barmode='stack', height=600, template="plotly_white")
+                fig33.update_layout(xaxis_title="비율 (%)", yaxis_title=None, barmode='stack', height=700, template="plotly_white")  # ✅ 700으로 변경
                 st.plotly_chart(fig33, use_container_width=True)
             with col2: st.markdown(descriptions["Q33"])
 
