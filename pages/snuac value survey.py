@@ -462,7 +462,7 @@ if df_raw is not None:
                             }
                         ))
                         st.plotly_chart(fig, use_container_width=True)
-                        st.caption(f"파 선: 15개 도시 전체 평균 ({overall_avg:.2f})")
+                        st.caption(f"파란 선: 15개 도시 전체 평균 ({overall_avg:.2f})")
                     else:
                         # Stacked Bar (R 로직 이식)
                         sel_q = st.selectbox("분석 항목 (Q18)", list(q18_labels.keys()), format_func=lambda x: q18_labels[x], key="q18_bar")
@@ -523,8 +523,12 @@ if df_raw is not None:
                         ))
                         fig.update_layout(height=400)
                         st.plotly_chart(fig, use_container_width=True)
-                        # Q18과 동일하게 캡션 추가
-                        st.caption(f"파란 선: 15개 도시 전체 평균 ({overall_avg_q19:.2f})")
+                        # --- 중앙 정렬된 캡션 ---
+                        st.markdown(f"""
+                            <p style='text-align: center; color: #808495; font-size: 0.85rem;'>
+                                파란 선: 15개 도시 전체 평균 ({overall_avg_q19:.2f})
+                            </p>
+                            """, unsafe_allow_html=True)
                     else:
                         sel_q = st.selectbox("분석 항목 (Q19)", list(q19_labels.keys()), format_func=lambda x: q19_labels[x], key="q19_dist_select")
                         plot_df = q19_data.copy()
