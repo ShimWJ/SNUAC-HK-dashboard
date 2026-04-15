@@ -528,7 +528,8 @@ if df_raw is not None:
                                 }
                             }
                         ))
-                        fig.update_layout(height=400)
+                        # Q18과 동일하게 height와 margin 설정을 맞춥니다.
+                        fig.update_layout(height=400, margin=dict(t=50, b=0, l=25, r=25))
                         st.plotly_chart(fig, use_container_width=True)
                         # --- 중앙 정렬된 캡션 ---
                         st.markdown(f"""
