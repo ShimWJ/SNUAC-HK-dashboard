@@ -224,11 +224,9 @@ if df_raw is not None:
             st.subheader("Q8. 결혼 전 중요 요소에 대한 국가별 인식")
             col1, col2 = st.columns([3, 1])
             with col1:
-                # 데이터 준비 (평균값 계산)
                 q8_cols = {"Q8": "경제적 안정성", "Q8_n2": "안정적인 직업", "Q8_n3": "괜찮은 집"}
                 q8_avg = df_raw.groupby("국가명")[list(q8_cols.keys())].mean().reindex(country_order).reset_index()
                 
-                # Plotly Dot Plot 생성
                 fig8 = go.Figure()
                 colors = ["#1f77b4", "#ff7f0e", "#2ca02c"]
                 markers = ["circle", "triangle-up", "square"]
@@ -237,11 +235,12 @@ if df_raw is not None:
                     fig8.add_trace(go.Scatter(
                         x=q8_avg[col], y=q8_avg["국가명"],
                         mode='markers', name=label,
-                        marker=dict(color=colors[i], symbol=markers[i], size=12)
+                        marker=dict(color=colors[i], symbol=markers[i], size=12, 
+                                    line=dict(width=1, color='Black'))
                     ))
                 
-                fig8.update_layout(xaxis_title="평균 응답값", yaxis_autorange="reversed", 
-                                   hovermode="y unified", height=600)
+                fig8.update_layout(xaxis_title="평균 응답값 (1~7점)", yaxis_autorange="reversed", 
+                                   hovermode="y unified", height=600, template="plotly_white")
                 st.plotly_chart(fig8, use_container_width=True)
             with col2:
                 st.markdown("### 문항 설명")
@@ -249,11 +248,10 @@ if df_raw is not None:
 
         # --- 리커트 척도 공통 변환 함수 (Q9, Q10, Q13용) ---
         def draw_likert_plotly(data, questions, labels_dict, title_text):
-            # 보기 방식 선택
-            view_type = st.radio(f"보기 방식 선택 ({title_text})", ["문항별 전체 국가 비교", "국가별 전체 문항 분포"], horizontal=True)
+            view_type = st.radio(f"보기 방식 선택 ({title_text})", ["문항별 전체 국가 비교", "국가별 전체 문항 분포"], horizontal=True, key=f"radio_{title_text}")
             
             if view_type == "문항별 전체 국가 비교":
-                sel_q = st.selectbox("분석할 문항을 선택하세요", questions, format_func=lambda x: labels_dict.get(x, x))
+                sel_q = st.selectbox("분석할 문항을 선택하세요", questions, format_func=lambda x: labels_dict.get(x, x), key=f"select_{title_text}")
                 plot_df = data.copy()
                 plot_df['segment'] = pd.cut(plot_df[sel_q], bins=[0, 3, 4, 7], labels=["반대", "보통", "동의"])
                 res = plot_df.groupby(['국가명', 'segment'], observed=False).size().unstack(fill_value=0)
@@ -261,11 +259,10 @@ if df_raw is not None:
                 res_pct = res_pct.reindex(country_order).reset_index()
                 
                 fig = px.bar(res_pct, y="국가명", x=["반대", "보통", "동의"], 
-                             title=f"[{sel_q}] {labels_dict.get(sel_q)}",
                              color_discrete_map={"반대": "#d73027", "보통": "#ccd1d1", "동의": "#2e86c1"},
                              orientation='h', text_auto='.1f')
             else:
-                sel_nation = st.selectbox("분석할 국가를 선택하세요", country_order)
+                sel_nation = st.selectbox("분석할 국가를 선택하세요", country_order, key=f"select_nation_{title_text}")
                 plot_df = data[data['국가명'] == sel_nation].copy()
                 melted = plot_df.melt(id_vars=['국가명'], value_vars=questions, var_name='variable', value_name='response')
                 melted['segment'] = pd.cut(melted['response'], bins=[0, 3, 4, 7], labels=["반대", "보통", "동의"])
@@ -275,14 +272,13 @@ if df_raw is not None:
                 res_pct = res_pct.reset_index().rename(columns={'index': '문항'})
                 
                 fig = px.bar(res_pct, y="문항", x=["반대", "보통", "동의"], 
-                             title=f"{sel_nation}의 응답 분포",
                              color_discrete_map={"반대": "#d73027", "보통": "#ccd1d1", "동의": "#2e86c1"},
                              orientation='h', text_auto='.1f')
             
-            fig.update_layout(xaxis_title="비율 (%)", yaxis_title=None, barmode='stack', height=600)
+            fig.update_layout(xaxis_title="비율 (%)", yaxis_title=None, barmode='stack', height=600, template="plotly_white")
             st.plotly_chart(fig, use_container_width=True)
 
-        # --- Q9: 자녀에 대한 태도 (R 코드 이식) ---
+        # --- Q9: 자녀에 대한 태도 ---
         with tabs_ch2[1]:
             st.subheader("Q9. 자녀에 대한 태도")
             col1, col2 = st.columns([3, 1])
@@ -294,7 +290,7 @@ if df_raw is not None:
                 st.markdown("### 문항 설명")
                 st.write(descriptions_ch2["Q9"])
 
-        # --- Q10: 성역할 태도 (R 코드 이식) ---
+        # --- Q10: 성역할 태도 ---
         with tabs_ch2[2]:
             st.subheader("Q10. 성역할 태도")
             col1, col2 = st.columns([3, 1])
@@ -310,33 +306,50 @@ if df_raw is not None:
                 st.markdown("### 문항 설명")
                 st.write(descriptions_ch2["Q10"])
 
-        # --- Q12: 아이들이 배워야 할 자질 (Bar Chart) ---
+        # --- Q12: 자녀 교육 시 중요도 (수정된 복수 응답 로직 반영) ---
         with tabs_ch2[3]:
-            st.subheader("Q12. 아이들이 가정에서 배워야 할 중요한 자질")
+            st.subheader("Q12. 자녀 교육 시 중요하게 생각하는 자질 (중복응답)")
             col1, col2 = st.columns([3, 1])
             with col1:
-                choice_map = {1: '정직', 2: '책임감', 3: '예의', 4: '근면성실', 5: '자제력', 6: '용기', 7: '이타심', 8: '상상력', 9: '결단력', 10: '존중', 11: '공감', 12: '호기심', 13: '협동', 14: '성실', 15: '배려'}
-                q12_cols = [col for col in df_raw.columns if col.startswith("Q12")]
+                q12_labels_map = {
+                    1: "예의바른 생활습관", 2: "독립심", 3: "근면함", 4: "책임감", 5: "상상력",
+                    6: "타인에 대한 포용과 존중", 7: "검소함", 8: "결단력과 끈기", 9: "종교적 신념",
+                    10: "이타심", 11: "어른 말씀 잘 듣기"
+                }
+                q12_cols = ["Q12", "Q12_m2", "Q12_m3", "Q12_m4", "Q12_m5"]
                 
-                # 복수 응답 카운팅
-                all_responses = []
-                for col in q12_cols:
-                    all_responses.extend(df_raw[col].dropna().tolist())
+                # 데이터 가공: 국가별/항목별 선택 비율 계산
+                summary_list = []
+                for country in country_order:
+                    sub = df_raw[df_raw["국가명"] == country]
+                    total_resp = len(sub)
+                    if total_resp > 0:
+                        # 5개 컬럼의 값을 모두 합쳐서 카운트
+                        combined_series = pd.concat([sub[col] for col in q12_cols if col in sub.columns])
+                        for code, label in q12_labels_map.items():
+                            rate = (combined_series == code).sum() / total_resp
+                            summary_list.append({"국가명": country, "자질": label, "선택비율": rate})
                 
-                q12_counts = pd.Series(all_responses).value_counts().reset_index()
-                q12_counts.columns = ['code', 'count']
-                q12_counts['자질'] = q12_counts['code'].map(choice_map)
-                q12_counts = q12_counts.dropna().sort_values('count', ascending=True)
+                q12_summary = pd.DataFrame(summary_list)
+
+                # Plotly Dot Plot (Scatter)
+                fig12 = px.scatter(q12_summary, x="선택비율", y="자질", color="국가명",
+                                   category_orders={"국가명": country_order, "자질": list(q12_labels_map.values())[::-1]},
+                                   labels={"선택비율": "선택 비율 (0~1)"},
+                                   height=700)
                 
-                fig12 = px.bar(q12_counts, x='count', y='자질', orientation='h', 
-                               color='count', color_continuous_scale='YlGnBu', text_auto=True)
-                fig12.update_layout(yaxis_title=None, xaxis_title="응답 수")
+                fig12.update_traces(marker=dict(size=12, line=dict(width=1, color='Black')))
+                fig12.update_layout(xaxis_tickformat='.1%', template="plotly_white", hovermode="closest")
+                fig12.update_yaxes(gridcolor='LightGray')
+                
                 st.plotly_chart(fig12, use_container_width=True)
+                st.caption("※ 각 점에 마우스를 올리면 국가별 상세 비율을 확인할 수 있습니다. 범례의 국가명을 클릭하여 특정 국가만 비교해보세요.")
+                
             with col2:
                 st.markdown("### 문항 설명")
                 st.write(descriptions_ch2["Q12"])
 
-        # --- Q13: 부모에 대한 태도 (R 코드 이식) ---
+        # --- Q13: 부모에 대한 태도 ---
         with tabs_ch2[4]:
             st.subheader("Q13. 부모에 대한 태도 (자녀의 의무)")
             col1, col2 = st.columns([3, 1])
