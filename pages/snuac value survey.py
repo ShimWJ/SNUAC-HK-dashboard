@@ -106,16 +106,14 @@ descriptions = {
         ### 💡 문항 개요
         사회 구성원들이 실제로 체감하고 선호한다고 믿는 가치의 우선순위입니다.
         
-        ### 📌 데이터 해석
+        ### 📌 주요 분석
         * **인식의 일치**: Q6(당위)과 유사하게 **가족, 자유, 평등**이 주요 축입니다.
         * **체감의 차이**: Q6에 비해 '실제 사람들이 선호하는 가치'에서는 **개인의 행복**과 **자유시장경제**의 비중이 소폭 상승하는 경향이 있습니다.
         * **문화적 투영**: 국가별 종교·제도적 환경에 따라 신앙(리야드)이나 인권/자연 보호(파리, 타이베이)의 체감도가 극명하게 갈립니다.
             """
     }
-
-
 # 3. 사이드바 메뉴
-menu_list = ["조사 개요", "CH1: 개인과 사회의 가치와 웰빙", "CH2", "CH3", "CH4", "CH5", "CH6"]
+menu_list = ["조사 개요", "CH1: 개인과 사회의 가치와 웰빙", "CH2: 결혼, 자녀 그리고 가족", "CH3: 사회적 신뢰와 갈등 인식", "CH4: 능력주의와 분배", "CH5: 평균과 보통에 대한 인식", "CH6: 사회문제와 해결노력"]
 selected_menu = st.sidebar.selectbox("카테고리를 선택하세요", menu_list)
 
 # 4. 화면 구성
@@ -189,3 +187,167 @@ if df_raw is not None:
                                     color_continuous_scale="YlGnBu" if q_num=="Q6" else "YlOrRd", aspect="auto")
                     st.plotly_chart(fig, use_container_width=True)
                 with col2: st.markdown(descriptions[q_num])
+                    
+    elif selected_menu == "CH2: 결혼, 자녀 그리고 가족":
+        st.title("📂 CH2: 결혼, 자녀 그리고 가족")
+
+        # --- 설명문 데이터 (비워둠) ---
+        descriptions_ch2 = {
+            "Q8": """
+                ### 💡 문항 개요
+                ### 📌 주요 분석
+                    """,
+            "Q9": """
+                ### 💡 문항 개요
+                ### 📌 주요 분석
+                    """,
+            "Q10": """
+                ### 💡 문항 개요
+                ### 📌 주요 분석
+                    """,
+            "Q12": """
+                ### 💡 문항 개요
+                ### 📌 주요 분석
+                    """,
+            "Q13": """
+                ### 💡 문항 개요
+                ### 📌 주요 분석
+                    """,
+        }
+
+
+        # CH2 메인 탭 설정
+        tabs_ch2 = st.tabs(["Q8", "Q9", "Q10", "Q12", "Q13"])
+
+        # --- Q8: 결혼 전 중요 요소 (Dot Plot) ---
+        with tabs_ch2[0]:
+            st.subheader("Q8. 결혼 전 중요 요소에 대한 국가별 인식")
+            col1, col2 = st.columns([3, 1])
+            with col1:
+                # 데이터 준비 (평균값 계산)
+                q8_cols = {"Q8": "경제적 안정성", "Q8_n2": "안정적인 직업", "Q8_n3": "괜찮은 집"}
+                q8_avg = df_raw.groupby("국가명")[list(q8_cols.keys())].mean().reindex(country_order).reset_index()
+                
+                # Plotly Dot Plot 생성
+                fig8 = go.Figure()
+                colors = ["#1f77b4", "#ff7f0e", "#2ca02c"]
+                markers = ["circle", "triangle-up", "square"]
+                
+                for i, (col, label) in enumerate(q8_cols.items()):
+                    fig8.add_trace(go.Scatter(
+                        x=q8_avg[col], y=q8_avg["국가명"],
+                        mode='markers', name=label,
+                        marker=dict(color=colors[i], symbol=markers[i], size=12)
+                    ))
+                
+                fig8.update_layout(xaxis_title="평균 응답값", yaxis_autorange="reversed", 
+                                   hovermode="y unified", height=600)
+                st.plotly_chart(fig8, use_container_width=True)
+            with col2:
+                st.markdown("### 문항 설명")
+                st.write(descriptions_ch2["Q8"])
+
+        # --- 리커트 척도 공통 변환 함수 (Q9, Q10, Q13용) ---
+        def draw_likert_plotly(data, questions, labels_dict, title_text):
+            # 보기 방식 선택
+            view_type = st.radio(f"보기 방식 선택 ({title_text})", ["문항별 전체 국가 비교", "국가별 전체 문항 분포"], horizontal=True)
+            
+            if view_type == "문항별 전체 국가 비교":
+                sel_q = st.selectbox("분석할 문항을 선택하세요", questions, format_func=lambda x: labels_dict.get(x, x))
+                plot_df = data.copy()
+                plot_df['segment'] = pd.cut(plot_df[sel_q], bins=[0, 3, 4, 7], labels=["반대", "보통", "동의"])
+                res = plot_df.groupby(['국가명', 'segment'], observed=False).size().unstack(fill_value=0)
+                res_pct = res.div(res.sum(axis=1), axis=0) * 100
+                res_pct = res_pct.reindex(country_order).reset_index()
+                
+                fig = px.bar(res_pct, y="국가명", x=["반대", "보통", "동의"], 
+                             title=f"[{sel_q}] {labels_dict.get(sel_q)}",
+                             color_discrete_map={"반대": "#d73027", "보통": "#ccd1d1", "동의": "#2e86c1"},
+                             orientation='h', text_auto='.1f')
+            else:
+                sel_nation = st.selectbox("분석할 국가를 선택하세요", country_order)
+                plot_df = data[data['국가명'] == sel_nation].copy()
+                melted = plot_df.melt(id_vars=['국가명'], value_vars=questions, var_name='variable', value_name='response')
+                melted['segment'] = pd.cut(melted['response'], bins=[0, 3, 4, 7], labels=["반대", "보통", "동의"])
+                res = melted.groupby(['variable', 'segment'], observed=False).size().unstack(fill_value=0)
+                res_pct = res.div(res.sum(axis=1), axis=0) * 100
+                res_pct.index = [labels_dict.get(x, x) for x in res_pct.index]
+                res_pct = res_pct.reset_index().rename(columns={'index': '문항'})
+                
+                fig = px.bar(res_pct, y="문항", x=["반대", "보통", "동의"], 
+                             title=f"{sel_nation}의 응답 분포",
+                             color_discrete_map={"반대": "#d73027", "보통": "#ccd1d1", "동의": "#2e86c1"},
+                             orientation='h', text_auto='.1f')
+            
+            fig.update_layout(xaxis_title="비율 (%)", yaxis_title=None, barmode='stack', height=600)
+            st.plotly_chart(fig, use_container_width=True)
+
+        # --- Q9: 자녀에 대한 태도 (R 코드 이식) ---
+        with tabs_ch2[1]:
+            st.subheader("Q9. 자녀에 대한 태도")
+            col1, col2 = st.columns([3, 1])
+            with col1:
+                q9_vars = ["Q9_1", "Q9_2", "Q9_3", "Q9_4", "Q9_5"]
+                q9_labels = {"Q9_1": "인생의 기쁨", "Q9_2": "자유 제약", "Q9_3": "경제적 부담", "Q9_4": "직업 및 경력 제한", "Q9_5": "노후 보탬"}
+                draw_likert_plotly(df_raw, q9_vars, q9_labels, "Q9")
+            with col2:
+                st.markdown("### 문항 설명")
+                st.write(descriptions_ch2["Q9"])
+
+        # --- Q10: 성역할 태도 (R 코드 이식) ---
+        with tabs_ch2[2]:
+            st.subheader("Q10. 성역할 태도")
+            col1, col2 = st.columns([3, 1])
+            with col1:
+                q10_vars = [f"Q10_{i}" for i in range(1, 11)]
+                q10_labels = {
+                    "Q10_1": "직업 어머니-자녀 관계", "Q10_2": "취업모 자녀 고생", "Q10_3": "주부의 성취감",
+                    "Q10_4": "남녀 공동 소득 기여", "Q10_5": "남자는 돈, 여자는 집", "Q10_6": "남성 정치 지도자 선호",
+                    "Q10_7": "남성 경영 선호", "Q10_8": "남성 대학 교육 중요성", "Q10_9": "남성 우선 채용", "Q10_10": "여성 고수입 문제"
+                }
+                draw_likert_plotly(df_raw, q10_vars, q10_labels, "Q10")
+            with col2:
+                st.markdown("### 문항 설명")
+                st.write(descriptions_ch2["Q10"])
+
+        # --- Q12: 아이들이 배워야 할 자질 (Bar Chart) ---
+        with tabs_ch2[3]:
+            st.subheader("Q12. 아이들이 가정에서 배워야 할 중요한 자질")
+            col1, col2 = st.columns([3, 1])
+            with col1:
+                choice_map = {1: '정직', 2: '책임감', 3: '예의', 4: '근면성실', 5: '자제력', 6: '용기', 7: '이타심', 8: '상상력', 9: '결단력', 10: '존중', 11: '공감', 12: '호기심', 13: '협동', 14: '성실', 15: '배려'}
+                q12_cols = [col for col in df_raw.columns if col.startswith("Q12")]
+                
+                # 복수 응답 카운팅
+                all_responses = []
+                for col in q12_cols:
+                    all_responses.extend(df_raw[col].dropna().tolist())
+                
+                q12_counts = pd.Series(all_responses).value_counts().reset_index()
+                q12_counts.columns = ['code', 'count']
+                q12_counts['자질'] = q12_counts['code'].map(choice_map)
+                q12_counts = q12_counts.dropna().sort_values('count', ascending=True)
+                
+                fig12 = px.bar(q12_counts, x='count', y='자질', orientation='h', 
+                               color='count', color_continuous_scale='YlGnBu', text_auto=True)
+                fig12.update_layout(yaxis_title=None, xaxis_title="응답 수")
+                st.plotly_chart(fig12, use_container_width=True)
+            with col2:
+                st.markdown("### 문항 설명")
+                st.write(descriptions_ch2["Q12"])
+
+        # --- Q13: 부모에 대한 태도 (R 코드 이식) ---
+        with tabs_ch2[4]:
+            st.subheader("Q13. 부모에 대한 태도 (자녀의 의무)")
+            col1, col2 = st.columns([3, 1])
+            with col1:
+                q13_vars = [f"Q13_{i}" for i in range(1, 9)]
+                q13_labels = {
+                    "Q13_1": "노부모 동거 부양", "Q13_2": "노부모 생활비 지원", "Q13_3": "자녀 교육 최대 지원",
+                    "Q13_4": "고등교육 학비 제공", "Q13_5": "자녀 결혼비용 책임", "Q13_6": "손자녀 양육 도움",
+                    "Q13_7": "손자녀 교육비 지원", "Q13_8": "취업 후 부모님께 용돈"
+                }
+                draw_likert_plotly(df_raw, q13_vars, q13_labels, "Q13")
+            with col2:
+                st.markdown("### 문항 설명")
+                st.write(descriptions_ch2["Q13"])
