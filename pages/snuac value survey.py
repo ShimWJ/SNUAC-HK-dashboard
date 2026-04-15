@@ -381,14 +381,14 @@ if df_raw is not None:
                 "Q19": """
                     ### 💡 문항 개요
                     ### 📌 주요 분석
-                        """,
+                        """,FQk
                 "Q35": """
                     ### 💡 문항 개요
                     ### 📌 주요 분석
                         """
             }
     
-            tabs_ch3 = st.tabs(["Q16", "Q17", "Q18", "Q19", "Q35"])
+            tabs_ch3 = st.tabs(["Q16", "Q18", "Q19", "Q35"])
     
             # --- Q16: 사회적 신뢰 (Stacked Bar) ---
             with tabs_ch3[0]:
@@ -458,11 +458,11 @@ if df_raw is not None:
                                     {'range': [1, 3], 'color': "#229954"},
                                     {'range': [3, 5], 'color': "#f7dc6f"},
                                     {'range': [5, 7], 'color': "#d73027"}],
-                                'threshold': {'line': {'color': "red", 'width': 4}, 'thickness': 0.75, 'value': overall_avg}
+                                'threshold': {'line': {'color': "blue", 'width': 4}, 'thickness': 0.75, 'value': overall_avg}
                             }
                         ))
                         st.plotly_chart(fig, use_container_width=True)
-                        st.caption(f"빨간 선: 15개 도시 전체 평균 ({overall_avg:.2f})")
+                        st.caption(f"파란 선: 15개 도시 전체 평균 ({overall_avg:.2f})")
                     else:
                         # Stacked Bar (R 로직 이식)
                         sel_q = st.selectbox("분석 항목 (Q18)", list(q18_labels.keys()), format_func=lambda x: q18_labels[x], key="q18_bar")
