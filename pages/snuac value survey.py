@@ -218,7 +218,7 @@ if df_raw is not None:
             with col2: st.markdown(descriptions["Q5"])
 
         # --- Q6, Q7 탭 (가중치 점수 히트맵) ---
-        q67_titles = {"Q6": "우리 사회가 추구해야 할 가장 중요한 가치는 무엇입니까? 중요한 순서대로 3가지를 골라주십시오.", "Q7": "우리나라 사람들이 일반적으로 가장 중요하게 여기는 사회적 가치는 무엇이라고 생각하십니까? 중요한 순서대로 3가지를 골라주십시오."}
+        q67_titles = {"Q6": "우리 사회가 추구해야 할 가장 중요한 가치는 무엇입니까?.", "Q7": "우리나라 사람들이 일반적으로 가장 중요하게 여기는 사회적 가치는 무엇이라고 생각하십니까?"}
         value_labels = {1:"개인의 자유", 2:"평등", 3:"가족", 4:"신앙", 5:"자연 보호", 6:"민주주의", 7:"자유시장경제", 8:"개인의 행복", 9:"약자 보호", 10:"법치/질서", 11:"역사/전통", 12:"공정함"}
         for idx, q_num in enumerate(["Q6", "Q7"]):
             with tabs[idx+5]:
@@ -274,7 +274,7 @@ if df_raw is not None:
 
         # --- Q8: 결혼 전 중요 요소 (Dot Plot) ---
         with tabs_ch2[0]:
-            st.subheader("Q8. 결혼 전 중요 요소에 대한 국가별 인식")
+            st.subheader("Q8. 결혼하기 전에 아래의 항목들을 갖추는 것이 얼마나 중요하다고 생각하십니까?")
             col1, col2 = st.columns([3, 1])
             with col1:
                 q8_cols = {"Q8": "경제적 안정성", "Q8_n2": "안정적인 직업", "Q8_n3": "괜찮은 집"}
@@ -333,11 +333,11 @@ if df_raw is not None:
 
         # --- Q9: 자녀에 대한 태도 ---
         with tabs_ch2[1]:
-            st.subheader("Q9. 자녀에 대한 태도")
+            st.subheader("Q9. 다음의 각 문장에 대해 얼마나 동의하십니까?")
             col1, col2 = st.columns([3, 1])
             with col1:
                 q9_vars = ["Q9_1", "Q9_2", "Q9_3", "Q9_4", "Q9_5"]
-                q9_labels = {"Q9_1": "인생의 기쁨", "Q9_2": "자유 제약", "Q9_3": "경제적 부담", "Q9_4": "직업 및 경력 제한", "Q9_5": "노후 보탬"}
+                q9_labels = {"Q9_1": "아이들이 자라는 것을 보는 것은 인생의 가장 큰 기쁨이다", "Q9_2": "자녀를 가지면 부모의 자유가 지나치게 제약된다", "Q9_3": "자녀는 부모에게 경제적 부담이 된다", "Q9_4": "자녀가 있으면 부모 중 누군가는 직업이나 경력의 기회가 제한된다", "Q9_5": "성인이 된 자녀는 부모의 노후에 중요한 보탬이 된다"}
                 draw_likert_plotly(df_raw, q9_vars, q9_labels, "Q9")
             with col2:
                 st.markdown("### 문항 설명")
@@ -345,14 +345,14 @@ if df_raw is not None:
 
         # --- Q10: 성역할 태도 ---
         with tabs_ch2[2]:
-            st.subheader("Q10. 성역할 태도")
+            st.subheader("Q10. 다음의 각 문장에 대해 얼마나 동의하십니까?")
             col1, col2 = st.columns([3, 1])
             with col1:
                 q10_vars = [f"Q10_{i}" for i in range(1, 11)]
                 q10_labels = {
-                    "Q10_1": "직업 어머니-자녀 관계", "Q10_2": "취업모 자녀 고생", "Q10_3": "주부의 성취감",
-                    "Q10_4": "남녀 공동 소득 기여", "Q10_5": "남자는 돈, 여자는 집", "Q10_6": "남성 정치 지도자 선호",
-                    "Q10_7": "남성 경영 선호", "Q10_8": "남성 대학 교육 중요성", "Q10_9": "남성 우선 채용", "Q10_10": "여성 고수입 문제"
+                    "Q10_1": "직업이 있는 어머니도 그렇지 않은 어머니만큼 자녀와 따뜻하고 안정적인 관계를 맺을 수 있다", "Q10_2": "어머니가 직업을 가지고 일하면 미취학 아동은 고생을 하기 쉽다", "Q10_3": "주부가 되는 것은 월급을 받고 일하는 것만큼 성취감을 준다",
+                    "Q10_4": "남자와 여자 모두 가구 소득에 기여해야 한다", "Q10_5": "남자의 일은 돈을 버는 것이며 여자의 일은 가족과 집을 돌보는 것이다", "Q10_6": "전반적으로 정치 지도자로는 남성이 여성보다 낫다",
+                    "Q10_7": "사업은 여성보다 남성이 (경영)하는 것이 더 낫다", "Q10_8": "대학 교육은 여성보다 남성에게 더 중요하다", "Q10_9": "일자리가 부족할 때 여자보다 남자에게 우선 일자리를 줘야 한다", "Q10_10": "여자가 남편보다 돈을 더 많이 번다면 분명히 문제가 발생할 것이다"
                 }
                 draw_likert_plotly(df_raw, q10_vars, q10_labels, "Q10")
             with col2:
@@ -361,7 +361,7 @@ if df_raw is not None:
 
         # --- Q12: 자녀 교육 시 중요도 (수정된 복수 응답 로직 반영) ---
         with tabs_ch2[3]:
-            st.subheader("Q12. 자녀 교육 시 중요하게 생각하는 자질 (중복응답)")
+            st.subheader("Q12. 아이들이 가정에서 배울 수 있는 자질과 특성 중 특별히 중요하다고 생각하는 자질을 5가지 골라 주십시오")
             col1, col2 = st.columns([3, 1])
             with col1:
                 q12_labels_map = {
@@ -404,14 +404,14 @@ if df_raw is not None:
 
         # --- Q13: 부모에 대한 태도 ---
         with tabs_ch2[4]:
-            st.subheader("Q13. 부모에 대한 태도 (자녀의 의무)")
+            st.subheader("Q13. 다음의 각 문장에 대해 얼마나 동의하십니까?")
             col1, col2 = st.columns([3, 1])
             with col1:
                 q13_vars = [f"Q13_{i}" for i in range(1, 9)]
                 q13_labels = {
-                    "Q13_1": "노부모 동거 부양", "Q13_2": "노부모 생활비 지원", "Q13_3": "자녀 교육 최대 지원",
-                    "Q13_4": "고등교육 학비 제공", "Q13_5": "자녀 결혼비용 책임", "Q13_6": "손자녀 양육 도움",
-                    "Q13_7": "손자녀 교육비 지원", "Q13_8": "취업 후 부모님께 용돈"
+                    "Q13_1": "부모님이 나이드시면 자녀가 결혼했더라도 한집에 살며 보살펴 드려야 한다", "Q13_2": "성인이 된 자녀는 나이든 부모님의 생활비를 일부 혹은 전부를 지원하여야 한다", "Q13_3": "부모는 자녀의 교육을 위해 경제적 능력의 최대치 만큼 지원해야 한다",
+                    "Q13_4": "부모는 자녀의 고등교육 학비를 제공하는 것이 바람직하다", "Q13_5": "부모는 자녀의 결혼비용을 책임지는 것이 바람직하다", "Q13_6": "부모는 자녀가 손자녀를 낳으면 양육에 도움을 주는 것이 좋다",
+                    "Q13_7": "부모는 손자녀의 교육비를 지원하는 것이 좋다", "Q13_8": "자녀는 취업을 하면 월급의 일정 부분 혹은 전부를 부모에게 드려야 한다"
                 }
                 draw_likert_plotly(df_raw, q13_vars, q13_labels, "Q13")
             with col2:
@@ -445,7 +445,7 @@ if df_raw is not None:
     
             # --- Q16: 사회적 신뢰 (Stacked Bar) ---
             with tabs_ch3[0]:
-                st.subheader("Q16. 사회적 신뢰도")
+                st.subheader("Q16. 다음 사람들을 얼마나 신뢰하십니까?")
                 col1, col2 = st.columns([3, 1])
                 with col1:
                     q16_vars = [f"Q16_{i}" for i in range(1, 8)]
@@ -483,7 +483,7 @@ if df_raw is not None:
     
           # --- Q18: 사회적 갈등 인식 (Gauge + Stacked Bar) ---
             with tabs_ch3[1]:
-                st.subheader("Q18. 사회적 갈등 인식 수준")
+                st.subheader("Q18. 우리 사회에서 다음 집단들 간에 갈등이 어느 정도 심각하다고 생각하십니까?")
                 col1, col2 = st.columns([3, 1])
                 with col1:
                     q18_labels = {
@@ -540,7 +540,7 @@ if df_raw is not None:
     
             # --- Q19: 공정성 인식 (Index 2) ---
             with tabs_ch3[2]:
-                st.subheader("Q19. 집단 간 공정성 인식")
+                st.subheader("Q19. 우리 사회가 다음의 두 집단 중 어느 집단에게 더 불공정하다고 느끼십니까?")
                 col1, col2 = st.columns([3, 1])
                 with col1:
                     q19_data = df_raw.copy()
@@ -606,7 +606,7 @@ if df_raw is not None:
         
             # --- Q35: 소속 집단 (Python Stacked Bar) ---
             with tabs_ch3[3]:
-                st.subheader("Q35. 가장 소속감을 느끼는 집단")
+                st.subheader("Q35. 어느 집단에 가장 강한 소속감을 느끼십니까?")
                 col1, col2 = st.columns([3, 1])
                 with col1:
                     # 원자료 딕셔너리 기반 데이터프레임 생성
@@ -654,15 +654,15 @@ if df_raw is not None:
 
         # --- Q20: 우리 사회에 대한 태도 (Stacked Bar) ---
         with tabs_ch4[0]:
-            st.subheader("Q20. 우리 사회에 대한 태도")
+            st.subheader("Q20. 다음의 각 문장에 대해 얼마나 동의하십니까?")
             col1, col2 = st.columns([3, 1])
             with col1:
                 q20_vars = [f"Q20_{i}" for i in range(1, 9)]
                 q20_labels = {
                     "Q20_1": "모든 국민이 골고루 행복한 국가이다", "Q20_2": "우리 사회는 통합되어 있다",
-                    "Q20_3": "소득 격차가 크다", "Q20_4": "재산 격차가 크다",
-                    "Q20_5": "교육 기회가 균등하다", "Q20_6": "실력으로 승진/승급이 결정된다",
-                    "Q20_7": "노력으로 정규직 전환이 가능하다", "Q20_8": "우리 사회는 공정한 사회이다"
+                    "Q20_3": "우리 사회는 돈을 많이 버는 사람과 적게 버는 사람과의 차이가 크다", "Q20_4": "우리 사회는 재산이 많은 사람과 적은 사람 사이에 차이가 크다 ",
+                    "Q20_5": "우리 사회는 모든 아이의 교육 기회가 부모 혹은 지인의 사회경제적 능력과 상관없이 균등하다", "Q20_6": "우리 사회에서 직장 내 승진과 승급이 부모 혹은 지인의 사회경제적 능력과 상관없이 본인의 실력으로 결정된다",
+                    "Q20_7": "우리 사회에서는 개인의 노력으로 비정규직에서 정규직으로 옮겨갈 수 있다", "Q20_8": "우리 사회는 공정한 사회이다"
                 }
                 # 공통 리커트 함수 호출 (CH1, 2에서 정의한 draw_likert_plotly 활용 권장)
                 # 여기서는 독립적으로 작동하도록 로직 포함
@@ -694,7 +694,7 @@ if df_raw is not None:
 
         # --- Q21: 의견에 대한 동의 (Custom Colors & Labels) ---
         with tabs_ch4[1]:
-            st.subheader("Q21. 주요 사회 쟁점에 대한 가치관")
+            st.subheader("Q21. 다음과 같은 의견 중 어느 쪽에 더 동의하십니까?")
             col1, col2 = st.columns([3, 1])
             with col1:
                 q21_vars = ["Q21_1", "Q21_2", "Q21_3", "Q21_4"]
@@ -734,7 +734,7 @@ if df_raw is not None:
 
         # --- Q23: 세부 가치관 동의도 (Interactive Dot Plot) ---
         with tabs_ch4[2]:
-            st.subheader("Q23. 가치관 문항에 대한 동의 정도 (평균)")
+            st.subheader("Q23. 다음의 각 문장에 대해 얼마나 동의하십니까?")
             col1, col2 = st.columns([3, 1])
             with col1:
                 q23_items = [
@@ -921,15 +921,13 @@ if df_raw is not None:
         }
 
         tabs_ch6 = st.tabs(["Q30", "Q31", "Q32", "Q33", "Q34"])
+        # 공통 색상 맵
+        color_map = {"동의": "#229954", "보통": "#E7BB41", "반대": "#AD2831"}
 
-        # 리커트 척도 공통 변환 함수 (CH6용 색상 및 라벨 최적화)
+        # --- [기존 함수 유지] ---
         def draw_likert_ch6(data, questions, labels_dict, key_prefix):
             view_type = st.radio(f"보기 방식 선택", ["문항별 전체 도시 비교", "도시별 전체 문항 분포"], 
                                  horizontal=True, key=f"{key_prefix}_view")
-            
-            # 색상 테마 설정 (Q31~Q34 R코드 색상 반영: Agree=#229954, Neutral=#E7BB41, Disagree=#AD2831)
-            color_map = {"동의": "#229954", "보통": "#E7BB41", "반대": "#AD2831"}
-
             if view_type == "문항별 전체 도시 비교":
                 sel_q = st.selectbox("분석할 세부 문항 선택", questions, 
                                      format_func=lambda x: labels_dict.get(x, x), key=f"{key_prefix}_q")
@@ -937,9 +935,7 @@ if df_raw is not None:
                 plot_df['segment'] = pd.cut(plot_df[sel_q], bins=[0, 3, 4, 7], labels=["반대", "보통", "동의"])
                 res = plot_df.groupby(['국가명', 'segment'], observed=False).size().unstack(fill_value=0)
                 res_pct = (res.div(res.sum(axis=1), axis=0) * 100).reindex(country_order).reset_index()
-                
-                fig = px.bar(res_pct, y="국가명", x=["동의", "보통", "반대"], 
-                             color_discrete_map=color_map, orientation='h', text_auto='.1f')
+                fig = px.bar(res_pct, y="국가명", x=["동의", "보통", "반대"], color_discrete_map=color_map, orientation='h', text_auto='.1f')
             else:
                 sel_nation = st.selectbox("분석할 도시 선택", country_order, key=f"{key_prefix}_nation")
                 plot_df = data[data['국가명'] == sel_nation].copy()
@@ -948,16 +944,13 @@ if df_raw is not None:
                 res = melted.groupby(['variable', 'segment'], observed=False).size().unstack(fill_value=0)
                 res_pct = (res.div(res.sum(axis=1), axis=0) * 100).reset_index()
                 res_pct['문항'] = res_pct['variable'].map(labels_dict)
-                
-                fig = px.bar(res_pct, y="문항", x=["동의", "보통", "반대"],
-                             color_discrete_map=color_map, orientation='h', text_auto='.1f')
-            
+                fig = px.bar(res_pct, y="문항", x=["동의", "보통", "반대"], color_discrete_map=color_map, orientation='h', text_auto='.1f')
             fig.update_layout(xaxis_title="비율 (%)", yaxis_title=None, barmode='stack', height=500, template="plotly_white")
             st.plotly_chart(fig, use_container_width=True)
 
-        # --- Q30: 사회문제 인식 ---
+        # --- Q30: 사회문제 인식 (기존 방식 유지) ---
         with tabs_ch6[0]:
-            st.subheader("Q30. 사회문제에 대한 인식")
+            st.subheader("Q30. 다음의 사회문제들이 얼마나 심각하다고 생각하십니까?")
             col1, col2 = st.columns([3, 1])
             with col1:
                 q30_vars = [f"Q30_{i}" for i in range(1, 13)]
@@ -967,55 +960,61 @@ if df_raw is not None:
                     "Q30_9": "안전 위협", "Q30_10": "환경/기후변화", "Q30_11": "자원 고갈", "Q30_12": "자연재해"
                 }
                 draw_likert_ch6(df_raw, q30_vars, q30_labels, "q30")
-            with col2:
-                st.markdown("### 문항 설명")
-                st.write(descriptions_ch6["Q30"])
+            with col2: st.markdown(descriptions_ch6["Q30"])
 
-        # --- Q31: 정부의 역할 평가 ---
+        # --- Q31: 정부의 역할 평가 (바로 차트 표시) ---
         with tabs_ch6[1]:
-            st.subheader("Q31. 정부의 사회문제 해결 효과성 평가")
+            st.subheader("Q31. '정부가 각종 사회문제를 효과적으로 해결하고 있다’는 진술에 얼마나 동의하십니까?")
             col1, col2 = st.columns([3, 1])
             with col1:
-                draw_likert_ch6(df_raw, ["Q31"], {"Q31": "정부가 각종 사회문제를 효과적으로 해결하고 있다"}, "q31")
-            with col2:
-                st.write(descriptions_ch6["Q31"])
+                # 데이터 가공
+                q31_df = df_raw.copy()
+                q31_df['segment'] = pd.cut(q31_df['Q31'], bins=[0, 3, 4, 7], labels=["반대", "보통", "동의"])
+                res = q31_df.groupby(['국가명', 'segment'], observed=False).size().unstack(fill_value=0)
+                res_pct = (res.div(res.sum(axis=1), axis=0) * 100).reindex(country_order).reset_index()
+                
+                fig31 = px.bar(res_pct, y="국가명", x=["동의", "보통", "반대"], 
+                               color_discrete_map=color_map, orientation='h', text_auto='.1f')
+                fig31.update_layout(xaxis_title="비율 (%)", yaxis_title=None, barmode='stack', height=600, template="plotly_white")
+                st.plotly_chart(fig31, use_container_width=True)
+            with col2: st.markdown(descriptions_ch6["Q31"])
 
-        # --- Q32: 정부 해결의 어려움 ---
+        # --- Q32: 정부 해결의 어려움 (기존 방식 유지) ---
         with tabs_ch6[2]:
-            st.subheader("Q32. 정부의 사회문제 해결이 어려운 이유")
+            st.subheader("Q32. 정부가 각종 사회문제를 효과적으로 해결하는데 있어 겪는 어려움 중 다음의 항목들이 얼마나 심각하다고 생각하십니까?")
             col1, col2 = st.columns([3, 1])
             with col1:
                 q32_vars = [f"Q32_{i}" for i in range(1, 7)]
-                q32_labels = {
-                    "Q32_1": "예산/인력 확보 어려움", "Q32_2": "부족한 전문성", "Q32_3": "비리와 부패",
-                    "Q32_4": "이해관계자 간 갈등", "Q32_5": "정당/국회의 비협조", "Q32_6": "국민적 합의 확보 어려움"
-                }
+                q32_labels = {"Q32_1": "예산/인력 부족", "Q32_2": "전문성 부족", "Q32_3": "비리와 부패", "Q32_4": "이해관계 갈등", "Q32_5": "정치권 비협조", "Q32_6": "합의 도출 어려움"}
                 draw_likert_ch6(df_raw, q32_vars, q32_labels, "q32")
-            with col2:
-                st.write(descriptions_ch6["Q32"])
+            with col2: st.markdown(descriptions_ch6["Q32"])
 
-        # --- Q33: 시민의 역할 평가 ---
+        # --- Q33: 시민의 역할 평가 (바로 차트 표시) ---
         with tabs_ch6[3]:
-            st.subheader("Q33. 시민의 사회문제 해결 노력 평가")
+            st.subheader("Q33. '국민 개개인이 각종 사회문제를 해결하기 위해 적극적으로 노력하고 있다’는 진술에 얼마나 동의하십니까?")
             col1, col2 = st.columns([3, 1])
             with col1:
-                draw_likert_ch6(df_raw, ["Q33"], {"Q33": "국민 개개인이 사회문제 해결을 위해 적극 노력하고 있다"}, "q33")
-            with col2:
-                st.write(descriptions_ch6["Q33"])
+                # 데이터 가공
+                q33_df = df_raw.copy()
+                q33_df['segment'] = pd.cut(q33_df['Q33'], bins=[0, 3, 4, 7], labels=["반대", "보통", "동의"])
+                res = q33_df.groupby(['국가명', 'segment'], observed=False).size().unstack(fill_value=0)
+                res_pct = (res.div(res.sum(axis=1), axis=0) * 100).reindex(country_order).reset_index()
+                
+                fig33 = px.bar(res_pct, y="국가명", x=["동의", "보통", "반대"], 
+                               color_discrete_map=color_map, orientation='h', text_auto='.1f')
+                fig33.update_layout(xaxis_title="비율 (%)", yaxis_title=None, barmode='stack', height=600, template="plotly_white")
+                st.plotly_chart(fig33, use_container_width=True)
+            with col2: st.markdown(descriptions_ch6["Q33"])
 
-        # --- Q34: 시민 참여의 어려움 ---
+        # --- Q34: 시민 참여의 어려움 (기존 방식 유지) ---
         with tabs_ch6[4]:
-            st.subheader("Q34. 시민의 사회문제 참여가 어려운 이유")
+            st.subheader("Q34. 국민 개개인이 각종 사회문제를 효과적으로 해결하는데 있어 겪는 어려움 중 다음의 항목이 얼마나 심각하다고 생각하십니까?")
             col1, col2 = st.columns([3, 1])
             with col1:
                 q34_vars = [f"Q34_{i}" for i in range(1, 7)]
-                q34_labels = {
-                    "Q34_1": "사회문제에 대한 무관심", "Q34_2": "지식/전문성 부족", "Q34_3": "시간/비용 부담",
-                    "Q34_4": "사회단체의 갈등 조장", "Q34_5": "정치권의 지원 부족", "Q34_6": "국민적 합의 확보 어려움"
-                }
+                q34_labels = {"Q34_1": "국민적 무관심", "Q34_2": "지식/전문성 부족", "Q34_3": "시간/비용 부담", "Q34_4": "사회단체 갈등", "Q34_5": "지원 부족", "Q34_6": "합의 확보 어려움"}
                 draw_likert_ch6(df_raw, q34_vars, q34_labels, "q34")
-            with col2:
-                st.write(descriptions_ch6["Q34"])
+            with col2: st.markdown(descriptions_ch6["Q34"])
 
     elif selected_menu == "조사 개요":
         # 상단 타이틀 및 인트로
