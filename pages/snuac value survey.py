@@ -729,3 +729,113 @@ if df_raw is not None:
                             """, unsafe_allow_html=True)
             with col2:
                 st.markdown(descriptions_ch4["Q23"])    
+
+    elif selected_menu == "CH5: 평균과 보통에 대한 인식":
+        st.title("📂 CH5: 평균과 보통에 대한 인식")
+
+        # --- 설명문 데이터 (비워둠) ---
+        descriptions_ch5 = {
+            "Q24":  """
+                    ### 💡 문항 개요
+                    ### 📌 주요 분석
+                        """,
+            "Q25": """
+                    ### 💡 문항 개요
+                    ### 📌 주요 분석
+                        """,
+            "Q26": """
+                    ### 💡 문항 개요
+                    ### 📌 주요 분석
+                        """,
+            "Q27": """
+                    ### 💡 문항 개요
+                    ### 📌 주요 분석
+                        """,
+            "Q28": """
+                    ### 💡 문항 개요
+                    ### 📌 주요 분석
+                        """
+        }
+
+        tabs_ch5 = st.tabs(["Q24(소득)", "Q25(몸무게)", "Q26(학력)", "Q27(지위)", "Q28(키)"])
+
+        # CH5 전용 시각화 함수
+        def draw_range_dot_plot(data, q_id, title_text, label_text):
+            col1, col2 = st.columns([3, 1])
+            with col1:
+                # 데이터 정리
+                cols = [f"{q_id}_1", f"{q_id}_2", f"{q_id}_3", f"{q_id}_3_n2"]
+                # 숫자형 변환 및 결측치 처리
+                temp_df = data.copy()
+                for c in cols:
+                    temp_df[c] = pd.to_numeric(temp_df[c], errors='coerce')
+                
+                # 국가별 평균 계산 (국가 순서 역순 - 차트 상단이 대한민국이 되도록)
+                summary = temp_df.groupby("국가명")[cols].mean().reindex(country_order[::-1]).reset_index()
+
+                fig = go.Figure()
+
+                # 1. 평범함의 범위 (Gray Bar)
+                fig.add_trace(go.Bar(
+                    y=summary["국가명"],
+                    x=summary[f"{q_id}_3_n2"] - summary[f"{q_id}_3"],
+                    base=summary[f"{q_id}_3"],
+                    orientation='h',
+                    marker_color='rgba(128, 128, 128, 0.2)',
+                    name='평범함의 범위',
+                    hoverinfo='skip',
+                    showlegend=True
+                ))
+
+                # 2. 현재 위치 (Blue Dot)
+                fig.add_trace(go.Scatter(
+                    y=summary["국가명"],
+                    x=summary[f"{q_id}_1"],
+                    mode='markers',
+                    name='현재 위치',
+                    marker=dict(color='#1f77b4', size=12, line=dict(width=1, color='black')),
+                    hovertemplate='현재 위치: %{x:.2f}<extra></extra>'
+                ))
+
+                # 3. 이상적 위치 (Orange Star)
+                fig.add_trace(go.Scatter(
+                    y=summary["국가명"],
+                    x=summary[f"{q_id}_2"],
+                    mode='markers',
+                    name='이상적 위치',
+                    marker=dict(color='#ff7f0e', size=16, symbol='star', line=dict(width=1, color='black')),
+                    hovertemplate='이상적 위치: %{x:.2f}<extra></extra>'
+                ))
+
+                fig.update_layout(
+                    title=f"<b>{title_text}</b>",
+                    xaxis=dict(title=label_text, range=[0, 10], tickmode='linear', tick0=0, dtick=1),
+                    yaxis=dict(title=None),
+                    height=700,
+                    margin=dict(l=150),
+                    barmode='overlay',
+                    legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+                    template="plotly_white"
+                )
+                
+                st.plotly_chart(fig, use_container_width=True)
+            
+            with col2:
+                st.markdown("### 문항 설명")
+                st.write(descriptions_ch5[q_id])
+
+        # 각 탭에 함수 적용
+        with tabs_ch5[0]:
+            draw_range_dot_plot(df_raw, "Q24", "나는 지금 어디쯤일까? - 소득에 대한 인식", "0점(낮음) ~ 10점(높음)")
+        
+        with tabs_ch5[1]:
+            draw_range_dot_plot(df_raw, "Q25", "나는 지금 어디쯤일까? - 몸무게에 대한 인식", "0점(가장 적게 나감) ~ 10점(가장 많이 나감)")
+            
+        with tabs_ch5[2]:
+            draw_range_dot_plot(df_raw, "Q26", "나는 지금 어디쯤일까? - 학력에 대한 인식", "0점(낮음) ~ 10점(높음)")
+            
+        with tabs_ch5[3]:
+            draw_range_dot_plot(df_raw, "Q27", "나는 지금 어디쯤일까? - 사회적 지위에 대한 인식", "0점(낮음) ~ 10점(높음)")
+            
+        with tabs_ch5[4]:
+            draw_range_dot_plot(df_raw, "Q28", "나는 지금 어디쯤일까? - 키에 대한 인식", "0점(작음) ~ 10점(큼)")
