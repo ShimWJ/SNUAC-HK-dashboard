@@ -365,190 +365,190 @@ if df_raw is not None:
                 st.markdown("### 문항 설명")
                 st.write(descriptions_ch2["Q13"])
 
-elif selected_menu == "CH3: 사회적 신뢰와 갈등 인식":
-        st.title("📂 CH3: 사회적 신뢰와 갈등 인식")
-
-        # --- 설명문 데이터 (비워둠) ---
-        descriptions_ch3 = {
-            "Q16": """
-                ### 💡 문항 개요
-                ### 📌 주요 분석
-                    """,
-            "Q18": """
-                ### 💡 문항 개요
-                ### 📌 주요 분석
-                    """,
-            "Q19": """
-                ### 💡 문항 개요
-                ### 📌 주요 분석
-                    """,
-            "Q35": """
-                ### 💡 문항 개요
-                ### 📌 주요 분석
-                    """
-        }
-
-        tabs_ch3 = st.tabs(["Q16", "Q17", "Q18", "Q19", "Q35"])
-
-        # --- Q16: 사회적 신뢰 (Stacked Bar) ---
-        with tabs_ch3[0]:
-            st.subheader("Q16. 사회적 신뢰도")
-            col1, col2 = st.columns([3, 1])
-            with col1:
-                q16_vars = [f"Q16_{i}" for i in range(1, 8)]
-                q16_labels = {
-                    "Q16_1": "대부분의 사람", "Q16_2": "가족이나 친척", "Q16_3": "이웃",
-                    "Q16_4": "친구", "Q16_5": "낯선 사람", "Q16_6": "외국인", "Q16_7": "다른 종교인"
-                }
-                # 리커트 함수 호출 (CH2에서 정의한 함수와 유사한 로직)
-                view_type = st.radio("보기 방식 (Q16)", ["문항별 국가 비교", "국가별 문항 분포"], horizontal=True, key="q16_view")
-                
-                if view_type == "문항별 국가 비교":
-                    sel_q = st.selectbox("신뢰 대상 선택", q16_vars, format_func=lambda x: q16_labels.get(x, x))
-                    plot_df = df_raw.copy()
-                    plot_df['segment'] = pd.cut(plot_df[sel_q], bins=[0, 3, 4, 7], labels=["반대(불신)", "보통", "동의(신뢰)"])
-                    res = plot_df.groupby(['국가명', 'segment'], observed=False).size().unstack(fill_value=0)
-                    res_pct = res.div(res.sum(axis=1), axis=0) * 100
-                    fig = px.bar(res_pct.reindex(country_order).reset_index(), y="국가명", x=["동의(신뢰)", "보통", "반대(불신)"],
-                                 color_discrete_map={"동의(신뢰)": "#2e86c1", "보통": "#ccd1d1", "반대(불신)": "#d73027"},
-                                 orientation='h', text_auto='.1f')
-                else:
-                    sel_nation = st.selectbox("국가 선택 (Q16)", country_order)
-                    plot_df = df_raw[df_raw['국가명'] == sel_nation].copy()
-                    melted = plot_df.melt(id_vars=['국가명'], value_vars=q16_vars, var_name='variable', value_name='response')
-                    melted['segment'] = pd.cut(melted['response'], bins=[0, 3, 4, 7], labels=["반대(불신)", "보통", "동의(신뢰)"])
-                    res = melted.groupby(['variable', 'segment'], observed=False).size().unstack(fill_value=0)
-                    res_pct = (res.div(res.sum(axis=1), axis=0) * 100).reset_index()
-                    res_pct['문항'] = res_pct['variable'].map(q16_labels)
-                    fig = px.bar(res_pct, y="문항", x=["동의(신뢰)", "보통", "반대(불신)"],
-                                 color_discrete_map={"동의(신뢰)": "#2e86c1", "보통": "#ccd1d1", "반대(불신)": "#d73027"},
-                                 orientation='h', text_auto='.1f')
-                st.plotly_chart(fig, use_container_width=True)
-            with col2:
-                st.markdown("### 문항 설명")
-                st.write(descriptions_ch3["Q16"])
-
-      # --- Q18: 사회적 갈등 인식 (Gauge + Stacked Bar) ---
-        with tabs_ch3[2]:
-            st.subheader("Q18. 사회적 갈등 인식 수준")
-            col1, col2 = st.columns([3, 1])
-            with col1:
-                q18_labels = {
-                    "Q18_1": "빈부 격차", "Q18_2": "노사 갈등", "Q18_3": "주택 유무",
-                    "Q18_4": "고용 형태", "Q18_5": "성별 갈등", "Q18_6": "세대 갈등",
-                    "Q18_7": "이념 갈등", "Q18_8": "지역 갈등", "Q18_9": "기업 규모"
-                }
-                mode = st.radio("Q18 분석 모드", ["국가별 게이지(평균)", "항목별 분포(비율)"], horizontal=True)
-                
-                if mode == "국가별 게이지(평균)":
-                    c1, c2 = st.columns(2)
-                    sel_nation = c1.selectbox("국가 선택 (Q18)", country_order)
-                    sel_q = c2.selectbox("갈등 항목 선택", list(q18_labels.keys()), format_func=lambda x: q18_labels[x])
+    elif selected_menu == "CH3: 사회적 신뢰와 갈등 인식":
+            st.title("📂 CH3: 사회적 신뢰와 갈등 인식")
+    
+            # --- 설명문 데이터 (비워둠) ---
+            descriptions_ch3 = {
+                "Q16": """
+                    ### 💡 문항 개요
+                    ### 📌 주요 분석
+                        """,
+                "Q18": """
+                    ### 💡 문항 개요
+                    ### 📌 주요 분석
+                        """,
+                "Q19": """
+                    ### 💡 문항 개요
+                    ### 📌 주요 분석
+                        """,
+                "Q35": """
+                    ### 💡 문항 개요
+                    ### 📌 주요 분석
+                        """
+            }
+    
+            tabs_ch3 = st.tabs(["Q16", "Q17", "Q18", "Q19", "Q35"])
+    
+            # --- Q16: 사회적 신뢰 (Stacked Bar) ---
+            with tabs_ch3[0]:
+                st.subheader("Q16. 사회적 신뢰도")
+                col1, col2 = st.columns([3, 1])
+                with col1:
+                    q16_vars = [f"Q16_{i}" for i in range(1, 8)]
+                    q16_labels = {
+                        "Q16_1": "대부분의 사람", "Q16_2": "가족이나 친척", "Q16_3": "이웃",
+                        "Q16_4": "친구", "Q16_5": "낯선 사람", "Q16_6": "외국인", "Q16_7": "다른 종교인"
+                    }
+                    # 리커트 함수 호출 (CH2에서 정의한 함수와 유사한 로직)
+                    view_type = st.radio("보기 방식 (Q16)", ["문항별 국가 비교", "국가별 문항 분포"], horizontal=True, key="q16_view")
                     
-                    val = df_raw[df_raw['국가명'] == sel_nation][sel_q].mean()
-                    overall_avg = df_raw[sel_q].mean()
+                    if view_type == "문항별 국가 비교":
+                        sel_q = st.selectbox("신뢰 대상 선택", q16_vars, format_func=lambda x: q16_labels.get(x, x))
+                        plot_df = df_raw.copy()
+                        plot_df['segment'] = pd.cut(plot_df[sel_q], bins=[0, 3, 4, 7], labels=["반대(불신)", "보통", "동의(신뢰)"])
+                        res = plot_df.groupby(['국가명', 'segment'], observed=False).size().unstack(fill_value=0)
+                        res_pct = res.div(res.sum(axis=1), axis=0) * 100
+                        fig = px.bar(res_pct.reindex(country_order).reset_index(), y="국가명", x=["동의(신뢰)", "보통", "반대(불신)"],
+                                     color_discrete_map={"동의(신뢰)": "#2e86c1", "보통": "#ccd1d1", "반대(불신)": "#d73027"},
+                                     orientation='h', text_auto='.1f')
+                    else:
+                        sel_nation = st.selectbox("국가 선택 (Q16)", country_order)
+                        plot_df = df_raw[df_raw['국가명'] == sel_nation].copy()
+                        melted = plot_df.melt(id_vars=['국가명'], value_vars=q16_vars, var_name='variable', value_name='response')
+                        melted['segment'] = pd.cut(melted['response'], bins=[0, 3, 4, 7], labels=["반대(불신)", "보통", "동의(신뢰)"])
+                        res = melted.groupby(['variable', 'segment'], observed=False).size().unstack(fill_value=0)
+                        res_pct = (res.div(res.sum(axis=1), axis=0) * 100).reset_index()
+                        res_pct['문항'] = res_pct['variable'].map(q16_labels)
+                        fig = px.bar(res_pct, y="문항", x=["동의(신뢰)", "보통", "반대(불신)"],
+                                     color_discrete_map={"동의(신뢰)": "#2e86c1", "보통": "#ccd1d1", "반대(불신)": "#d73027"},
+                                     orientation='h', text_auto='.1f')
+                    st.plotly_chart(fig, use_container_width=True)
+                with col2:
+                    st.markdown("### 문항 설명")
+                    st.write(descriptions_ch3["Q16"])
+    
+          # --- Q18: 사회적 갈등 인식 (Gauge + Stacked Bar) ---
+            with tabs_ch3[2]:
+                st.subheader("Q18. 사회적 갈등 인식 수준")
+                col1, col2 = st.columns([3, 1])
+                with col1:
+                    q18_labels = {
+                        "Q18_1": "빈부 격차", "Q18_2": "노사 갈등", "Q18_3": "주택 유무",
+                        "Q18_4": "고용 형태", "Q18_5": "성별 갈등", "Q18_6": "세대 갈등",
+                        "Q18_7": "이념 갈등", "Q18_8": "지역 갈등", "Q18_9": "기업 규모"
+                    }
+                    mode = st.radio("Q18 분석 모드", ["국가별 게이지(평균)", "항목별 분포(비율)"], horizontal=True)
                     
-                    fig = go.Figure(go.Indicator(
-                        mode = "gauge+number", value = val,
-                        title = {'text': f"{sel_nation}: {q18_labels[sel_q]}"},
-                        gauge = {
-                            'axis': {'range': [1, 7]},
-                            'bar': {'color': "black"},
-                            'steps': [
-                                {'range': [1, 3], 'color': "#229954"},
-                                {'range': [3, 5], 'color': "#f7dc6f"},
-                                {'range': [5, 7], 'color': "#d73027"}],
-                            'threshold': {'line': {'color': "red", 'width': 4}, 'thickness': 0.75, 'value': overall_avg}
-                        }
-                    ))
-                    st.plotly_chart(fig, use_container_width=True)
-                    st.caption(f"빨간 선: 15개 도시 전체 평균 ({overall_avg:.2f})")
-                else:
-                    # Stacked Bar (R 로직 이식)
-                    sel_q = st.selectbox("분석 항목 (Q18)", list(q18_labels.keys()), format_func=lambda x: q18_labels[x], key="q18_bar")
-                    plot_df = df_raw.copy()
-                    plot_df['segment'] = pd.cut(plot_df[sel_q], bins=[0, 3, 4, 7], labels=["심각하지 않다", "보통", "심각하다"])
-                    res = plot_df.groupby(['국가명', 'segment'], observed=False).size().unstack(fill_value=0)
-                    res_pct = (res.div(res.sum(axis=1), axis=0) * 100).reindex(country_order).reset_index()
-                    fig = px.bar(res_pct, y="국가명", x=["심각하다", "보통", "심각하지 않다"],
-                                 color_discrete_map={"심각하다": "#2e86c1", "보통": "#bdbdbd", "심각하지 않다": "#d73027"},
-                                 orientation='h', text_auto='.1f')
-                    st.plotly_chart(fig, use_container_width=True)
-            with col2:
-                st.write(descriptions_ch3["Q18"])
-
-        # --- Q19: 공정성 인식 (Reverse Coding 포함) ---
-        with tabs_ch3[3]:
-            st.subheader("Q19. 집단 간 공정성 인식")
-            col1, col2 = st.columns([3, 1])
-            with col1:
-                # R 코드의 Reverse Coding 로직 이식
-                q19_data = df_raw.copy()
-                for q_col in ['Q19_1', 'Q19_5', 'Q19_7']:
-                    if q_col in q19_data.columns:
-                        max_val = q19_data[q_col].max()
-                        q19_data[q_col] = max_val + 1 - q19_data[q_col]
-                
-                # 베트남 Q19_5 특수 처리
-                vn_mask = q19_data['국가명'] == "베트남(하노이)"
-                if 'Q19_5' in q19_data.columns:
-                    vn_max5 = q19_data.loc[vn_mask, 'Q19_5'].max()
-                    q19_data.loc[vn_mask, 'Q19_5'] = vn_max5 + 1 - q19_data.loc[vn_mask, 'Q19_5']
-
-                q19_labels = {
-                    "Q19_1": "빈부 간", "Q19_2": "노사 간", "Q19_3": "주택 유무 간",
-                    "Q19_4": "고용 형태 간", "Q19_5": "성별 간", "Q19_6": "세대 간",
-                    "Q19_7": "이념 간", "Q19_8": "지역 간", "Q19_9": "기업 규모 간"
-                }
-                
-                q19_mode = st.radio("Q19 모드", ["평균 게이지", "공정성 분포"], horizontal=True)
-                if q19_mode == "평균 게이지":
-                    c1, c2 = st.columns(2)
-                    sel_n = c1.selectbox("국가 (Q19)", country_order)
-                    sel_q = c2.selectbox("항목 (Q19)", list(q19_labels.keys()), format_func=lambda x: q19_labels[x])
-                    val = q19_data[q19_data['국가명'] == sel_n][sel_q].mean()
-                    fig = go.Figure(go.Indicator(
-                        mode = "gauge+number", value = val,
-                        gauge = {'axis': {'range': [1, 7]}, 'bar': {'color': "black"},
-                                 'steps': [{'range': [1, 4], 'color': "#58d68d"}, {'range': [4, 7], 'color': "#f5b041"}]}
-                    ))
-                    fig.update_layout(title=f"{sel_n}: {q19_labels[sel_q]}")
-                    st.plotly_chart(fig, use_container_width=True)
-                else:
-                    sel_q = st.selectbox("분석 항목 (Q19)", list(q19_labels.keys()), format_func=lambda x: q19_labels[x])
-                    plot_df = q19_data.copy()
-                    plot_df['segment'] = pd.cut(plot_df[sel_q], bins=[0, 3, 4, 7], labels=["A에게 불공정", "보통", "B에게 불공정"])
-                    res_pct = (plot_df.groupby(['국가명', 'segment'], observed=False).size().unstack(fill_value=0).div(len(plot_df)/15)*100).reindex(country_order).reset_index()
-                    fig = px.bar(res_pct, y="국가명", x=["B에게 불공정", "보통", "A에게 불공정"],
-                                 color_discrete_map={"B에게 불공정": "#2e86c1", "보통": "#bdbdbd", "A에게 불공정": "#d73027"},
-                                 orientation='h', text_auto='.1f')
-                    st.plotly_chart(fig, use_container_width=True)
-            with col2:
-                st.write(descriptions_ch3["Q19"])
-
-        # --- Q35: 소속 집단 (Python Stacked Bar) ---
-        with tabs_ch3[4]:
-            st.subheader("Q35. 가장 소속감을 느끼는 집단")
-            col1, col2 = st.columns([3, 1])
-            with col1:
-                # 원자료 딕셔너리 기반 데이터프레임 생성
-                q35_data = {
-                    "소속": ["대한민국(서울)", "일본(도쿄)", "중국(베이징)", "대만(타이베이)", "베트남(하노이)", "말레이시아(쿠알라룸푸르)", "싱가포르", "인도네시아(자카르타)", "인도(뉴델리)", "사우디아라비아(리야드)", "이스라엘(예루살렘)", "튀르키예(앙카라)", "미국(뉴욕)", "영국(런던)", "프랑스(파리)"],
-                    "국가": [106, 298, 444, 391, 449, 415, 392, 410, 534, 377, 495, 410, 398, 389, 279],
-                    "가족/집안": [506, 350, 243, 259, 239, 234, 256, 236, 131, 208, 155, 244, 249, 258, 344],
-                    "종교집단": [11, 2, 1, 6, 0, 18, 16, 19, 11, 22, 24, 14, 19, 17, 19],
-                    "학교동창": [44, 28, 4, 22, 5, 12, 11, 6, 17, 54, 19, 16, 6, 15, 27],
-                    "직업": [17, 10, 8, 7, 6, 19, 16, 24, 6, 23, 5, 11, 13, 11, 16],
-                    "기타": [16, 12, 0, 15, 1, 2, 9, 5, 1, 16, 2, 5, 15, 10, 15]
-                }
-                df_q35 = pd.DataFrame(q35_data)
-                df_q35_pct = df_q35.set_index("소속").div(df_q35.set_index("소속").sum(axis=1), axis=0) * 100
-                
-                fig35 = px.bar(df_q35_pct.reset_index(), x="소속", y=["국가", "가족/집안", "종교집단", "학교동창", "직업", "기타"],
-                               title="가장 소속감을 느끼는 집단 (%)",
-                               color_discrete_sequence=["#4C72B0", "#55A868", "#C44E52", "#8172B3", "#CCB974", "#64B5CD"],
-                               text_auto='.0f')
-                fig35.update_layout(xaxis_title=None, yaxis_title="비율 (%)", barmode='stack')
-                st.plotly_chart(fig35, use_container_width=True)
-            with col2:
-                st.write(descriptions_ch3["Q35"])
+                    if mode == "국가별 게이지(평균)":
+                        c1, c2 = st.columns(2)
+                        sel_nation = c1.selectbox("국가 선택 (Q18)", country_order)
+                        sel_q = c2.selectbox("갈등 항목 선택", list(q18_labels.keys()), format_func=lambda x: q18_labels[x])
+                        
+                        val = df_raw[df_raw['국가명'] == sel_nation][sel_q].mean()
+                        overall_avg = df_raw[sel_q].mean()
+                        
+                        fig = go.Figure(go.Indicator(
+                            mode = "gauge+number", value = val,
+                            title = {'text': f"{sel_nation}: {q18_labels[sel_q]}"},
+                            gauge = {
+                                'axis': {'range': [1, 7]},
+                                'bar': {'color': "black"},
+                                'steps': [
+                                    {'range': [1, 3], 'color': "#229954"},
+                                    {'range': [3, 5], 'color': "#f7dc6f"},
+                                    {'range': [5, 7], 'color': "#d73027"}],
+                                'threshold': {'line': {'color': "red", 'width': 4}, 'thickness': 0.75, 'value': overall_avg}
+                            }
+                        ))
+                        st.plotly_chart(fig, use_container_width=True)
+                        st.caption(f"빨간 선: 15개 도시 전체 평균 ({overall_avg:.2f})")
+                    else:
+                        # Stacked Bar (R 로직 이식)
+                        sel_q = st.selectbox("분석 항목 (Q18)", list(q18_labels.keys()), format_func=lambda x: q18_labels[x], key="q18_bar")
+                        plot_df = df_raw.copy()
+                        plot_df['segment'] = pd.cut(plot_df[sel_q], bins=[0, 3, 4, 7], labels=["심각하지 않다", "보통", "심각하다"])
+                        res = plot_df.groupby(['국가명', 'segment'], observed=False).size().unstack(fill_value=0)
+                        res_pct = (res.div(res.sum(axis=1), axis=0) * 100).reindex(country_order).reset_index()
+                        fig = px.bar(res_pct, y="국가명", x=["심각하다", "보통", "심각하지 않다"],
+                                     color_discrete_map={"심각하다": "#2e86c1", "보통": "#bdbdbd", "심각하지 않다": "#d73027"},
+                                     orientation='h', text_auto='.1f')
+                        st.plotly_chart(fig, use_container_width=True)
+                with col2:
+                    st.write(descriptions_ch3["Q18"])
+    
+            # --- Q19: 공정성 인식 (Reverse Coding 포함) ---
+            with tabs_ch3[3]:
+                st.subheader("Q19. 집단 간 공정성 인식")
+                col1, col2 = st.columns([3, 1])
+                with col1:
+                    # R 코드의 Reverse Coding 로직 이식
+                    q19_data = df_raw.copy()
+                    for q_col in ['Q19_1', 'Q19_5', 'Q19_7']:
+                        if q_col in q19_data.columns:
+                            max_val = q19_data[q_col].max()
+                            q19_data[q_col] = max_val + 1 - q19_data[q_col]
+                    
+                    # 베트남 Q19_5 특수 처리
+                    vn_mask = q19_data['국가명'] == "베트남(하노이)"
+                    if 'Q19_5' in q19_data.columns:
+                        vn_max5 = q19_data.loc[vn_mask, 'Q19_5'].max()
+                        q19_data.loc[vn_mask, 'Q19_5'] = vn_max5 + 1 - q19_data.loc[vn_mask, 'Q19_5']
+    
+                    q19_labels = {
+                        "Q19_1": "빈부 간", "Q19_2": "노사 간", "Q19_3": "주택 유무 간",
+                        "Q19_4": "고용 형태 간", "Q19_5": "성별 간", "Q19_6": "세대 간",
+                        "Q19_7": "이념 간", "Q19_8": "지역 간", "Q19_9": "기업 규모 간"
+                    }
+                    
+                    q19_mode = st.radio("Q19 모드", ["평균 게이지", "공정성 분포"], horizontal=True)
+                    if q19_mode == "평균 게이지":
+                        c1, c2 = st.columns(2)
+                        sel_n = c1.selectbox("국가 (Q19)", country_order)
+                        sel_q = c2.selectbox("항목 (Q19)", list(q19_labels.keys()), format_func=lambda x: q19_labels[x])
+                        val = q19_data[q19_data['국가명'] == sel_n][sel_q].mean()
+                        fig = go.Figure(go.Indicator(
+                            mode = "gauge+number", value = val,
+                            gauge = {'axis': {'range': [1, 7]}, 'bar': {'color': "black"},
+                                     'steps': [{'range': [1, 4], 'color': "#58d68d"}, {'range': [4, 7], 'color': "#f5b041"}]}
+                        ))
+                        fig.update_layout(title=f"{sel_n}: {q19_labels[sel_q]}")
+                        st.plotly_chart(fig, use_container_width=True)
+                    else:
+                        sel_q = st.selectbox("분석 항목 (Q19)", list(q19_labels.keys()), format_func=lambda x: q19_labels[x])
+                        plot_df = q19_data.copy()
+                        plot_df['segment'] = pd.cut(plot_df[sel_q], bins=[0, 3, 4, 7], labels=["A에게 불공정", "보통", "B에게 불공정"])
+                        res_pct = (plot_df.groupby(['국가명', 'segment'], observed=False).size().unstack(fill_value=0).div(len(plot_df)/15)*100).reindex(country_order).reset_index()
+                        fig = px.bar(res_pct, y="국가명", x=["B에게 불공정", "보통", "A에게 불공정"],
+                                     color_discrete_map={"B에게 불공정": "#2e86c1", "보통": "#bdbdbd", "A에게 불공정": "#d73027"},
+                                     orientation='h', text_auto='.1f')
+                        st.plotly_chart(fig, use_container_width=True)
+                with col2:
+                    st.write(descriptions_ch3["Q19"])
+    
+            # --- Q35: 소속 집단 (Python Stacked Bar) ---
+            with tabs_ch3[4]:
+                st.subheader("Q35. 가장 소속감을 느끼는 집단")
+                col1, col2 = st.columns([3, 1])
+                with col1:
+                    # 원자료 딕셔너리 기반 데이터프레임 생성
+                    q35_data = {
+                        "소속": ["대한민국(서울)", "일본(도쿄)", "중국(베이징)", "대만(타이베이)", "베트남(하노이)", "말레이시아(쿠알라룸푸르)", "싱가포르", "인도네시아(자카르타)", "인도(뉴델리)", "사우디아라비아(리야드)", "이스라엘(예루살렘)", "튀르키예(앙카라)", "미국(뉴욕)", "영국(런던)", "프랑스(파리)"],
+                        "국가": [106, 298, 444, 391, 449, 415, 392, 410, 534, 377, 495, 410, 398, 389, 279],
+                        "가족/집안": [506, 350, 243, 259, 239, 234, 256, 236, 131, 208, 155, 244, 249, 258, 344],
+                        "종교집단": [11, 2, 1, 6, 0, 18, 16, 19, 11, 22, 24, 14, 19, 17, 19],
+                        "학교동창": [44, 28, 4, 22, 5, 12, 11, 6, 17, 54, 19, 16, 6, 15, 27],
+                        "직업": [17, 10, 8, 7, 6, 19, 16, 24, 6, 23, 5, 11, 13, 11, 16],
+                        "기타": [16, 12, 0, 15, 1, 2, 9, 5, 1, 16, 2, 5, 15, 10, 15]
+                    }
+                    df_q35 = pd.DataFrame(q35_data)
+                    df_q35_pct = df_q35.set_index("소속").div(df_q35.set_index("소속").sum(axis=1), axis=0) * 100
+                    
+                    fig35 = px.bar(df_q35_pct.reset_index(), x="소속", y=["국가", "가족/집안", "종교집단", "학교동창", "직업", "기타"],
+                                   title="가장 소속감을 느끼는 집단 (%)",
+                                   color_discrete_sequence=["#4C72B0", "#55A868", "#C44E52", "#8172B3", "#CCB974", "#64B5CD"],
+                                   text_auto='.0f')
+                    fig35.update_layout(xaxis_title=None, yaxis_title="비율 (%)", barmode='stack')
+                    st.plotly_chart(fig35, use_container_width=True)
+                with col2:
+                    st.write(descriptions_ch3["Q35"])
