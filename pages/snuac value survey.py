@@ -381,7 +381,7 @@ if df_raw is not None:
                 "Q19": """
                     ### 💡 문항 개요
                     ### 📌 주요 분석
-                        """,FQk
+                        """,
                 "Q35": """
                     ### 💡 문항 개요
                     ### 📌 주요 분석
@@ -429,7 +429,7 @@ if df_raw is not None:
                     st.write(descriptions_ch3["Q16"])
     
           # --- Q18: 사회적 갈등 인식 (Gauge + Stacked Bar) ---
-            with tabs_ch3[2]:
+            with tabs_ch3[1]:
                 st.subheader("Q18. 사회적 갈등 인식 수준")
                 col1, col2 = st.columns([3, 1])
                 with col1:
@@ -478,7 +478,7 @@ if df_raw is not None:
                     st.write(descriptions_ch3["Q18"])
     
             # --- Q19: 공정성 인식 (Reverse Coding 포함) ---
-            with tabs_ch3[3]:
+            with tabs_ch3[2]:
                 st.subheader("Q19. 집단 간 공정성 인식")
                 col1, col2 = st.columns([3, 1])
                 with col1:
@@ -527,7 +527,7 @@ if df_raw is not None:
                     st.write(descriptions_ch3["Q19"])
     
             # --- Q35: 소속 집단 (Python Stacked Bar) ---
-            with tabs_ch3[4]:
+            with tabs_ch3[3]:
                 st.subheader("Q35. 가장 소속감을 느끼는 집단")
                 col1, col2 = st.columns([3, 1])
                 with col1:
