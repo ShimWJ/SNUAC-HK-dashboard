@@ -577,3 +577,138 @@ if df_raw is not None:
                     st.plotly_chart(fig35, use_container_width=True)
                 with col2:
                     st.write(descriptions_ch3["Q35"])
+
+    elif selected_menu == "CH4: 능력주의와 분배":
+        st.title("📂 CH4: 능력주의와 분배")
+
+        # --- 설명문 데이터 (비워둠) ---
+        descriptions_ch4 = {
+            "Q20":  """
+                    ### 💡 문항 개요
+                    ### 📌 주요 분석
+                        """,
+            "Q21":  """
+                    ### 💡 문항 개요
+                    ### 📌 주요 분석
+                        """,
+            "Q23":  """
+                    ### 💡 문항 개요
+                    ### 📌 주요 분석
+                        """
+        }
+
+        tabs_ch4 = st.tabs(["Q20", "Q21", "Q23"])
+
+        # --- Q20: 우리 사회에 대한 태도 (Stacked Bar) ---
+        with tabs_ch4[0]:
+            st.subheader("Q20. 우리 사회에 대한 태도")
+            col1, col2 = st.columns([3, 1])
+            with col1:
+                q20_vars = [f"Q20_{i}" for i in range(1, 9)]
+                q20_labels = {
+                    "Q20_1": "모든 국민이 골고루 행복한 국가이다", "Q20_2": "우리 사회는 통합되어 있다",
+                    "Q20_3": "소득 격차가 크다", "Q20_4": "재산 격차가 크다",
+                    "Q20_5": "교육 기회가 균등하다", "Q20_6": "실력으로 승진/승급이 결정된다",
+                    "Q20_7": "노력으로 정규직 전환이 가능하다", "Q20_8": "우리 사회는 공정한 사회이다"
+                }
+                # 공통 리커트 함수 호출 (CH1, 2에서 정의한 draw_likert_plotly 활용 권장)
+                # 여기서는 독립적으로 작동하도록 로직 포함
+                q20_view = st.radio("보기 방식 (Q20)", ["문항별 국가 비교", "국가별 문항 분포"], horizontal=True, key="q20_view")
+                
+                if q20_view == "문항별 국가 비교":
+                    sel_q = st.selectbox("세부 문항 선택", q20_vars, format_func=lambda x: q20_labels.get(x, x))
+                    plot_df = df_raw.copy()
+                    plot_df['segment'] = pd.cut(plot_df[sel_q], bins=[0, 3, 4, 7], labels=["반대", "보통", "동의"])
+                    res = plot_df.groupby(['국가명', 'segment'], observed=False).size().unstack(fill_value=0)
+                    res_pct = (res.div(res.sum(axis=1), axis=0) * 100).reindex(country_order).reset_index()
+                    fig = px.bar(res_pct, y="국가명", x=["동의", "보통", "반대"],
+                                 color_discrete_map={"동의": "#2e86c1", "보통": "#ccd1d1", "반대": "#d73027"},
+                                 orientation='h', text_auto='.1f')
+                else:
+                    sel_nation = st.selectbox("국가 선택 (Q20)", country_order)
+                    plot_df = df_raw[df_raw['국가명'] == sel_nation].copy()
+                    melted = plot_df.melt(id_vars=['국가명'], value_vars=q20_vars, var_name='variable', value_name='response')
+                    melted['segment'] = pd.cut(melted['response'], bins=[0, 3, 4, 7], labels=["반대", "보통", "동의"])
+                    res = melted.groupby(['variable', 'segment'], observed=False).size().unstack(fill_value=0)
+                    res_pct = (res.div(res.sum(axis=1), axis=0) * 100).reset_index()
+                    res_pct['문항'] = res_pct['variable'].map(q20_labels)
+                    fig = px.bar(res_pct, y="문항", x=["동의", "보통", "반대"],
+                                 color_discrete_map={"동의": "#2e86c1", "보통": "#ccd1d1", "반대": "#d73027"},
+                                 orientation='h', text_auto='.1f')
+                st.plotly_chart(fig, use_container_width=True)
+            with col2:
+                st.markdown(descriptions_ch4["Q20"])
+
+        # --- Q21: 의견에 대한 동의 (Custom Colors & Labels) ---
+        with tabs_ch4[1]:
+            st.subheader("Q21. 주요 사회 쟁점에 대한 가치관")
+            col1, col2 = st.columns([3, 1])
+            with col1:
+                q21_vars = ["Q21_1", "Q21_2", "Q21_3", "Q21_4"]
+                q21_labels = {
+                    "Q21_1": "소득 평등 지향 (A) vs 노력 반영 (B)",
+                    "Q21_2": "정부 복지 책임 (A) vs 개인 책임 (B)",
+                    "Q21_3": "경쟁은 유익하다 (A) vs 경쟁은 유해하다 (B)",
+                    "Q21_4": "노력하면 성공한다 (A) vs 배경이 중요하다 (B)"
+                }
+                
+                q21_view = st.radio("보기 방식 (Q21)", ["쟁점별 국가 비교", "국가별 쟁점 분포"], horizontal=True, key="q21_view")
+                
+                # R 코드의 특정 색상 적용: A(#AA6373), 보통(#BCBDC0), B(#8D80AD)
+                color_map_q21 = {"A": "#AA6373", "비슷함": "#BCBDC0", "B": "#8D80AD"}
+
+                if q21_view == "쟁점별 국가 비교":
+                    sel_q = st.selectbox("쟁점 선택", q21_vars, format_func=lambda x: q21_labels.get(x, x))
+                    plot_df = df_raw.copy()
+                    plot_df['segment'] = pd.cut(plot_df[sel_q], bins=[0, 3, 4, 7], labels=["B", "비슷함", "A"])
+                    res = plot_df.groupby(['국가명', 'segment'], observed=False).size().unstack(fill_value=0)
+                    res_pct = (res.div(res.sum(axis=1), axis=0) * 100).reindex(country_order).reset_index()
+                    fig = px.bar(res_pct, y="국가명", x=["A", "비슷함", "B"],
+                                 color_discrete_map=color_map_q21, orientation='h', text_auto='.1f')
+                else:
+                    sel_nation = st.selectbox("국가 선택 (Q21)", country_order)
+                    plot_df = df_raw[df_raw['국가명'] == sel_nation].copy()
+                    melted = plot_df.melt(id_vars=['국가명'], value_vars=q21_vars, var_name='variable', value_name='response')
+                    melted['segment'] = pd.cut(melted['response'], bins=[0, 3, 4, 7], labels=["B", "비슷함", "A"])
+                    res = melted.groupby(['variable', 'segment'], observed=False).size().unstack(fill_value=0)
+                    res_pct = (res.div(res.sum(axis=1), axis=0) * 100).reset_index()
+                    res_pct['쟁점'] = res_pct['variable'].map(q21_labels)
+                    fig = px.bar(res_pct, y="쟁점", x=["A", "비슷함", "B"],
+                                 color_discrete_map=color_map_q21, orientation='h', text_auto='.1f')
+                st.plotly_chart(fig, use_container_width=True)
+            with col2:
+                st.markdown(descriptions_ch4["Q21"])
+
+        # --- Q23: 세부 가치관 동의도 (Interactive Dot Plot) ---
+        with tabs_ch4[2]:
+            st.subheader("Q23. 가치관 문항에 대한 동의 정도 (평균)")
+            col1, col2 = st.columns([3, 1])
+            with col1:
+                q23_items = [
+                    "스스로에게 의존 선호", "내 스스로의 결정 준수", "나만의 개성 표현", "개성 갖는 것 중요",
+                    "내 일을 잘하는 것 중요", "경쟁 승리 중요", "경쟁은 세상의 법칙", "타인의 성과에 자극됨",
+                    "동료 성과에 자랑스러움", "동료의 행복 중요", "타인과 시간 보내기 즐거움", "협력 시 만족감",
+                    "부모 자녀 동거 선호", "희생하더라도 가족 돌봄 의무", "어떤 경우든 가족은 함께", "그룹 결정 존중 중요"
+                ]
+                
+                # 데이터 가공
+                q23_cols = [f"Q23_{i}" for i in range(1, 17)]
+                q23_avg = df_raw.groupby("국가명")[q23_cols].mean().reindex(country_order)
+                q23_avg.columns = q23_items
+                
+                # Plotly를 위한 데이터 재구조화 (Long format)
+                q23_melted = q23_avg.reset_index().melt(id_vars="국가명", var_name="항목", value_name="평균값")
+                
+                fig23 = px.scatter(q23_melted, x="평균값", y="항목", color="국가명",
+                                   category_orders={"국가명": country_order, "항목": q23_items[::-1]},
+                                   labels={"평균값": "평균 응답값 (1=매우 반대, 7=매우 동의)"},
+                                   height=800)
+                
+                fig23.update_traces(marker=dict(size=12, line=dict(width=1, color='Black')))
+                fig23.update_layout(template="plotly_white", hovermode="closest")
+                fig23.update_yaxes(gridcolor='LightGray')
+                
+                st.plotly_chart(fig23, use_container_width=True)
+                st.caption("※ 각 점에 마우스를 올리면 국가별 상세 수치를 확인할 수 있습니다.")
+            with col2:
+                st.markdown(descriptions_ch4["Q23"])    
