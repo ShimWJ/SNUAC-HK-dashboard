@@ -721,6 +721,11 @@ if df_raw is not None:
                 fig23.update_yaxes(gridcolor='LightGray')
                 
                 st.plotly_chart(fig23, use_container_width=True)
-                st.caption("※ 각 점에 마우스를 올리면 국가별 상세 수치를 확인할 수 있습니다.")
+                #st.caption("※ 각 점에 마우스를 올리면 국가별 상세 수치를 확인할 수 있습니다.")
+                st.markdown(f"""
+                            <p style='text-align: center; color: #808495; font-size: 0.85rem;'>
+                                ※ 각 점에 마우스를 올리면 국가별 상세 수치를 확인할 수 있습니다.)
+                            </p>
+                            """, unsafe_allow_html=True)
             with col2:
                 st.markdown(descriptions_ch4["Q23"])    
