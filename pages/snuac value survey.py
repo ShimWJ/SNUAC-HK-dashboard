@@ -44,32 +44,20 @@ if df_raw is not None:
 descriptions = {
     "Q1": """
         ### 💡 문항 개요
-        15개 도시 주민의 삶의 만족도를 10개 항목별로 비교한 히트맵입니다. (1~7점 척도)
-        
+        15개 도시 주민의 삶의 만족도를 10개 항목별로 비교한 히트맵입니다. (1~7점 척도)        
         ### 📌 주요 분석
-        * **전반적 수준**: **베이징, 뉴델리, 자카르타**는 대부분의 항목에서 5점대 중후반으로 높은 만족도를 보인 반면, **서울과 도쿄**는 4점대 초중반으로 상대적으로 낮습니다.
-        * **영역별 특징**: 대부분 **가족생활** 만족도가 가장 높습니다(앙카라 5.94 최고치). 반면 **경제생활**은 전반적으로 낮으며, 특히 **서울(3.42)**과 **도쿄(3.71)**가 두드러지게 낮습니다.
-        * **건강 및 여가**: 서유럽 도시(런던, 파리)는 균형 잡힌 중상위권을 유지하나, 서울은 건강(4.03) 및 여가 영역에서 하위권에 머뭅니다.
             """,
     
     "Q2": """
         ### 💡 문항 개요
         어제 체감한 행복 수준(1~7점)의 분포를 보여주는 바이올린 플롯입니다.
-        
         ### 📌 데이터 해석
-        * **전반적 경향**: 다수 도시의 중앙값이 **5.0**에 위치하여 전반적으로 '행복했다'는 응답이 우세합니다.
-        * **분포 특징**: **서울과 도쿄**는 평균(4.4)에 비해 중앙값(5.0)이 높습니다. 이는 고득점자가 많음에도 불구하고 극단적 저점 응답자가 존재해 평균을 깎아먹는 '행복 불평등'을 시사합니다.
-        * **최상위권**: **뉴델리, 리야드, 자카르타**는 중앙값이 6.0에 달하며 긍정 응답이 매우 두텁게 형성되어 있습니다.
             """,
     
     "Q3": """
         ### 💡 문항 개요
         어제 체감한 우울 수준(1~7점) 분포입니다. 점수가 높을수록 우울감이 큼을 의미합니다.
-        
         ### 📌 데이터 해석
-        * **전반적 경향**: 대부분 도시의 중앙값이 **3.0**에 위치해 '낮음~보통' 수준의 우울감이 주류를 이룹니다.
-        * **특이점**: **앙카라(3.7)**는 평균 우울감이 가장 높은 편이며, 상위 꼬리가 두터워 우울감을 강하게 느끼는 층이 두드러집니다.
-        * **최저점**: **베이징(2.3)**은 우울감 보고 수준이 가장 낮고 하위 구간에 응답이 밀집되어 있습니다.
             """,
         
     "Q4": """
@@ -77,9 +65,6 @@ descriptions = {
         자기결정감과 자율성 인식 수준(1~7점)을 비교한 차트입니다.
         
         ### 📌 데이터 해석
-        * **자율성 인식**: 남·남동아시아(자카르타, 뉴델리)와 베트남은 중앙값 **6.0**으로 매우 높은 자율성을 체감합니다.
-        * **동북아의 제약**: **서울(4.4)**은 표본 중 최하위권입니다. 일상에서 선택의 자유가 제한적이라고 느끼는 집단이 많습니다.
-        * **서구권**: 런던, 뉴욕, 파리는 5.0 내외의 안정적인 중상위권 자율성을 보여줍니다.
             """,
     
     "Q5": """
@@ -87,9 +72,6 @@ descriptions = {
         12개 가치 요인에 대한 중요도 평균을 나타낸 히트맵입니다.
         
         ### 📌 주요 분석
-        * **공통 핵심**: 모든 도시에서 **'가족'**과 **'건강'**이 압도적 1위로, 삶의 의미를 지탱하는 핵심축입니다.
-        * **세속성 vs 종교성**: **자카르타, 리야드**는 '신앙/믿음'의 중요도가 매우 높은 반면, **도쿄, 타이베이, 파리, 서울**은 신앙 점수가 매우 낮은 세속적 성향을 보입니다.
-        * **확장적 가치**: **앙카라**는 '새로운 경험'과 '자유'에 대해 매우 높은 가치를 부여하는 확장 지향적 특징이 보입니다.
             """,
     
     "Q6": """
@@ -97,9 +79,6 @@ descriptions = {
         사회가 나아가야 할 방향에 대한 우선순위(1, 2, 3순위 가중합) 결과입니다.
         
         ### 📌 주요 분석
-        * **보편적 가치**: **'가족'**은 거의 모든 도시에서 1순위이며, **개인의 자유, 평등, 자연 보호**가 그 뒤를 잇습니다.
-        * **특수 가치**: **싱가포르**는 타 도시와 달리 '자유시장경제'가 매우 두드러지며, **리야드와 자카르타**는 '신앙'이 핵심 가치로 꼽힙니다.
-        * **서울의 특징**: 가족, 자유, 법치, 행복, 공정이 고르게 강조되는 균형 잡힌 요구를 보입니다.
             """,
     
     "Q7": """
@@ -107,9 +86,6 @@ descriptions = {
         사회 구성원들이 실제로 체감하고 선호한다고 믿는 가치의 우선순위입니다.
         
         ### 📌 주요 분석
-        * **인식의 일치**: Q6(당위)과 유사하게 **가족, 자유, 평등**이 주요 축입니다.
-        * **체감의 차이**: Q6에 비해 '실제 사람들이 선호하는 가치'에서는 **개인의 행복**과 **자유시장경제**의 비중이 소폭 상승하는 경향이 있습니다.
-        * **문화적 투영**: 국가별 종교·제도적 환경에 따라 신앙(리야드)이나 인권/자연 보호(파리, 타이베이)의 체감도가 극명하게 갈립니다.
             """
     }
 # 3. 사이드바 메뉴
@@ -123,38 +99,114 @@ if df_raw is not None:
         tabs = st.tabs(["Q1", "Q2", "Q3", "Q4", "Q5", "Q6", "Q7"])
 
         # --- Q1 탭 (Plotly 히트맵) ---
+        # --- Q1 탭 (Plotly 히트맵 - 99 제외 처리 반영) ---
         with tabs[0]:
-            st.subheader("Q1. 삶의 영역별 만족도")
+            st.subheader("Q1. 다음에 대해 귀하는 현재 얼마나 만족한다고 느끼십니까?")
             col1, col2 = st.columns([3, 1])
             with col1:
-                q1_cols = [f'Q1_{i}' for i in range(1, 11)]
-                q1_avg = df_raw.groupby('국가명')[q1_cols].mean().reindex(country_order)
-                q1_avg.columns = ["전반적 삶", "경제 상황", "가족 생활", "일/직업", "친구/동료", "이웃 관계", "거주 지역", "여가(양)", "여가(질)", "건강"]
-                
-                fig = px.imshow(q1_avg, text_auto='.2f', color_continuous_scale='YlOrRd', aspect="auto")
-                fig.update_layout(xaxis_title="만족도 항목", yaxis_title="국가")
-                st.plotly_chart(fig, use_container_width=True)
-            with col2: st.markdown(descriptions["Q1"])
+                # 1. 문항 라벨 정의
+                q1_labels_map = {
+                    "Q1_1": "전반적인 삶",
+                    "Q1_2": "경제 상황",
+                    "Q1_3": "가족 생활",
+                    "Q1_4": "일/직업",
+                    "Q1_5": "친구/동료",
+                    "Q1_6": "이웃과의 관계",
+                    "Q1_7": "거주 지역",
+                    "Q1_8": "여가시간의 양",
+                    "Q1_9": "여가시간의 질",
+                    "Q1_10": "건강 상태"
+                }
+                q1_cols = list(q1_labels_map.keys())
 
-        # --- Q2, Q3, Q4 탭 (Plotly 바이올린 플롯) ---
-        q_titles = {"Q2": "어제 행복 수준", "Q3": "어제 우울 수준", "Q4": "일상의 자유 인식"}
+                # 2. 데이터 전처리: 99를 NaN으로 치환 후 평균 계산
+                q1_data = df_raw.copy()
+                q1_data[q1_cols] = q1_data[q1_cols].replace(99, np.nan)
+                
+                # 국가별 평균 계산 및 순서 재정렬
+                q1_avg = (
+                    q1_data.groupby('국가명')[q1_cols]
+                    .mean()
+                    .reindex(country_order) # 설정된 국가 순서 적용
+                    .rename(columns=q1_labels_map)
+                )
+
+                # 3. Plotly 히트맵 시각화
+                # 주신 코드의 색상인 'YlGnBu' (노랑-초록-파랑) 적용
+                fig = px.imshow(
+                    q1_avg, 
+                    text_auto='.2f', 
+                    color_continuous_scale='YlGnBu', 
+                    aspect="auto",
+                    labels=dict(color="만족도 평균")
+                )
+                
+                fig.update_layout(
+                    xaxis_title="만족도 항목", 
+                    yaxis_title=None,
+                    xaxis={'side': 'bottom'}, # X축 라벨 위치
+                    height=600
+                )
+                
+                st.plotly_chart(fig, use_container_width=True)
+                
+            with col2: 
+                st.markdown("### 문항 설명")
+                st.write(descriptions["Q1"])
+
+        # --- Q2, Q3, Q4 탭 (Plotly 가로 막대그래프 - 평균값 비교) ---
+        q456_titles = {"Q2": "어제 어느 정도 행복하셨습니까?", "Q3": "어제 어느 정도 우울하셨습니까?", "Q4": "귀하는 일상생활에서 어느 정도 자유로운 선택이 가능하다고 느끼십니까?"}
+        
         for idx, q_id in enumerate(["Q2", "Q3", "Q4"]):
             with tabs[idx+1]:
-                st.subheader(f"{q_id}. {q_titles[q_id]}")
+                st.subheader(f"{q_id}. {q456_titles[q_id]}")
                 col1, col2 = st.columns([3, 1])
                 with col1:
-                    # 무응답 99 제외
-                    q_data = df_raw[df_raw[q_id].le(7)].copy()
-                    fig = px.violin(q_data, x="국가명", y=q_id, color="국가명", 
-                                    box=True, points="outliers", # 중앙값/사분위수를 박스로 표시
-                                    category_orders={"국가명": country_order})
-                    fig.update_layout(showlegend=False, xaxis_title="국가", yaxis_title="점수 (1~7점)")
+                    # 1. 데이터 필터링 (무응답 99 제외) 및 국가별 평균 계산
+                    # country_order[::-1]을 사용하여 대한민국이 차트 상단에 오도록 설정
+                    q_avg_df = (
+                        df_raw[df_raw[q_id].le(7)]
+                        .groupby("국가명")[q_id]
+                        .mean()
+                        .reindex(country_order[::-1])
+                        .reset_index()
+                    )
+                    
+                    # 2. 가로 막대그래프 생성
+                    # Q3(우울)은 빨간색 계열, 나머지는 파란색 계열로 가독성 높임
+                    color_scale = 'Reds' if q_id == "Q3" else 'Blues'
+                    
+                    fig = px.bar(
+                        q_avg_df, 
+                        x=q_id, 
+                        y="국가명", 
+                        orientation='h',
+                        text_auto='.2f',  # 막대 끝에 평균값 표시
+                        color=q_id,       # 값에 따른 색상 진하기 조절
+                        color_continuous_scale=color_scale,
+                        labels={q_id: "평균 점수", "국가명": "도시"}
+                    )
+                    
+                    # 3. 레이아웃 최적화
+                    fig.update_layout(
+                        showlegend=False,
+                        xaxis_title="평균 점수 (1~7점)",
+                        yaxis_title=None,
+                        xaxis=dict(range=[1, 7]), # 척도 범위 고정
+                        height=600,
+                        margin=dict(l=150),       # 도시명이 길 경우를 대비한 왼쪽 여백
+                        coloraxis_showscale=False  # 색상 바 숨기기 (깔끔하게)
+                    )
+                    
                     st.plotly_chart(fig, use_container_width=True)
-                with col2: st.markdown(descriptions[q_id])
+                    
+                with col2: 
+                    st.markdown("### 문항 설명")
+                    st.write(descriptions[q_id])
 
         # --- Q5 탭 (Plotly 히트맵) ---
         with tabs[4]:
-            st.subheader("Q5. 삶의 의미 항목별 중요도")
+            st.subheader("Q5. 다음 항목들이 귀하의 삶을 의미 있게 해주는데 얼마나 중요하다고 생각하십니까?")
             col1, col2 = st.columns([3, 1])
             with col1:
                 q5_labels = {"Q5_1_1":"가족", "Q5_1_2":"일/직업", "Q5_1_3":"물질적 풍요", "Q5_1_4":"관계", "Q5_1_5":"건강", "Q5_1_6":"자유", "Q5_1_7":"취미", "Q5_1_8":"배움", "Q5_1_9":"연애", "Q5_1_10":"경험", "Q5_1_11":"신앙"}
@@ -166,10 +218,11 @@ if df_raw is not None:
             with col2: st.markdown(descriptions["Q5"])
 
         # --- Q6, Q7 탭 (가중치 점수 히트맵) ---
+        q67_titles = {"Q6": "우리 사회가 추구해야 할 가장 중요한 가치는 무엇입니까? 중요한 순서대로 3가지를 골라주십시오.", "Q7": "우리나라 사람들이 일반적으로 가장 중요하게 여기는 사회적 가치는 무엇이라고 생각하십니까? 중요한 순서대로 3가지를 골라주십시오."}
         value_labels = {1:"개인의 자유", 2:"평등", 3:"가족", 4:"신앙", 5:"자연 보호", 6:"민주주의", 7:"자유시장경제", 8:"개인의 행복", 9:"약자 보호", 10:"법치/질서", 11:"역사/전통", 12:"공정함"}
         for idx, q_num in enumerate(["Q6", "Q7"]):
             with tabs[idx+5]:
-                st.subheader(f"{q_num} 사회적 가치")
+                st.subheader(f"{q_num}. {q67_titles[q_num]}")
                 col1, col2 = st.columns([3, 1])
                 with col1:
                     rank_cols = [f'{q_num}', f'{q_num}_m2', f'{q_num}_m3']
