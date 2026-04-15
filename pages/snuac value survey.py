@@ -839,3 +839,127 @@ if df_raw is not None:
             
         with tabs_ch5[4]:
             draw_range_dot_plot(df_raw, "Q28", "나는 지금 어디쯤일까? - 키에 대한 인식", "0점(작음) ~ 10점(큼)")
+
+    elif selected_menu == "CH6: 사회문제와 해결노력":
+        st.title("📂 CH6: 사회문제와 해결노력")
+
+        # --- 설명문 데이터 (비워둠) ---
+        descriptions_ch6 = {
+            "Q30": """
+                    ### 💡 문항 개요
+                    ### 📌 주요 분석
+                        """,
+            "Q31": """
+                    ### 💡 문항 개요
+                    ### 📌 주요 분석
+                        """,
+            "Q32": """
+                    ### 💡 문항 개요
+                    ### 📌 주요 분석
+                        """,
+            "Q33": """
+                    ### 💡 문항 개요
+                    ### 📌 주요 분석
+                        """,
+            "Q34": """
+                    ### 💡 문항 개요
+                    ### 📌 주요 분석
+                        """
+        }
+
+        tabs_ch6 = st.tabs(["Q30", "Q31", "Q32", "Q33", "Q34"])
+
+        # 리커트 척도 공통 변환 함수 (CH6용 색상 및 라벨 최적화)
+        def draw_likert_ch6(data, questions, labels_dict, key_prefix):
+            view_type = st.radio(f"보기 방식 선택", ["문항별 전체 도시 비교", "도시별 전체 문항 분포"], 
+                                 horizontal=True, key=f"{key_prefix}_view")
+            
+            # 색상 테마 설정 (Q31~Q34 R코드 색상 반영: Agree=#229954, Neutral=#E7BB41, Disagree=#AD2831)
+            color_map = {"동의": "#229954", "보통": "#E7BB41", "반대": "#AD2831"}
+
+            if view_type == "문항별 전체 도시 비교":
+                sel_q = st.selectbox("분석할 세부 문항 선택", questions, 
+                                     format_func=lambda x: labels_dict.get(x, x), key=f"{key_prefix}_q")
+                plot_df = data.copy()
+                plot_df['segment'] = pd.cut(plot_df[sel_q], bins=[0, 3, 4, 7], labels=["반대", "보통", "동의"])
+                res = plot_df.groupby(['국가명', 'segment'], observed=False).size().unstack(fill_value=0)
+                res_pct = (res.div(res.sum(axis=1), axis=0) * 100).reindex(country_order).reset_index()
+                
+                fig = px.bar(res_pct, y="국가명", x=["동의", "보통", "반대"], 
+                             color_discrete_map=color_map, orientation='h', text_auto='.1f')
+            else:
+                sel_nation = st.selectbox("분석할 도시 선택", country_order, key=f"{key_prefix}_nation")
+                plot_df = data[data['국가명'] == sel_nation].copy()
+                melted = plot_df.melt(id_vars=['국가명'], value_vars=questions, var_name='variable', value_name='response')
+                melted['segment'] = pd.cut(melted['response'], bins=[0, 3, 4, 7], labels=["반대", "보통", "동의"])
+                res = melted.groupby(['variable', 'segment'], observed=False).size().unstack(fill_value=0)
+                res_pct = (res.div(res.sum(axis=1), axis=0) * 100).reset_index()
+                res_pct['문항'] = res_pct['variable'].map(labels_dict)
+                
+                fig = px.bar(res_pct, y="문항", x=["동의", "보통", "반대"],
+                             color_discrete_map=color_map, orientation='h', text_auto='.1f')
+            
+            fig.update_layout(xaxis_title="비율 (%)", yaxis_title=None, barmode='stack', height=500, template="plotly_white")
+            st.plotly_chart(fig, use_container_width=True)
+
+        # --- Q30: 사회문제 인식 ---
+        with tabs_ch6[0]:
+            st.subheader("Q30. 사회문제에 대한 인식")
+            col1, col2 = st.columns([3, 1])
+            with col1:
+                q30_vars = [f"Q30_{i}" for i in range(1, 13)]
+                q30_labels = {
+                    "Q30_1": "소득 불안정", "Q30_2": "주거 불안", "Q30_3": "실업/일자리", "Q30_4": "교육 불평등",
+                    "Q30_5": "삶의 질 저하", "Q30_6": "인구구조 변화", "Q30_7": "외국인 차별", "Q30_8": "정치적 갈등",
+                    "Q30_9": "안전 위협", "Q30_10": "환경/기후변화", "Q30_11": "자원 고갈", "Q30_12": "자연재해"
+                }
+                draw_likert_ch6(df_raw, q30_vars, q30_labels, "q30")
+            with col2:
+                st.markdown("### 문항 설명")
+                st.write(descriptions_ch6["Q30"])
+
+        # --- Q31: 정부의 역할 평가 ---
+        with tabs_ch6[1]:
+            st.subheader("Q31. 정부의 사회문제 해결 효과성 평가")
+            col1, col2 = st.columns([3, 1])
+            with col1:
+                draw_likert_ch6(df_raw, ["Q31"], {"Q31": "정부가 각종 사회문제를 효과적으로 해결하고 있다"}, "q31")
+            with col2:
+                st.write(descriptions_ch6["Q31"])
+
+        # --- Q32: 정부 해결의 어려움 ---
+        with tabs_ch6[2]:
+            st.subheader("Q32. 정부의 사회문제 해결이 어려운 이유")
+            col1, col2 = st.columns([3, 1])
+            with col1:
+                q32_vars = [f"Q32_{i}" for i in range(1, 7)]
+                q32_labels = {
+                    "Q32_1": "예산/인력 확보 어려움", "Q32_2": "부족한 전문성", "Q32_3": "비리와 부패",
+                    "Q32_4": "이해관계자 간 갈등", "Q32_5": "정당/국회의 비협조", "Q32_6": "국민적 합의 확보 어려움"
+                }
+                draw_likert_ch6(df_raw, q32_vars, q32_labels, "q32")
+            with col2:
+                st.write(descriptions_ch6["Q32"])
+
+        # --- Q33: 시민의 역할 평가 ---
+        with tabs_ch6[3]:
+            st.subheader("Q33. 시민의 사회문제 해결 노력 평가")
+            col1, col2 = st.columns([3, 1])
+            with col1:
+                draw_likert_ch6(df_raw, ["Q33"], {"Q33": "국민 개개인이 사회문제 해결을 위해 적극 노력하고 있다"}, "q33")
+            with col2:
+                st.write(descriptions_ch6["Q33"])
+
+        # --- Q34: 시민 참여의 어려움 ---
+        with tabs_ch6[4]:
+            st.subheader("Q34. 시민의 사회문제 참여가 어려운 이유")
+            col1, col2 = st.columns([3, 1])
+            with col1:
+                q34_vars = [f"Q34_{i}" for i in range(1, 7)]
+                q34_labels = {
+                    "Q34_1": "사회문제에 대한 무관심", "Q34_2": "지식/전문성 부족", "Q34_3": "시간/비용 부담",
+                    "Q34_4": "사회단체의 갈등 조장", "Q34_5": "정치권의 지원 부족", "Q34_6": "국민적 합의 확보 어려움"
+                }
+                draw_likert_ch6(df_raw, q34_vars, q34_labels, "q34")
+            with col2:
+                st.write(descriptions_ch6["Q34"])
